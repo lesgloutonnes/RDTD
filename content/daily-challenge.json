@@ -1,0 +1,52 @@
+[
+  {
+    "id": "daily_swift",
+    "name": "Essaim du jour",
+    "desc": "Ennemis +6% vitesse. +12% soleil en fin de vague.",
+    "enemySpeedMult": 1.06,
+    "waveClearGoldMult": 1.12
+  },
+  {
+    "id": "daily_armored",
+    "name": "Carapaces du jour",
+    "desc": "Ennemis +10% PV. +8% dégâts tours.",
+    "enemyHpMult": 1.1,
+    "towerDamageMult": 1.08
+  },
+  {
+    "id": "daily_venom",
+    "name": "Brume toxique",
+    "desc": "Tous les ennemis : +1,5 DPS poison au spawn.",
+    "spawnPoisonDps": 1.5,
+    "spawnPoisonTime": 3.5
+  },
+  {
+    "id": "daily_greed",
+    "name": "Moisson solaire",
+    "desc": "+15% or des kills. Boutique −10 soleil sur les cartes.",
+    "rewardMult": 1.15,
+    "shopCardDiscount": -10
+  },
+  {
+    "id": "daily_dense",
+    "name": "Spores denses",
+    "desc": "Ennemis +5% vitesse et +6% PV. +10% prime des kills.",
+    "enemySpeedMult": 1.05,
+    "enemyHpMult": 1.06,
+    "rewardMult": 1.1
+  },
+  {
+    "id": "daily_dew",
+    "name": "Rosée abondante",
+    "desc": "+18% soleil en fin de vague. Cartes boutique +8 soleil.",
+    "waveClearGoldMult": 1.18,
+    "shopCardDiscount": 8
+  },
+  {
+    "id": "daily_focus",
+    "name": "Précision du jour",
+    "desc": "Ennemis +6% vitesse. +10% dégâts des tours.",
+    "enemySpeedMult": 1.06,
+    "towerDamageMult": 1.1
+  }
+]

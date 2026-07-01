@@ -1,0 +1,59 @@
+[
+  {
+    "id": "no_leak",
+    "name": "Aucune fuite",
+    "desc": "Aucun ennemi ne traverse la ligne.",
+    "rewardGold": 40,
+    "rewardCard": false
+  },
+  {
+    "id": "fast_clear",
+    "name": "Assaut rapide",
+    "desc": "Terminer la vague en moins de 45 secondes.",
+    "timeLimitSec": 45,
+    "rewardGold": 28,
+    "rewardCard": true
+  },
+  {
+    "id": "max_one_leak",
+    "name": "Defense serree",
+    "desc": "Maximum 1 fuite autorisee.",
+    "maxLeaks": 1,
+    "rewardGold": 32,
+    "rewardCard": false
+  },
+  {
+    "id": "kill_rush",
+    "name": "Chasse efficace",
+    "desc": "Eliminer au moins 15 ennemis.",
+    "minKills": 15,
+    "rewardGold": 35,
+    "rewardCard": true
+  },
+  {
+    "id": "family_snapper",
+    "name": "Mâchoires dominantes",
+    "desc": "60% des degats infliges par la ligne Dionaea.",
+    "familyId": "snapper",
+    "damageShare": 0.6,
+    "rewardGold": 38,
+    "rewardCard": true
+  },
+  {
+    "id": "family_spitter",
+    "name": "Sève decisive",
+    "desc": "60% des degats infliges par la ligne Sarracenia.",
+    "familyId": "spitter",
+    "damageShare": 0.6,
+    "rewardGold": 38,
+    "rewardCard": false
+  },
+  {
+    "id": "gold_rush",
+    "name": "Moisson solaire",
+    "desc": "Gagner au moins 45 soleil pendant la vague (kills).",
+    "minGoldEarned": 45,
+    "rewardGold": 25,
+    "rewardCard": false
+  }
+]

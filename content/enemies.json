@@ -1,0 +1,85 @@
+{
+  "crawler": {
+    "name": "Chenille vorace",
+    "bestiaryDesc": "Larve mutante qui se scinde en deux morceaux encore affamés.",
+    "hpMult": 1,
+    "speedMult": 1,
+    "rewardMult": 1,
+    "radius": 12,
+    "color": "#5f3120",
+    "abilities": ["split_on_death"],
+    "spawnMinFloor": 0,
+    "spawnWeight": 1
+  },
+  "beetle": {
+    "name": "Scarabée blindé",
+    "bestiaryDesc": "Carapace épaisse : les premiers impacts sont presque absorbés.",
+    "hpMult": 1.7,
+    "speedMult": 0.76,
+    "rewardMult": 1.6,
+    "radius": 14,
+    "color": "#46352a",
+    "abilities": ["spawn_shield"],
+    "spawnMinFloor": 2,
+    "spawnWeight": 0.3
+  },
+  "wasp": {
+    "name": "Guêpe de serre",
+    "bestiaryDesc": "Rapide et nerveuse : alterne phases de vol et ruées soudaines.",
+    "hpMult": 0.7,
+    "speedMult": 1.34,
+    "rewardMult": 1.15,
+    "radius": 10,
+    "color": "#7a2f1a",
+    "abilities": ["dash"],
+    "spawnMinFloor": 1,
+    "spawnWeight": 0.24
+  },
+  "slug": {
+    "name": "Limace géante",
+    "bestiaryDesc": "Lente mais visqueuse : sa mucus réduit les dégâts reçus.",
+    "hpMult": 1.45,
+    "speedMult": 0.55,
+    "rewardMult": 1.35,
+    "radius": 13,
+    "color": "#5a7a48",
+    "abilities": ["mucus"],
+    "spawnMinFloor": 2,
+    "spawnWeight": 0.32
+  },
+  "snail": {
+    "name": "Escargot cuirassé",
+    "bestiaryDesc": "Avance péniblement mais régénère sa coquille au fil du temps.",
+    "hpMult": 2.1,
+    "speedMult": 0.48,
+    "rewardMult": 1.75,
+    "radius": 15,
+    "color": "#6a5a4a",
+    "abilities": ["regen"],
+    "spawnMinFloor": 3,
+    "spawnWeight": 0.28
+  },
+  "hornet": {
+    "name": "Frelon asiatique",
+    "bestiaryDesc": "Prédateur apex des Spires hautes : ruées dévastatrices et récompense élevée.",
+    "hpMult": 0.95,
+    "speedMult": 1.48,
+    "rewardMult": 1.85,
+    "radius": 11,
+    "color": "#c47820",
+    "abilities": ["dash", "sting"],
+    "spawnMinFloor": 5,
+    "spawnMinSpire": 2,
+    "spawnWeight": 0.18
+  },
+  "boss": {
+    "name": "Colosse ravageur",
+    "bestiaryDesc": "Boss d'étage : phases multiples, renforts et bouclier tactique.",
+    "hpMult": 6.1,
+    "speedMult": 0.65,
+    "rewardMult": 7.5,
+    "radius": 22,
+    "color": "#2f1f19",
+    "spawnMinFloor": 99
+  }
+}

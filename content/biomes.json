@@ -1,0 +1,132 @@
+[
+  {
+    "id": "greenhouse",
+    "name": "Serre Moussue",
+    "bg": [
+      "#a7d784",
+      "#78b75b",
+      "#4f8d40"
+    ],
+    "grass": [
+      "#80bd5c",
+      "#3f7b37",
+      "#d2ef93"
+    ],
+    "dirt": [
+      "#ddc493",
+      "#9e7d52",
+      "#f2dfb2"
+    ],
+    "fog": 0.1,
+    "rain": 0.26,
+    "hp": 1,
+    "speed": 1,
+    "reward": 1,
+    "towerRange": 0,
+    "towerFireRate": 1
+  },
+  {
+    "id": "swamp",
+    "name": "Marais Acide",
+    "bg": [
+      "#88b96d",
+      "#4f8a55",
+      "#335b38"
+    ],
+    "grass": [
+      "#5f9856",
+      "#2f6237",
+      "#b8d077"
+    ],
+    "dirt": [
+      "#9c8154",
+      "#5f543b",
+      "#d2b36f"
+    ],
+    "fog": 0.22,
+    "rain": 0.42,
+    "hp": 1.08,
+    "speed": 0.95,
+    "reward": 1.12,
+    "towerRange": -6,
+    "towerFireRate": 1
+  },
+  {
+    "id": "hive",
+    "name": "Ruche Florale",
+    "bg": [
+      "#c7b85e",
+      "#8fa94f",
+      "#5c7035"
+    ],
+    "grass": [
+      "#a4ae4d",
+      "#676f2f",
+      "#f1d875"
+    ],
+    "dirt": [
+      "#d0a65d",
+      "#9a693d",
+      "#ffd487"
+    ],
+    "fog": 0.08,
+    "rain": 0.16,
+    "hp": 0.96,
+    "speed": 1.14,
+    "reward": 1.08,
+    "towerRange": 4,
+    "towerFireRate": 1.04
+  },
+  {
+    "id": "night",
+    "name": "Sous-bois Nocturne",
+    "bg": [
+      "#6f93a0",
+      "#41636e",
+      "#263b48"
+    ],
+    "grass": [
+      "#527b76",
+      "#244e4c",
+      "#a9d2cf"
+    ],
+    "dirt": [
+      "#89745e",
+      "#50443a",
+      "#cdb49a"
+    ],
+    "fog": 0.28,
+    "rain": 0.22,
+    "hp": 1.18,
+    "speed": 1,
+    "reward": 1.2,
+    "towerRange": 10,
+    "towerFireRate": 0.96
+  },
+  {
+    "id": "heart",
+    "name": "Coeur Carnivore",
+    "bg": [
+      "#a76574",
+      "#68425a",
+      "#2b2132"
+    ],
+    "grass": [
+      "#7b4d67",
+      "#38283f",
+      "#d49cb0"
+    ],
+    "dirt": [
+      "#9c6a58",
+      "#5f3940",
+      "#d49b83"
+    ],
+    "fog": 0.34,
+    "rain": 0.1,
+    "hp": 1.28,
+    "speed": 1.08,
+    "reward": 1.35,
+    "towerRange": 0,
+    "towerFireRate": 1.06
+  }
+]

@@ -1,0 +1,100 @@
+{
+  "elite": {
+    "title": "Ravageur Elite",
+    "intro": "Carapace renforcee et escorte de scarabees.",
+    "armorMult": 0.92,
+    "regenPerSec": 1.8,
+    "extraBeetles": 2
+  },
+  "boss": {
+    "title": "Alpha de la Serre",
+    "intro": "Le chef mutant approche. Surveille ses phases.",
+    "phases": [
+      { "hpRatio": 1, "speedMult": 1, "label": "Phase 1" },
+      {
+        "hpRatio": 0.55,
+        "speedMult": 1.12,
+        "shieldSeconds": 2,
+        "spawnAdds": ["crawler", "crawler"],
+        "label": "Phase 2"
+      },
+      { "hpRatio": 0.25, "speedMult": 1.22, "label": "Phase 3 — Enrage" }
+    ]
+  },
+  "bossByBiome": {
+    "greenhouse": {
+      "title": "Alpha de la Serre",
+      "intro": "Le tyran des serres moussues deploie ses racines.",
+      "phases": [
+        { "hpRatio": 1, "speedMult": 1, "label": "Phase 1 — Racines" },
+        {
+          "hpRatio": 0.55,
+          "speedMult": 1.1,
+          "shieldSeconds": 2,
+          "spawnAdds": ["crawler", "crawler"],
+          "label": "Phase 2 — Germination"
+        },
+        { "hpRatio": 0.25, "speedMult": 1.2, "label": "Phase 3 — Surpuissance" }
+      ]
+    },
+    "swamp": {
+      "title": "Seigneur des Marais",
+      "intro": "Un colosse visqueux emerge de l'eau acide.",
+      "phases": [
+        { "hpRatio": 1, "speedMult": 0.92, "label": "Phase 1 — Vase" },
+        {
+          "hpRatio": 0.58,
+          "speedMult": 1.05,
+          "shieldSeconds": 2.4,
+          "spawnAdds": ["beetle", "crawler"],
+          "label": "Phase 2 — Maree toxique"
+        },
+        { "hpRatio": 0.28, "speedMult": 1.15, "label": "Phase 3 — Corrosion" }
+      ]
+    },
+    "hive": {
+      "title": "Reine des Essaims",
+      "intro": "Le bourdonnement devient assourdissant.",
+      "phases": [
+        { "hpRatio": 1, "speedMult": 1.08, "label": "Phase 1 — Essaim" },
+        {
+          "hpRatio": 0.56,
+          "speedMult": 1.18,
+          "spawnAdds": ["wasp", "wasp"],
+          "label": "Phase 2 — Nuée"
+        },
+        { "hpRatio": 0.26, "speedMult": 1.28, "label": "Phase 3 — Frénésie" }
+      ]
+    },
+    "night": {
+      "title": "Ombre du Sous-bois",
+      "intro": "Une silhouette nocturne rôde entre les fougeres.",
+      "phases": [
+        { "hpRatio": 1, "speedMult": 1.05, "label": "Phase 1 — Veille" },
+        {
+          "hpRatio": 0.54,
+          "speedMult": 1.14,
+          "shieldSeconds": 1.8,
+          "spawnAdds": ["wasp", "crawler"],
+          "label": "Phase 2 — Chasse"
+        },
+        { "hpRatio": 0.24, "speedMult": 1.3, "label": "Phase 3 — Predation" }
+      ]
+    },
+    "heart": {
+      "title": "Coeur Carnivore",
+      "intro": "Le noyau pulsant de la serre bat une derniere fois.",
+      "phases": [
+        { "hpRatio": 1, "speedMult": 0.98, "label": "Phase 1 — Pulsation" },
+        {
+          "hpRatio": 0.52,
+          "speedMult": 1.1,
+          "shieldSeconds": 2.6,
+          "spawnAdds": ["beetle", "beetle", "crawler"],
+          "label": "Phase 2 — Hemorragie"
+        },
+        { "hpRatio": 0.22, "speedMult": 1.25, "label": "Phase 3 — Extinction" }
+      ]
+    }
+  }
+}

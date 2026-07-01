@@ -1,0 +1,10 @@
+{
+  "pool": [
+    "combat",
+    "combat",
+    "event",
+    "rest",
+    "shop",
+    "elite"
+  ]
+}

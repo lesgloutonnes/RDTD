@@ -1,0 +1,28 @@
+{
+  "families": [
+    {
+      "id": "snapper",
+      "label": "Mâchoires",
+      "tiers": [
+        { "minCards": 2, "snapperDamage": 1.06, "desc": "2+ cartes Mâchoires : Dionaea +6% dégâts" },
+        { "minCards": 4, "snapperDamage": 1.12, "globalFireRate": 1.04, "desc": "4+ cartes : +12% Dionaea, +4% cadence globale" }
+      ]
+    },
+    {
+      "id": "spitter",
+      "label": "Sève acide",
+      "tiers": [
+        { "minCards": 2, "spitterPoison": 3, "desc": "2+ cartes Sève : +3 DPS poison" },
+        { "minCards": 4, "spitterPoison": 6, "globalDamage": 1.05, "desc": "4+ cartes : +6 poison, +5% dégâts" }
+      ]
+    },
+    {
+      "id": "thorn",
+      "label": "Seigneur épines",
+      "tiers": [
+        { "minCards": 2, "thornDamage": 1.08, "thornRange": 8, "desc": "2+ cartes Épines : Drosera +8% dmg, +8 portée" },
+        { "minCards": 4, "thornDamage": 1.15, "thornRange": 15, "critChance": 0.03, "desc": "4+ cartes : +15% dmg, +3% crit" }
+      ]
+    }
+  ]
+}

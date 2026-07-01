@@ -1,0 +1,244 @@
+[
+  {
+    "id": "fertile_winds",
+    "name": "Vents Fertiles",
+    "desc": "+10% cadence globale par exemplaire.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "fertile_winds"
+  },
+  {
+    "id": "acid_sap",
+    "name": "Urne Corrosive",
+    "desc": "Ligne Sarracenia : +6 DPS poison.",
+    "rarity": "Rare",
+    "towerFamily": "spitter",
+    "effectId": "acid_sap"
+  },
+  {
+    "id": "apex_jaws",
+    "name": "Piège Apex",
+    "desc": "Ligne Dionaea : +26% dégâts.",
+    "rarity": "Rare",
+    "towerFamily": "snapper",
+    "effectId": "apex_jaws"
+  },
+  {
+    "id": "thorn_lord",
+    "name": "Rosette Royale",
+    "desc": "Ligne Drosera : +18% dégâts, +16 portée.",
+    "rarity": "Rare",
+    "towerFamily": "thorn",
+    "effectId": "thorn_lord"
+  },
+  {
+    "id": "long_tendrils",
+    "name": "Longs Tentacules",
+    "desc": "+14 de portée pour toutes les tours.",
+    "rarity": "Commune",
+    "effectId": "long_tendrils"
+  },
+  {
+    "id": "sun_contract",
+    "name": "Contrat Solaire",
+    "desc": "+75 soleil instantané, +7% prime.",
+    "rarity": "Rare",
+    "effectId": "sun_contract"
+  },
+  {
+    "id": "spore_reactor",
+    "name": "Réacteur de Spores",
+    "desc": "+10% dégâts globaux.",
+    "rarity": "Commune",
+    "effectId": "spore_reactor"
+  },
+  {
+    "id": "hyper_resin",
+    "name": "Hyper Résine",
+    "desc": "+15% vitesse projectile.",
+    "rarity": "Commune",
+    "effectId": "hyper_resin"
+  },
+  {
+    "id": "temporal_moss",
+    "name": "Mousse Temporelle",
+    "desc": "+1 utilisation Engrais / Racines par vague.",
+    "rarity": "Rare",
+    "effectId": "temporal_moss"
+  },
+  {
+    "id": "overgrowth",
+    "name": "Surcharge Verte",
+    "desc": "Engrais Boost dure +1,8 s.",
+    "rarity": "Rare",
+    "effectId": "overgrowth"
+  },
+  {
+    "id": "deep_roots",
+    "name": "Racines Profondes",
+    "desc": "Racines Piège dure +1,5 s.",
+    "rarity": "Commune",
+    "effectId": "deep_roots"
+  },
+  {
+    "id": "critical_nectar",
+    "name": "Nectar Critique",
+    "desc": "+7% chance critique par exemplaire.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "critical_nectar"
+  },
+  {
+    "id": "predator_instinct",
+    "name": "Instinct Prédateur",
+    "desc": "+5% dégâts et +3% cadence.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "predator_instinct"
+  },
+  {
+    "id": "b52_mastication",
+    "name": "B-52 : Mastication",
+    "desc": "B-52 : marque fragile +2 s, +18% dégâts B-52.",
+    "rarity": "Rare",
+    "towerCard": "dionaea_b52",
+    "effectId": "b52_mastication"
+  },
+  {
+    "id": "ryu_embrase",
+    "name": "Ryu : Combustion",
+    "desc": "Akai Ryu : brûlure +3 DPS et se propage à 1 ennemi adjacent.",
+    "rarity": "Rare",
+    "towerCard": "dionaea_akai_ryu",
+    "effectId": "ryu_embrase"
+  },
+  {
+    "id": "tiger_fangs",
+    "name": "White Tiger : Crocs Triples",
+    "desc": "White Tiger traverse 3 cibles au lieu de 2.",
+    "rarity": "Epique",
+    "towerCard": "dionaea_white_tiger",
+    "effectId": "tiger_fangs"
+  },
+  {
+    "id": "atlas_corrosif",
+    "name": "Atlas : Poison Corrosif",
+    "desc": "Atlas 5 : +8 DPS poison supplémentaire.",
+    "rarity": "Rare",
+    "towerCard": "sarracenia_atlas5",
+    "effectId": "atlas_corrosif"
+  },
+  {
+    "id": "belle_entrave",
+    "name": "Belle : Entrave Profonde",
+    "desc": "Scarlet Belle : ennemis à 56% de vitesse.",
+    "rarity": "Commune",
+    "towerCard": "sarracenia_scarlet_belle",
+    "effectId": "belle_entrave"
+  },
+  {
+    "id": "fureur_ardente",
+    "name": "Fureur : Ardeur Infernale",
+    "desc": "Fureur Vertueuse : +3 stacks de rage max (13 total).",
+    "rarity": "Epique",
+    "towerCard": "sarracenia_fureur",
+    "effectId": "fureur_ardente"
+  },
+  {
+    "id": "creamsicle_nectar",
+    "name": "Creamsicle : Nectar Vital",
+    "desc": "Creamsicle : aura +14 px de rayon (hâte voisins).",
+    "rarity": "Rare",
+    "towerCard": "drosera_creamsicle",
+    "effectId": "creamsicle_nectar"
+  },
+  {
+    "id": "capensis_explosion",
+    "name": "Capensis : Éclaboussure",
+    "desc": "Capensis : AoE splash +20 px de rayon.",
+    "rarity": "Commune",
+    "towerCard": "thorn",
+    "effectId": "capensis_explosion"
+  },
+  {
+    "id": "scorpioides_chaine",
+    "name": "Scorpioides : Chaîne",
+    "desc": "Scorpioides : poison se propage à 3 ennemis au lieu de 2.",
+    "rarity": "Epique",
+    "towerCard": "drosera_scorpioides",
+    "effectId": "scorpioides_chaine"
+  },
+  {
+    "id": "gale_folie",
+    "name": "Sève Acérée",
+    "desc": "+8% dégâts des coups critiques par exemplaire.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "gale_folie"
+  },
+  {
+    "id": "resin_trap",
+    "name": "Résine Collante",
+    "desc": "Racines Piège dure +1 s.",
+    "rarity": "Commune",
+    "effectId": "resin_trap"
+  },
+  {
+    "id": "solar_lens",
+    "name": "Lentille Solaire",
+    "desc": "+10 de portée globale.",
+    "rarity": "Rare",
+    "effectId": "solar_lens"
+  },
+  {
+    "id": "beast_hunter",
+    "name": "Chasseur de Ravageurs",
+    "desc": "+8% prime sur les kills.",
+    "rarity": "Rare",
+    "effectId": "beast_hunter"
+  },
+  {
+    "id": "venom_spread",
+    "name": "Spores Venimeuses",
+    "desc": "Ligne Sarracenia : +3 DPS poison.",
+    "rarity": "Commune",
+    "towerFamily": "spitter",
+    "effectId": "venom_spread"
+  },
+  {
+    "id": "thorn_wall",
+    "name": "Mur d'Épines",
+    "desc": "Ligne Drosera : +12% dégâts.",
+    "rarity": "Commune",
+    "towerFamily": "thorn",
+    "effectId": "thorn_wall"
+  },
+  {
+    "id": "snapper_bite",
+    "name": "Morsure Apex",
+    "desc": "Ligne Dionaea : +12% dégâts.",
+    "rarity": "Commune",
+    "towerFamily": "snapper",
+    "effectId": "snapper_bite"
+  },
+  {
+    "id": "moss_armor",
+    "name": "Mousse Protectrice",
+    "desc": "+2 vies max.",
+    "rarity": "Rare",
+    "effectId": "moss_armor"
+  },
+  {
+    "id": "flare_bloom",
+    "name": "Floraison Éclatante",
+    "desc": "+4% dégâts et +4% cadence.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "flare_bloom"
+  }
+]

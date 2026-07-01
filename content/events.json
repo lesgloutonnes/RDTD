@@ -1,0 +1,215 @@
+[
+  {
+    "id": "nectar_fork",
+    "title": "Carrefour de nectar",
+    "desc": "Quatre chemins de nectar se croisent dans la serre.",
+    "layout": "cross",
+    "choices": [
+      {
+        "id": "sun",
+        "slot": "north",
+        "label": "Réserve de nectar",
+        "desc": "+55 soleil immédiatement.",
+        "effect": "gold",
+        "amount": 55
+      },
+      {
+        "id": "seed",
+        "slot": "east",
+        "label": "Graine mutante",
+        "desc": "Une carte aléatoire pour ton deck.",
+        "effect": "random_card",
+        "fallbackGold": 45
+      },
+      {
+        "id": "sap",
+        "slot": "south",
+        "label": "Bulle de sève",
+        "desc": "+3 vies.",
+        "effect": "heal",
+        "amount": 3
+      },
+      {
+        "id": "gleam",
+        "slot": "west",
+        "label": "Éclat capté",
+        "desc": "+40 soleil.",
+        "effect": "gold",
+        "amount": 40
+      }
+    ]
+  },
+  {
+    "id": "ancient_vine",
+    "title": "Liane ancienne",
+    "desc": "Une liane murmure des tactiques oubliées.",
+    "laneTags": ["serenity"],
+    "choices": [
+      {
+        "id": "vision",
+        "label": "Vision tactique",
+        "desc": "+50 soleil — aucun risque.",
+        "effect": "gold",
+        "amount": 50
+      },
+      {
+        "id": "rest",
+        "label": "Sève curative",
+        "desc": "+5 vies.",
+        "effect": "heal",
+        "amount": 5
+      }
+    ]
+  },
+  {
+    "id": "mystic_shrine",
+    "title": "Autel mycoflore",
+    "desc": "Des spores dorés tapissent un autel abandonné.",
+    "laneTags": ["serenity"],
+    "choices": [
+      {
+        "id": "relic",
+        "label": "Relique enfouie",
+        "desc": "Une relique gratuite rejoint ta run.",
+        "effect": "random_relic"
+      },
+      {
+        "id": "gold",
+        "label": "Pollen concentré",
+        "desc": "+70 soleil.",
+        "effect": "gold",
+        "amount": 70
+      }
+    ]
+  },
+  {
+    "id": "dew_trade",
+    "title": "Marchand de rosée",
+    "desc": "Un esprit végétal propose un échange.",
+    "laneTags": ["serenity"],
+    "choices": [
+      {
+        "id": "card",
+        "label": "Échange de spores",
+        "desc": "Carte aléatoire.",
+        "effect": "random_card",
+        "fallbackGold": 50
+      },
+      {
+        "id": "dew_sun",
+        "label": "Flacon de rosée",
+        "desc": "+52 soleil immédiatement.",
+        "effect": "gold",
+        "amount": 52
+      }
+    ]
+  },
+  {
+    "id": "hornet_nest",
+    "title": "Nid de frelons",
+    "desc": "Un essaim dort sous une feuille géante. Le nid vibre…",
+    "choices": [
+      {
+        "id": "smoke",
+        "label": "Fumée apaisante",
+        "desc": "+45 soleil sans réveiller l'essaim.",
+        "effect": "gold",
+        "amount": 45
+      },
+      {
+        "id": "steal",
+        "label": "Vol de gelée royale",
+        "desc": "+90 soleil, mais -2 vies (piqûres).",
+        "effect": "gold",
+        "amount": 90,
+        "hurt": 2
+      }
+    ]
+  },
+  {
+    "id": "serenity_pond",
+    "title": "Bassin de sérénité",
+    "desc": "Eau dormante au fond du couloir 1 — rare et apaisante.",
+    "laneTags": ["serenity"],
+    "choices": [
+      {
+        "id": "meditate",
+        "label": "Méditation",
+        "desc": "+4 vies et +35 soleil.",
+        "effect": "heal_gold",
+        "heal": 4,
+        "gold": 35
+      },
+      {
+        "id": "lotus",
+        "label": "Lotus doré",
+        "desc": "Carte aléatoire.",
+        "effect": "random_card",
+        "fallbackGold": 40
+      }
+    ]
+  },
+  {
+    "id": "slug_trail",
+    "title": "Trace de limace",
+    "desc": "Une traînée visqueuse traverse le couloir.",
+    "choices": [
+      {
+        "id": "study",
+        "label": "Étudier la trace",
+        "desc": "+120 score — note bestiaire.",
+        "effect": "score",
+        "amount": 120
+      },
+      {
+        "id": "clean",
+        "label": "Nettoyer la serre",
+        "desc": "+4 vies.",
+        "effect": "heal",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "id": "carnivore_whisper",
+    "title": "Murmure carnivore",
+    "desc": "Tes plantes semblent te conseiller.",
+    "choices": [
+      {
+        "id": "grow",
+        "label": "Laisser pousser",
+        "desc": "Carte aléatoire.",
+        "effect": "random_card",
+        "fallbackGold": 40
+      },
+      {
+        "id": "prune",
+        "label": "Tailler les excès",
+        "desc": "Relique aléatoire.",
+        "effect": "random_relic"
+      }
+    ]
+  },
+  {
+    "id": "fungal_gamble",
+    "title": "Champignon double",
+    "desc": "Deux champignons luminescents : l'un ment.",
+    "choices": [
+      {
+        "id": "left",
+        "label": "Gauche — nectar doré",
+        "desc": "+65 soleil.",
+        "effect": "gold",
+        "amount": 65
+      },
+      {
+        "id": "right",
+        "label": "Droite — sève amère",
+        "desc": "+35 soleil et +2 vies.",
+        "effect": "heal_gold",
+        "gold": 35,
+        "heal": 2
+      }
+    ]
+  }
+]

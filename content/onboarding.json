@@ -1,0 +1,158 @@
+{
+  "version": 2,
+  "steps": [
+    {
+      "id": "welcome",
+      "screen": "title",
+      "title": "Bienvenue",
+      "text": "Choisis ton pseudo puis entre dans la serre.",
+      "target": "#title-input-wrap"
+    },
+    {
+      "id": "collector",
+      "screen": "collector",
+      "title": "Collectionneur",
+      "text": "Chaque Collectionneur modifie toute la run et possede un ultime (1× par Spire), affiche sur sa carte.",
+      "target": "#collector-overlay"
+    },
+    {
+      "id": "tower-draft",
+      "screen": "towerDraft",
+      "title": "Deck de tours",
+      "text": "Selectionne 3 varietes complementaires.",
+      "target": "#tower-draft-overlay"
+    },
+    {
+      "id": "mutation",
+      "screen": "mutation",
+      "title": "Mutation de run",
+      "text": "Un seul modificateur pour toute la campagne — ou une serre standard sans malus.",
+      "target": "#mutation-overlay"
+    },
+    {
+      "id": "map",
+      "screen": "map",
+      "title": "Carte",
+      "text": "Choisis un couloir adjacent. Apres un carrefour, tous les couloirs se rouvrent.",
+      "target": "#map-overlay"
+    },
+    {
+      "id": "place",
+      "screen": "playing",
+      "title": "Plantation",
+      "text": "Clique une plante puis un emplacement vert.",
+      "target": "#action-towers"
+    },
+    {
+      "id": "wave",
+      "screen": "wave",
+      "title": "Vague",
+      "text": "Lance la vague quand ta defense est prete (Espace).",
+      "target": "#start-wave"
+    }
+  ],
+  "contextHints": [
+    {
+      "id": "elite_first",
+      "kicker": "Combat spécial",
+      "title": "Nœud Élite",
+      "text": "Vague renforcée et mécanique unique. Victoire : carte au choix + relique garantie.",
+      "target": "#start-wave"
+    },
+    {
+      "id": "boss_first",
+      "kicker": "Combat spécial",
+      "title": "Boss d'étage",
+      "text": "Le boss a des phases, appelle des renforts et peut activer un bouclier. Prépare ta défense avant de lancer.",
+      "target": "#start-wave"
+    },
+    {
+      "id": "crossroads_first",
+      "kicker": "Carte",
+      "title": "Carrefour des lianes",
+      "text": "Les trois couloirs fusionnent : choisis soleil ou carte. À l'étage suivant, tous les couloirs redeviennent accessibles.",
+      "target": "#crossroads-overlay"
+    },
+    {
+      "id": "spire_transition_first",
+      "kicker": "Campagne",
+      "title": "Spire terminée",
+      "text": "Tu gardes deck, reliques et bestiaire. Le plateau et le soleil repartent au budget de la nouvelle Spire ; l'excédent devient du score.",
+      "target": "#node-result-overlay"
+    },
+    {
+      "id": "boss_half_hp",
+      "kicker": "Boss",
+      "title": "Phase d'urgence",
+      "text": "Le boss passe sous 50 % PV : choisis une carte d'urgence. Son effet dure le reste de la vague.",
+      "target": "#boss-card-overlay"
+    },
+    {
+      "id": "draft_first",
+      "kicker": "Progression",
+      "title": "Draft de carte",
+      "text": "Après un combat, ajoute une amélioration à ton deck. Les synergies se débloquent par familles de cartes.",
+      "target": "#draft-overlay"
+    },
+    {
+      "id": "shop_first",
+      "kicker": "Carte",
+      "title": "Boutique",
+      "text": "Dépense ton soleil pour carte, relique ou soin. Tu peux quitter sans acheter.",
+      "target": "#shop-overlay"
+    },
+    {
+      "id": "rest_first",
+      "kicker": "Carte",
+      "title": "Repos",
+      "text": "Pas de combat : récupère une partie de tes vies max pour stabiliser la run.",
+      "target": "#node-result-overlay"
+    },
+    {
+      "id": "event_first",
+      "kicker": "Carte",
+      "title": "Événement",
+      "text": "Pas de combat : deux (ou quatre) choix narratifs avec des récompenses différentes.",
+      "target": "#event-overlay"
+    },
+    {
+      "id": "bestiary_first",
+      "kicker": "Run",
+      "title": "Bestiaire",
+      "text": "Chaque nouveau type de proie abattu une première fois donne +2 % dégâts (max 5 types par run).",
+      "target": "#run-tab-bestiary"
+    },
+    {
+      "id": "spire_2_intro",
+      "kicker": "Spire 2",
+      "title": "Nouvelle Spire",
+      "text": "Nouveau terrain à plusieurs voies. Les limaces et frelons peuvent apparaître.",
+      "target": "#map-overlay",
+      "when": { "spireNumber": 2, "floor": 0 }
+    },
+    {
+      "id": "spire_3_intro",
+      "kicker": "Spire 3",
+      "title": "Nouvelle Spire",
+      "text": "Trois couloirs indépendants : surveille chaque entrée.",
+      "target": "#map-overlay",
+      "when": { "spireNumber": 3, "floor": 0 }
+    },
+    {
+      "id": "spire_4_intro",
+      "kicker": "Spire 4",
+      "title": "Nouvelle Spire",
+      "text": "Quatre voies en même temps : couvre toute la largeur de la serre.",
+      "target": "#map-overlay",
+      "when": { "spireNumber": 4, "floor": 0 }
+    },
+    {
+      "id": "spire_5_intro",
+      "kicker": "Spire 5 — finale",
+      "title": "Dernière Spire",
+      "text": "Cinq voies en dents de scie. Vaincs le boss final pour remporter la campagne.",
+      "target": "#map-overlay",
+      "when": { "spireNumber": 5, "floor": 0 }
+    }
+  ]
+}

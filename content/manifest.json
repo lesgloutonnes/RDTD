@@ -1,0 +1,24 @@
+{
+  "version": "1.2.1",
+  "files": [
+    "towers.json",
+    "enemies.json",
+    "cards.json",
+    "relics.json",
+    "biomes.json",
+    "collectors.json",
+    "encounters.json",
+    "onboarding.json",
+    "tooltips.json",
+    "map.json",
+    "map-lanes.json",
+    "mutations.json",
+    "wave-modifiers.json",
+    "node-objectives.json",
+    "boss-temp-cards.json",
+    "deck-synergies.json",
+    "daily-challenge.json",
+    "events.json",
+    "meta.json"
+  ]
+}

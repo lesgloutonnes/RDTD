@@ -1,0 +1,62 @@
+[
+  {
+    "id": "overcharge_sap",
+    "name": "Sève surchargée",
+    "desc": "Cette vague : +28% dégâts globaux.",
+    "effectId": "boss_temp_damage"
+  },
+  {
+    "id": "root_lash",
+    "name": "Fouet racinaire",
+    "desc": "Cette vague : ennemis ralentis de 42% pendant 6,5 s au choix.",
+    "effectId": "boss_temp_snare"
+  },
+  {
+    "id": "solar_flare",
+    "name": "Éruption solaire",
+    "desc": "Cette vague : +45 soleil si victoire.",
+    "effectId": "boss_temp_gold"
+  },
+  {
+    "id": "venom_burst",
+    "name": "Rafale venimeuse",
+    "desc": "Cette vague : poison global +4 DPS.",
+    "effectId": "boss_temp_poison"
+  },
+  {
+    "id": "photosynth_surge",
+    "name": "Photosynthèse forcée",
+    "desc": "Cette vague : +18% cadence de tir.",
+    "effectId": "boss_temp_fire_rate"
+  },
+  {
+    "id": "nectar_focus",
+    "name": "Focus de nectar",
+    "desc": "Cette vague : +12% chance de critique.",
+    "effectId": "boss_temp_crit"
+  },
+  {
+    "id": "tendril_reach",
+    "name": "Tentacules étendus",
+    "desc": "Cette vague : +14% portée des tours.",
+    "effectId": "boss_temp_range"
+  },
+  {
+    "id": "sap_balm",
+    "name": "Baume de sève",
+    "desc": "Cette vague : +2 vies si victoire.",
+    "effectId": "boss_temp_heal"
+  },
+  {
+    "id": "thorn_storm",
+    "name": "Tempête d'épines",
+    "desc": "Cette vague : ligne Drosera +30% dégâts.",
+    "effectId": "boss_temp_thorn"
+  },
+  {
+    "id": "jaws_unleashed",
+    "name": "Mâchoires déchaînées",
+    "desc": "Cette vague : ligne Dionaea +30% dégâts.",
+    "effectId": "boss_temp_snapper"
+  }
+]

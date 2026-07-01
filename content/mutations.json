@@ -1,0 +1,23 @@
+[
+  {
+    "id": "predator_rush",
+    "name": "Ruée des proies",
+    "desc": "Ennemis +10% vitesse. Cartes en boutique -15 soleil.",
+    "enemySpeedMult": 1.1,
+    "shopCardDiscount": 15
+  },
+  {
+    "id": "glass_spires",
+    "name": "Serres fragiles",
+    "desc": "-2 vies max. Tours +12% dégâts.",
+    "maxLivesBonus": -2,
+    "towerDamageMult": 1.12
+  },
+  {
+    "id": "nectar_flow",
+    "name": "Flux de nectar",
+    "desc": "+18% soleil (kills et fin de vague). Ennemis +8% PV.",
+    "rewardMult": 1.18,
+    "enemyHpMult": 1.08
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "sun_idol",
+    "name": "Idole Solaire",
+    "desc": "+12% prime sur tous les ennemis.",
+    "effectId": "sun_idol"
+  },
+  {
+    "id": "venom_gland",
+    "name": "Glande Venimeuse",
+    "desc": "Ligne Sarracenia : +4 DPS poison.",
+    "effectId": "venom_gland"
+  },
+  {
+    "id": "titan_bark",
+    "name": "Écorce Titan",
+    "desc": "+3 vies max et soigne 50% des vies max.",
+    "effectId": "titan_bark"
+  },
+  {
+    "id": "pulse_root",
+    "name": "Racine Pulsante",
+    "desc": "+1 utilisation Engrais / Racines par vague.",
+    "effectId": "pulse_root"
+  },
+  {
+    "id": "thorn_crown",
+    "name": "Couronne d'Épines",
+    "desc": "Ligne Drosera : +18% dégâts.",
+    "effectId": "thorn_crown"
+  },
+  {
+    "id": "amber_seed",
+    "name": "Graine d'Ambre",
+    "desc": "+8% cadence globale.",
+    "effectId": "amber_seed"
+  },
+  {
+    "id": "moss_cloak",
+    "name": "Cape de Mousse",
+    "desc": "Ennemis -6% vitesse à l'apparition.",
+    "effectId": "moss_cloak"
+  },
+  {
+    "id": "fang_relic",
+    "name": "Croc Fossile",
+    "desc": "Ligne Dionaea : +12% dégâts.",
+    "effectId": "fang_relic"
+  },
+  {
+    "id": "bloom_chalice",
+    "name": "Calice Florissant",
+    "desc": "+1 vie à chaque vague terminée.",
+    "effectId": "bloom_chalice"
+  },
+  {
+    "id": "spore_satchel",
+    "name": "Sacoche de Spores",
+    "desc": "+8% dégâts globaux.",
+    "effectId": "spore_satchel"
+  },
+  {
+    "id": "honey_lens",
+    "name": "Lentille de Miel",
+    "desc": "+10 de portée globale.",
+    "effectId": "honey_lens"
+  },
+  {
+    "id": "night_bell",
+    "name": "Cloche Nocturne",
+    "desc": "+5% chance critique.",
+    "effectId": "night_bell"
+  },
+  {
+    "id": "cursed_amber",
+    "name": "Ambre maudit",
+    "desc": "+15% prime soleil, mais -1 vie max.",
+    "effectId": "cursed_amber"
+  },
+  {
+    "id": "frenzied_spores",
+    "name": "Spores frénétiques",
+    "desc": "+8% cadence globale, ennemis +4% vitesse.",
+    "effectId": "frenzied_spores"
+  },
+  {
+    "id": "hollow_nectar",
+    "name": "Nectar creux",
+    "desc": "+60 soleil immédiat, -2 vies actuelles.",
+    "effectId": "hollow_nectar"
+  }
+]

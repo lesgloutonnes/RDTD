@@ -1,0 +1,30 @@
+[
+  {
+    "id": "acid_rain",
+    "name": "Pluie acide",
+    "desc": "Tous les ennemis arrivent empoisonnés (2,5 DPS).",
+    "spawnPoisonDps": 2.5,
+    "spawnPoisonTime": 4
+  },
+  {
+    "id": "swarm",
+    "name": "Essaim",
+    "desc": "+25% d'ennemis, -12% PV par ennemi.",
+    "countMult": 1.25,
+    "hpMult": 0.88
+  },
+  {
+    "id": "armor_plating",
+    "name": "Blindage",
+    "desc": "Élites et boss : armure renforcée (-25% dégâts subis).",
+    "eliteArmorMult": 0.75,
+    "eliteOnly": true
+  },
+  {
+    "id": "spore_mist",
+    "name": "Brume de spores",
+    "desc": "Tours -6% cadence. Ennemis -8% PV.",
+    "towerFireRateMult": 0.94,
+    "hpMult": 0.92
+  }
+]

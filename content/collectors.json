@@ -1,0 +1,37 @@
+﻿[
+  {
+    "id": "herbier",
+    "name": "Charles",
+    "portrait": "./assets/collectors/charles-herbier.png?v=collectors-png-v2",
+    "title": "Chasseur d'Insectes",
+    "power": "Ligne Dionaea : +8% dégâts. Soleil des kills +8%.",
+    "flavor": "Un style agressif, économie forte et pièges léthaux.",
+    "ultimateId": "herbier_burst",
+    "ultimateName": "Chasse au nectar",
+    "ultimateDesc": "1× par Spire : +120 soleil immédiatement."
+  },
+  {
+    "id": "distiller",
+    "name": "Mayeu",
+    "portrait": "./assets/collectors/mayeu-distiller.png?v=collectors-png-v2",
+    "title": "Distillateur de Nectar",
+    "power": "Ligne Sarracenia : +8% dégâts. +1 Engrais/Racines par vague.",
+    "flavor": "Contrôle, poison et pouvoirs actifs.",
+    "ultimateId": "distiller_burst",
+    "ultimateName": "Distillation d'urgence",
+    "ultimateDesc": "1× par Spire : Engrais et Racines actifs."
+  },
+  {
+    "id": "gardien",
+    "name": "Chris",
+    "portrait": "./assets/collectors/chris-gardien.png?v=collectors-png-v2",
+    "title": "Gardien de l'Herbier",
+    "power": "Ligne Drosera : +8% dégâts. Ralentissements +10%.",
+    "flavor": "Drosera lourde, ennemis ralentis.",
+    "ultimateId": "gardien_burst",
+    "ultimateName": "Sève vitale",
+    "ultimateDesc": "1× par Spire : +45% vies, gel carte 4,5 s."
+  }
+]
+
+
