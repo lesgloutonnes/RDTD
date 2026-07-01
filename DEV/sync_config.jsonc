@@ -1,0 +1,13 @@
+{
+    "OVH-LesGloutonnes": {
+        "type": "sftp",
+        "host": "ftp.cluster121.hosting.ovh.net",
+        "port": 22,
+        "username": "lesglom",
+        "password": "TON_MOT_DE_PASSE",
+        "upload_on_save": true,
+        "watch": false,
+        "remotePath": "/home/lesglom/www",
+        "default": true
+    }
+}
