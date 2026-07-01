@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <pattern id="glass" width="80" height="80" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+      <line x1="0" y1="20" x2="80" y2="20" stroke="#ffffff" stroke-width="3" opacity="0.06" />
+      <line x1="0" y1="50" x2="80" y2="50" stroke="#e8ffe0" stroke-width="6" opacity="0.04" />
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="url(#glass)" />
+</svg>

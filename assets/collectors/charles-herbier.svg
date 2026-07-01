@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 620" role="img" aria-label="Charles, chasseur d'insectes">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#203b18"/>
+      <stop offset="0.55" stop-color="#6f8f35"/>
+      <stop offset="1" stop-color="#1a2410"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="65%" cy="18%" r="55%">
+      <stop offset="0" stop-color="#fff2a0" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#fff2a0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#071005" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <rect width="420" height="620" rx="26" fill="url(#bg)"/>
+  <rect width="420" height="620" rx="26" fill="url(#sun)"/>
+  <path d="M-20 505c92-82 175-78 255-38 81 40 153 24 214-30v210H-20z" fill="#111c0b" opacity="0.78"/>
+  <g opacity="0.38" fill="none" stroke="#bde88a" stroke-width="5" stroke-linecap="round">
+    <path d="M45 515c25-62 64-101 117-118"/>
+    <path d="M75 493c-8-35-5-66 10-93"/>
+    <path d="M322 520c-22-64-60-110-116-138"/>
+    <path d="M300 494c10-43 5-82-17-116"/>
+  </g>
+  <g transform="translate(210 318)" filter="url(#soft)">
+    <path d="M-72 168c4-76 21-139 72-143 51 4 68 67 72 143z" fill="#2e4a22"/>
+    <path d="M-88 90c18-50 49-78 88-79 39 1 70 29 88 79-23 20-51 30-88 30S-65 110-88 90z" fill="#365c2b"/>
+    <circle cx="0" cy="-22" r="58" fill="#e1c08e"/>
+    <path d="M-51-27c12-49 42-75 89-63 30 8 46 31 48 68-25-17-52-23-82-16-24 5-43 9-55 11z" fill="#5c432c"/>
+    <path d="M-49-8c23-18 52-25 88-20" stroke="#49351f" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="-22" cy="-19" r="5" fill="#1b2414"/>
+    <circle cx="25" cy="-19" r="5" fill="#1b2414"/>
+    <path d="M-19 18c17 14 36 14 54 0" fill="none" stroke="#6f3f2a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-83 106c-31 19-55 50-68 93" fill="none" stroke="#223719" stroke-width="28" stroke-linecap="round"/>
+    <path d="M83 106c34 16 61 44 80 84" fill="none" stroke="#223719" stroke-width="28" stroke-linecap="round"/>
+    <path d="M-128 192c20-28 42-46 68-55" stroke="#b7df66" stroke-width="10" stroke-linecap="round"/>
+    <path d="M126 186c-14-31-35-54-64-68" stroke="#d8ef80" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(78 84)" opacity="0.85">
+    <path d="M0 54c28-39 63-51 105-36-23 25-58 37-105 36z" fill="#9fdc62"/>
+    <path d="M10 48c36-12 62-19 89-27" stroke="#356d24" stroke-width="4" fill="none"/>
+    <circle cx="196" cy="34" r="18" fill="#332114"/>
+    <path d="M181 30h30M196 17v34" stroke="#f5d48c" stroke-width="4"/>
+  </g>
+  <text x="28" y="572" fill="#f5ffd0" font-family="Georgia, serif" font-size="34" font-weight="700">Charles</text>
+  <text x="29" y="598" fill="#d7ef9c" font-family="Segoe UI, sans-serif" font-size="17">Chasseur d'insectes</text>
+</svg>

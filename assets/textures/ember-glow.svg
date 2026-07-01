@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <pattern id="ember" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="10" r="2.2" fill="#ff6040" opacity="0.22" />
+      <circle cx="22" cy="8" r="1.4" fill="#ff9060" opacity="0.18" />
+      <circle cx="16" cy="22" r="1.8" fill="#c04050" opacity="0.2" />
+      <circle cx="28" cy="24" r="1" fill="#ffbba0" opacity="0.15" />
+    </pattern>
+  </defs>
+  <rect width="128" height="128" fill="url(#ember)" />
+</svg>

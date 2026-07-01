@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <pattern id="moss" width="50" height="50" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="14" r="7" fill="#4a8a38" opacity="0.22" />
+      <circle cx="34" cy="10" r="5" fill="#6aaa48" opacity="0.18" />
+      <circle cx="26" cy="32" r="8" fill="#3d7030" opacity="0.2" />
+      <circle cx="8" cy="36" r="4" fill="#88c060" opacity="0.14" />
+      <circle cx="42" cy="38" r="6" fill="#528840" opacity="0.16" />
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="url(#moss)" />
+</svg>

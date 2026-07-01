@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 620" role="img" aria-label="Chris, gardien de l'herbier">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2030"/>
+      <stop offset="0.5" stop-color="#33465d"/>
+      <stop offset="1" stop-color="#132015"/>
+    </linearGradient>
+    <radialGradient id="mist" cx="42%" cy="18%" r="68%">
+      <stop offset="0" stop-color="#d9ecff" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#d9ecff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#050b10" flood-opacity="0.58"/>
+    </filter>
+  </defs>
+  <rect width="420" height="620" rx="26" fill="url(#bg)"/>
+  <rect width="420" height="620" rx="26" fill="url(#mist)"/>
+  <path d="M-24 514c58-48 117-67 179-57 60 10 104 56 166 59 49 2 90-23 122-59v180H-24z" fill="#0d1611" opacity="0.82"/>
+  <g opacity="0.38" fill="none" stroke="#d2f7ff" stroke-width="4" stroke-linecap="round">
+    <path d="M60 516c16-80 47-134 93-162"/>
+    <path d="M96 517c34-53 73-87 118-101"/>
+    <path d="M329 520c-11-78-43-134-96-169"/>
+    <path d="M294 520c-26-50-65-82-116-95"/>
+  </g>
+  <g transform="translate(210 318)" filter="url(#soft)">
+    <path d="M-83 170c8-84 31-144 83-146 52 2 75 62 83 146z" fill="#26384d"/>
+    <path d="M-98 89c23-54 56-81 98-81s75 27 98 81c-25 27-58 40-98 40S-73 116-98 89z" fill="#314d65"/>
+    <circle cx="0" cy="-29" r="58" fill="#d7b48a"/>
+    <path d="M-54-32c18-50 54-72 105-51 25 11 39 30 42 58-23-12-48-17-75-15-28 2-52 5-72 8z" fill="#283327"/>
+    <path d="M-47-21c27-15 62-20 106-13" stroke="#1f281e" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="-23" cy="-24" r="5" fill="#17201d"/>
+    <circle cx="24" cy="-24" r="5" fill="#17201d"/>
+    <path d="M-16 17c16 11 34 11 51-1" fill="none" stroke="#7a4e34" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-80 126c-34 8-60 30-79 66" fill="none" stroke="#1a2938" stroke-width="28" stroke-linecap="round"/>
+    <path d="M79 126c34 9 62 31 82 67" fill="none" stroke="#1a2938" stroke-width="28" stroke-linecap="round"/>
+    <path d="M-118 173c22-30 46-51 73-62" stroke="#ccefff" stroke-width="10" stroke-linecap="round"/>
+    <path d="M119 173c-22-32-48-54-78-66" stroke="#aee8d0" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(72 83)" opacity="0.92">
+    <path d="M36 88c18-46 51-75 99-88 10 50-23 88-99 88z" fill="#b7e6d4"/>
+    <path d="M47 81c28-26 57-50 85-72" stroke="#2d6a59" stroke-width="5" fill="none"/>
+    <path d="M237 83c-32-22-48-53-47-92 42 12 65 43 47 92z" fill="#d9f5ff"/>
+    <path d="M230 73c-8-24-20-49-35-75" stroke="#477388" stroke-width="5" fill="none"/>
+    <circle cx="171" cy="64" r="10" fill="#e9fff3"/>
+  </g>
+  <text x="28" y="572" fill="#f4fff7" font-family="Georgia, serif" font-size="34" font-weight="700">Chris</text>
+  <text x="29" y="598" fill="#d0edf7" font-family="Segoe UI, sans-serif" font-size="17">Gardien de l'herbier</text>
+</svg>

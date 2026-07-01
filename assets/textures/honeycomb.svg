@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <pattern id="hex" width="24" height="20.8" patternUnits="userSpaceOnUse">
+      <path
+        d="M12 1 L22 6.4 V17.6 L12 23 L2 17.6 V6.4 Z"
+        fill="none"
+        stroke="#e8c040"
+        stroke-width="0.7"
+        opacity="0.28"
+      />
+    </pattern>
+  </defs>
+  <rect width="96" height="96" fill="url(#hex)" />
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <defs>
+    <pattern id="vine" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path
+        d="M0 30 C15 10, 30 50, 45 30 S75 10, 90 30"
+        fill="none"
+        stroke="#78b848"
+        stroke-width="1.1"
+        opacity="0.2"
+      />
+      <circle cx="30" cy="22" r="2.5" fill="#90d060" opacity="0.18" />
+      <circle cx="58" cy="38" r="2" fill="#68a038" opacity="0.16" />
+    </pattern>
+  </defs>
+  <rect width="180" height="180" fill="url(#vine)" />
+</svg>

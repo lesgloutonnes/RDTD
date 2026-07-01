@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <defs>
+    <pattern id="leaf" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path
+        d="M24 6 C30 10, 36 20, 24 34 C12 20, 18 10, 24 6 Z"
+        fill="none"
+        stroke="#8ecf5a"
+        stroke-width="0.7"
+        opacity="0.22"
+      />
+      <path
+        d="M8 28 C14 24, 22 30, 10 40"
+        fill="none"
+        stroke="#6aaa42"
+        stroke-width="0.55"
+        opacity="0.16"
+      />
+    </pattern>
+  </defs>
+  <rect width="240" height="240" fill="url(#leaf)" />
+</svg>

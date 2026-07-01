@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <pattern id="paper" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="4" r="0.55" fill="#f5e6b0" opacity="0.18" />
+      <circle cx="14" cy="11" r="0.45" fill="#d8c890" opacity="0.14" />
+      <line x1="0" y1="18" x2="20" y2="18" stroke="#e8d8a0" stroke-width="0.35" opacity="0.12" />
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="url(#paper)" />
+</svg>
