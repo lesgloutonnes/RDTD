@@ -1,0 +1,42 @@
+Les Gloutonnes RDTD — déploiement statique
+==========================================
+
+Copie les fichiers du jeu sur ton hébergement ou partage le dossier tel quel.
+Le jeu reste standalone : `index.html` charge `standalone.js`.
+Le classement multi-joueur utilise une petite API PHP si ton hebergement FTP supporte PHP.
+
+Fichiers et dossiers à envoyer :
+  index.html
+  standalone.js
+  style.css
+  theme-gloutonnes.css
+  assets/
+  api/
+  audio/
+  config/
+  content/
+  data/
+  game/
+  logic/
+  render/
+  ui/
+
+Optionnel si tu veux uniquement le minimum runtime :
+  game.js et les dossiers config/content/game/logic/render/ui peuvent être gardés pour debug,
+  mais `index.html` utilise déjà `standalone.js`.
+
+NE PAS envoyer :
+  DEV/          (outils de développement local)
+  .gitignore
+  DEPLOY-FTP.txt (optionnel — ce fichier d'aide)
+
+Classement :
+  - Partage entre joueurs via api/leaderboard.php.
+  - Les scores sont stockes dans data/leaderboard.json.
+  - Le dossier data/ doit etre inscriptible par PHP sur l'hebergement.
+  - Si PHP/API est indisponible, le jeu retombe sur localStorage.
+  - Pas de service worker ni manifeste PWA.
+
+Lancer le jeu :
+  - double-clic sur index.html en local
+  - ou https://ton-domaine.fr/chemin/index.html après upload statique

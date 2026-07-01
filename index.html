@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Alpha interne — Les Gloutonnes RDTD" />
+    <meta name="theme-color" content="#2d1154" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Gloutonnes RDTD" />
+    <title>Les Gloutonnes RDTD · Beta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      if (location.protocol !== "file:") {
+        const manifest = document.createElement("link");
+        manifest.rel = "manifest";
+        manifest.href = "./manifest.webmanifest";
+        document.head.appendChild(manifest);
+      }
+    </script>
+    <link rel="stylesheet" href="./style.css?v=pwa-mobile-v7" />
+    <link rel="stylesheet" href="./theme-gloutonnes.css?v=gloutonnes-ui-v15" />
+    <link rel="icon" type="image/svg+xml" href="./assets/icons/app-icon.svg" />
+  </head>
+  <body data-screen="title" data-biome="greenhouse" data-orientation="landscape">
+    <div id="orientation-lock" class="orientation-lock hidden" role="dialog" aria-modal="true" aria-labelledby="orientation-lock-title" aria-hidden="true">
+      <div class="orientation-lock__card">
+        <div class="orientation-lock__icon" aria-hidden="true">
+          <span class="orientation-lock__phone"></span>
+          <span class="orientation-lock__arrow">↻</span>
+        </div>
+        <h2 id="orientation-lock-title">Tournez votre appareil</h2>
+        <p>Les Gloutonnes RDTD se joue en <strong>paysage</strong> — comme une vraie partie de tower defense.</p>
+        <p class="orientation-lock__hint">Active la rotation automatique si elle est désactivée.</p>
+      </div>
+    </div>
+    <main class="layout">
+      <!-- ═══ SIDEBAR HUD ═══════════════════════════════════════════════════ -->
+      <section class="hud">
+        <div class="hud-chrome">
+          <button
+            id="hud-collapse-btn"
+            class="hud-collapse-btn hidden"
+            type="button"
+            aria-expanded="true"
+            aria-label="Réduire le panneau latéral"
+            title="Réduire / agrandir le panneau"
+          >
+            <span class="hud-collapse-icon" aria-hidden="true">◀</span>
+          </button>
+        </div>
+        <h1 class="hud-title">
+          <img class="hud-title__logo" src="./assets/brand/logo.png" alt="" width="36" height="24" decoding="async" onerror="this.onerror=null;this.src='./assets/icons/app-icon.svg';" />
+          <span class="hud-title__text">RDTD</span>
+        </h1>
+        <p class="subtitle">Défends la serre contre les ravageurs mutants.</p>
+        <button id="daily-challenge-banner" class="daily-banner hidden" type="button"></button>
+
+        <div class="stats-wrap">
+          <div id="hud-stats" class="stats stats-collapsible" role="group" aria-label="Statistiques de run">
+            <article class="stat-card stat-card--primary">
+              <span class="stat-label" data-short="❤️">Vies</span>
+              <strong id="lives">20</strong>
+            </article>
+            <article class="stat-card stat-card--primary">
+              <span class="stat-label" data-short="☀️">Soleil</span>
+              <strong id="gold">150</strong>
+            </article>
+            <article class="stat-card stat-card--primary">
+              <span class="stat-label" data-short="🌊">Vague</span>
+              <strong id="wave">1</strong>
+            </article>
+            <article class="stat-card stat-card--secondary">
+              <span class="stat-label" data-short="🐛">Ennemis</span>
+              <strong id="enemy-count">0</strong>
+            </article>
+            <article class="stat-card stat-card--primary">
+              <span class="stat-label" data-short="⭐">Score</span>
+              <strong id="score">0</strong>
+            </article>
+            <article class="stat-card stat-card--secondary">
+              <span class="stat-label" data-short="🏆">Record</span>
+              <strong id="best-score">0</strong>
+            </article>
+          </div>
+          <button
+            id="stats-more-btn"
+            class="stats-more-btn"
+            type="button"
+            aria-expanded="false"
+            aria-controls="hud-stats"
+            aria-label="Afficher plus de statistiques"
+          >
+            <span class="stats-more-icon" aria-hidden="true">+</span>
+            <span class="stats-more-label">Stats</span>
+          </button>
+        </div>
+
+        <div class="wave-row secondary hud-meta-row">
+          <button id="leaderboard-btn" class="leaderboard-btn">Classement</button>
+          <a
+            href="mailto:infos@lesgloutonnes.be?subject=Les%20Gloutonnes%20RDTD%20-%20Retour&body=Salut%2C%0A%0AVoici%20mon%20retour%20sur%20le%20jeu%20%3A%0A%0A"
+            class="feedback-link"
+            title="Suggestions, bugs, idees..."
+          >Feedback</a>
+        </div>
+
+        <p id="message" class="message">Prêt pour la première vague.</p>
+
+        <section id="collector-panel" class="deck-panel collector-panel hidden">
+          <h2>Collectionneur</h2>
+          <strong id="collector-name">Aucun</strong>
+          <p id="collector-power">Choisis un Collectionneur au debut de run.</p>
+          <div id="collector-ultimate-block" class="collector-ultimate-block hidden">
+            <span class="collector-ultimate-label">Ultime</span>
+            <strong id="collector-ultimate-name">—</strong>
+            <p id="collector-ultimate-desc">1× par Spire.</p>
+          </div>
+        </section>
+      </section>
+
+      <!-- ═══ BOARD + ACTION ZONE ══════════════════════════════════════════ -->
+      <section class="board-wrap">
+
+        <!-- Canvas + overlays groupés -->
+        <div class="canvas-zone">
+          <canvas id="board" width="960" height="540"></canvas>
+          <div id="combat-objective-banner" class="combat-objective-banner hidden" aria-live="polite"></div>
+          <button id="cancel-placement-btn" class="cancel-placement-btn hidden" type="button">Annuler placement</button>
+
+          <!-- ── Logo & branding (écran titre) ───────────────────── -->
+          <div id="title-brand" class="title-brand">
+            <img
+              class="title-brand__logo"
+              src="./assets/brand/logo.png"
+              alt="Les Gloutonnes"
+              decoding="async"
+              onerror="this.onerror=null;this.src='./assets/icons/app-icon.svg';"
+            />
+            <p class="title-brand__subtitle">Rogue Deck Tower Defense</p>
+          </div>
+
+          <!-- ── Défi du jour (écran titre) ───────────────────────── -->
+          <p id="title-version" class="title-version" aria-live="polite"></p>
+
+          <div id="title-resume-panel" class="title-resume-panel hidden" aria-live="polite">
+            <p class="title-resume-kicker">Run en cours</p>
+            <p id="title-resume-summary" class="title-resume-summary"></p>
+            <button id="title-resume-btn" class="title-resume-btn" type="button">Reprendre la run ›</button>
+          </div>
+
+          <div id="title-daily-panel" class="title-daily-panel hidden" aria-live="polite">
+            <p class="title-daily-kicker">Défi du jour</p>
+            <h3 id="title-daily-name" class="title-daily-name"></h3>
+            <p id="title-daily-desc" class="title-daily-desc"></p>
+            <p id="title-daily-reward" class="title-daily-reward"></p>
+            <p id="title-daily-status" class="title-daily-status"></p>
+          </div>
+
+          <!-- ── Saisie du pseudo sur l'écran titre ───────────────── -->
+          <div id="title-input-wrap" class="title-input-wrap hidden">
+            <p class="title-input-label">✦ Ton nom, Chasseur ✦</p>
+            <div class="title-input-row">
+              <input
+                type="text"
+                id="player-name-input"
+                class="title-input-field"
+                maxlength="18"
+                placeholder="Anonyme"
+                autocomplete="off"
+                spellcheck="false"
+                required
+              />
+              <button id="title-play-btn" class="title-play-btn" disabled>Entrer dans la Serre ›</button>
+            </div>
+          </div>
+
+          <div id="overlay" class="overlay hidden">
+            <div id="overlay-card" class="overlay-card">
+              <h2 id="overlay-title">Les Gloutonnes RDTD</h2>
+              <p id="overlay-text">
+                Place tes plantes, lance les vagues et protège la serre coûte que coûte.
+              </p>
+              <div id="overlay-stats" class="overlay-stats hidden" aria-live="polite"></div>
+              <div class="overlay-actions">
+                <button id="overlay-button" class="overlay-btn">Commencer</button>
+                <button id="overlay-ascension-btn" class="overlay-btn hidden" type="button">
+                  Continuer en Ascension
+                </button>
+                <button id="overlay-leaderboard-btn" class="overlay-btn alt hidden" type="button">
+                  Voir le classement
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="draft-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Choisis une carte</h2>
+              <p>
+                Sélectionne 1 amélioration pour ta run. Le deck façonne ton style
+                de jeu.
+              </p>
+              <div id="draft-choices" class="draft-choices"></div>
+            </div>
+          </div>
+          <div id="collector-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Choisis ton Collectionneur</h2>
+              <p>
+                Ton Collectionneur est ton avatar de run. Son pouvoir unique reste
+                actif jusqu'a la fin de la campagne.
+              </p>
+              <div id="collector-choices" class="draft-choices"></div>
+            </div>
+          </div>
+          <div id="map-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Carte Carnivore</h2>
+              <p id="map-floor-label">Etage 1</p>
+              <p id="map-route-hint" class="map-route-hint"></p>
+              <p>
+                Choisis ton prochain nœud. Les couloirs adjacents sont accessibles ;
+                après un carrefour, tous les couloirs se rouvrent.
+              </p>
+              <div id="map-choices" class="draft-choices"></div>
+            </div>
+          </div>
+          <div id="node-result-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card">
+              <h2 id="node-result-title">Resultat</h2>
+              <p id="node-result-text">Résultat du nœud.</p>
+              <button id="node-result-continue" class="overlay-btn">
+                Continuer
+              </button>
+            </div>
+          </div>
+          <div id="shop-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card shop-sheet">
+              <h2>Boutique Mycoflora</h2>
+              <p id="shop-gold-label">Soleil disponible: 0</p>
+              <p class="shop-sheet__hint">Achete une amelioration pour renforcer ta run.</p>
+              <div id="shop-choices" class="draft-choices shop-choices"></div>
+              <div class="overlay-actions">
+                <button id="shop-skip" class="overlay-btn alt">Quitter la boutique</button>
+              </div>
+            </div>
+          </div>
+          <div id="tower-draft-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card tower-draft-wrap">
+              <h2>Compose ton Deck de Tours</h2>
+              <p>Choisis exactement <strong>3 varietes</strong> de plantes carnivores pour cette run.</p>
+              <div id="tower-draft-grid" class="tower-draft-grid"></div>
+              <p id="tower-draft-count" class="tower-draft-count">0 / 3 sélectionnées</p>
+              <div class="overlay-actions">
+                <button id="tower-draft-confirm" class="overlay-btn" disabled>Planter le deck</button>
+              </div>
+            </div>
+          </div>
+          <div id="mutation-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Mutation de run</h2>
+              <p>Choisis un modificateur pour toute la campagne (1 seul), ou une serre standard.</p>
+              <div id="mutation-choices" class="draft-choices"></div>
+            </div>
+          </div>
+          <div id="event-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2 id="event-overlay-title">Evenement</h2>
+              <p id="event-overlay-desc"></p>
+              <div id="event-choices" class="draft-choices"></div>
+            </div>
+          </div>
+          <div id="crossroads-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Carrefour des lianes</h2>
+              <p>Les trois couloirs fusionnent ici. Un seul choix, un bonus garanti.</p>
+              <div id="crossroads-choices" class="draft-choices"></div>
+            </div>
+          </div>
+          <div id="wave-summary-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Bilan de la vague</h2>
+              <div id="wave-summary-body" class="wave-summary-body"></div>
+              <div class="overlay-actions" style="margin-top:14px">
+                <button id="wave-summary-continue" class="overlay-btn">Continuer</button>
+              </div>
+            </div>
+          </div>
+          <div id="node-retry-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Derniere chance</h2>
+              <p>Tu peux reprendre ce nœud une fois (perd 2 vies max pour la run).</p>
+              <div class="overlay-actions" style="margin-top:14px">
+                <button id="node-retry-accept" class="overlay-btn">Reprendre le nœud</button>
+                <button id="node-retry-decline" class="overlay-btn alt">Abandonner la run</button>
+              </div>
+            </div>
+          </div>
+          <div id="boss-card-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Phase du boss — carte d'urgence</h2>
+              <p>Le boss passe sous 50% PV. Choisis un effet pour le reste de la vague.</p>
+              <div id="boss-card-choices" class="draft-choices"></div>
+            </div>
+          </div>
+          <div id="sell-confirm-overlay" class="overlay overlay--sheet hidden" role="dialog" aria-labelledby="sell-confirm-title">
+            <div class="overlay-card draft-card sell-confirm-card">
+              <h2 id="sell-confirm-title">Vendre cette tour ?</h2>
+              <p id="sell-confirm-text"></p>
+              <div class="overlay-actions">
+                <button id="sell-confirm-cancel" class="overlay-btn alt" type="button">Garder</button>
+                <button id="sell-confirm-ok" class="overlay-btn sell-confirm-ok" type="button">Vendre</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="leaderboard-overlay" class="overlay overlay--sheet hidden">
+            <div class="overlay-card draft-card">
+              <h2>Tableau des scores</h2>
+              <p>Top 8 joueurs et classement du jour — scores partages en ligne.</p>
+              <div id="leaderboard-table" class="leaderboard-table"></div>
+              <div class="overlay-actions" style="margin-top:14px">
+                <button id="leaderboard-close" class="overlay-btn alt">Fermer</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- HUD flottant tour sélectionnée (stats + améliorer / vendre) -->
+          <div id="tower-float-hud" class="tower-float-hud hidden" aria-hidden="true">
+            <div id="tower-float-panel" class="tower-float-panel">
+              <div class="tower-float-panel__stem" aria-hidden="true"></div>
+              <div class="tower-float-panel__body">
+                <div id="tower-float-tooltip" class="tower-float-tooltip" role="tooltip"></div>
+                <div class="tower-float-actions">
+                  <button id="upgrade-btn" type="button" class="tower-float-btn tower-float-btn--upgrade">Améliorer</button>
+                  <button id="sell-btn" type="button" class="tower-float-btn tower-float-btn--sell">Vendre</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /canvas-zone -->
+
+        <!-- ─── Dock combat (tours · skills · vague) ─────────────────── -->
+        <div class="combat-dock" aria-label="Contrôles de combat">
+          <div class="action-bar">
+            <div id="action-towers" class="action-towers">
+              <button class="tower-btn" data-tower="snapper" data-family="snapper">
+                <span>Choisis ta Dionaea</span>
+                <small></small>
+              </button>
+              <button class="tower-btn" data-tower="spitter" data-family="spitter">
+                <span>Choisis ton Sarracenia</span>
+                <small></small>
+              </button>
+              <button class="tower-btn" data-tower="thorn" data-family="thorn">
+                <span>Choisis ton Drosera</span>
+                <small></small>
+              </button>
+            </div>
+            <div class="action-divider" aria-hidden="true"></div>
+            <div class="action-skills">
+              <button id="skill-boost" class="skill-btn" data-short-label="Boost">
+                Engrais Boost
+                <small id="skill-boost-cd">Prêt</small>
+              </button>
+              <button id="skill-snare" class="skill-btn" data-short-label="Piège">
+                Racines Piège
+                <small id="skill-snare-cd">Prêt</small>
+              </button>
+              <button id="skill-ultimate" class="skill-btn ultimate-btn" type="button" title="Ultime du collectionneur (1× par Spire)" data-short-label="Ultime">
+                <span id="skill-ultimate-label">Ultime</span>
+                <small id="skill-ultimate-cd">1× / Spire</small>
+              </button>
+            </div>
+          </div>
+          <div class="combat-controls">
+            <button id="start-wave" class="wave-btn combat-wave-btn">Lancer la vague</button>
+            <div class="combat-aux-cluster" aria-label="Contrôles secondaires">
+              <button id="speed-toggle" class="speed-btn combat-aux-btn" aria-label="Vitesse">x1</button>
+              <button id="pause-btn" class="pause-btn combat-aux-btn">Pause</button>
+              <button id="fullscreen-btn" class="fullscreen-btn combat-aux-btn" type="button" aria-label="Activer le plein écran" title="Plein écran">⛶</button>
+              <div class="audio-controls">
+              <button id="audio-btn" class="audio-btn combat-aux-btn" type="button">Son ON</button>
+              <button id="audio-settings-btn" class="audio-settings-btn combat-aux-btn" type="button" title="Réglages audio" aria-label="Réglages audio" aria-expanded="false" aria-controls="audio-settings-popover">⚙</button>
+              <div id="audio-settings-popover" class="audio-settings-popover hidden" role="dialog" aria-label="Volumes audio">
+                <p class="audio-settings-title">Volumes</p>
+                <label class="audio-slider-row">
+                  <span>Musique</span>
+                  <input id="music-volume" type="range" min="0" max="100" value="75" />
+                </label>
+                <label class="audio-slider-row">
+                  <span>Effets</span>
+                  <input id="sfx-volume" type="range" min="0" max="100" value="100" />
+                </label>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="mobile-toast" class="mobile-toast hidden" aria-live="polite" aria-atomic="true"></div>
+
+      </section><!-- /board-wrap -->
+
+      <!-- ═══ PANNEAU RUN (deck · synergies · reliques) ═══════════════════ -->
+      <aside id="run-drawer" class="run-panel" aria-label="Deck, synergies et reliques">
+        <div class="run-drawer-chrome">
+          <div class="run-drawer-handle" aria-hidden="true"></div>
+          <div class="run-drawer-header">
+            <p class="run-panel-heading">Ta run</p>
+            <button id="run-drawer-close" class="run-drawer-close" type="button" aria-label="Fermer le panneau run">✕</button>
+          </div>
+          <div class="run-drawer-tabs" role="tablist" aria-label="Sections de la run">
+            <button id="run-tab-deck" class="run-drawer-tab is-active" type="button" role="tab" data-run-tab="deck" aria-selected="true" aria-controls="run-panel-deck">Deck</button>
+            <button id="run-tab-synergies" class="run-drawer-tab" type="button" role="tab" data-run-tab="synergies" aria-selected="false" aria-controls="run-panel-synergies">Synergies</button>
+            <button id="run-tab-relics" class="run-drawer-tab" type="button" role="tab" data-run-tab="relics" aria-selected="false" aria-controls="run-panel-relics">Reliques</button>
+            <button id="run-tab-bestiary" class="run-drawer-tab" type="button" role="tab" data-run-tab="bestiary" aria-selected="false" aria-controls="run-panel-bestiary">Bestiaire</button>
+          </div>
+        </div>
+        <div class="run-drawer-panels">
+          <section id="run-panel-deck" class="deck-panel run-panel-block is-active" data-run-tab-panel="deck" role="tabpanel" aria-labelledby="run-tab-deck">
+            <h2>Deck de run</h2>
+            <div id="deck-list" class="deck-list"></div>
+          </section>
+          <section id="run-panel-synergies" class="deck-panel run-panel-block run-panel-block--synergies" data-run-tab-panel="synergies" role="tabpanel" aria-labelledby="run-tab-synergies">
+            <h2>Synergies</h2>
+            <div id="synergy-list" class="synergy-list"></div>
+          </section>
+          <section id="run-panel-relics" class="deck-panel run-panel-block" data-run-tab-panel="relics" role="tabpanel" aria-labelledby="run-tab-relics">
+            <h2>Reliques</h2>
+            <div id="relic-list" class="deck-list"></div>
+          </section>
+          <section id="run-panel-bestiary" class="deck-panel run-panel-block run-panel-block--bestiary" data-run-tab-panel="bestiary" role="tabpanel" aria-labelledby="run-tab-bestiary">
+            <h2>Bestiaire</h2>
+            <p class="bestiary-hint">Premier abattage d'un type : +2 % dégâts (max 5 types / run).</p>
+            <div id="bestiary-list" class="bestiary-list"></div>
+          </section>
+        </div>
+      </aside>
+
+      <button id="run-drawer-fab" class="run-drawer-fab" type="button" aria-controls="run-drawer" aria-expanded="false" aria-label="Ouvrir deck et reliques">
+        <span class="run-drawer-fab-icon" aria-hidden="true">🃏</span>
+        <span class="run-drawer-fab-text">Run</span>
+        <span id="run-drawer-badge" class="run-drawer-badge hidden">0</span>
+      </button>
+      <div id="run-drawer-scrim" class="run-drawer-scrim hidden" aria-hidden="true"></div>
+    </main>
+    <script src="./standalone.js?v=pwa-mobile-v6"></script>
+  </body>
+</html>
