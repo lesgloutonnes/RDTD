@@ -9,6 +9,7 @@ export const CARD_EFFECT_IDS = new Set([
   "gale_folie", "resin_trap", "solar_lens", "beast_hunter", "venom_spread",
   "thorn_wall", "snapper_bite", "moss_armor", "flare_bloom",
   "solar_bloom", "solar_surge", "solar_tithe", "morning_dew",
+  "sun_drop", "sun_breeze", "golden_pollen", "dawn_gleam",
 ]);
 
 export const RELIC_EFFECT_IDS = new Set([
@@ -62,6 +63,10 @@ export function applyCardEffect(effectId, ctx) {
     case "solar_surge": game.gold += 35; m.globalFireRate *= 1.03; break;
     case "solar_tithe": game.gold += 45; m.rewardMult *= 1.03; break;
     case "morning_dew": game.gold += 25; m.globalDamage *= 1.02; break;
+    case "sun_drop": game.gold += 36; m.globalDamage *= 1.01; break;
+    case "sun_breeze": game.gold += 38; m.globalFireRate *= 1.01; break;
+    case "golden_pollen": game.gold += 40; m.rewardMult *= 1.01; break;
+    case "dawn_gleam": game.gold += 42; m.globalDamage *= 1.01; break;
     default:
       throw new Error(`Effet carte inconnu: ${effectId}`);
   }
