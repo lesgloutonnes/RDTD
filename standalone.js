@@ -8105,8 +8105,13 @@ function scaleEncounterQueue(queue, modifier) {
   if (!modifier?.countMult || modifier.countMult === 1) return queue.slice();
   const target = Math.max(1, Math.round(queue.length * modifier.countMult));
   const out = queue.slice();
+  // Ne jamais recopier le boss : "Essaim" (+ennemis) ne doit pas en faire popper 2.
+  const fillers = out.filter((id) => id !== "boss");
   while (out.length < target) {
-    out.push(out[Math.floor(Math.random() * out.length)] || "beetle");
+    const pick = fillers.length
+      ? fillers[Math.floor(Math.random() * fillers.length)]
+      : "beetle";
+    out.push(pick || "beetle");
   }
   return out.slice(0, target);
 }
