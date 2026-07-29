@@ -12,8 +12,8 @@
       "id": "spitter",
       "label": "Sève acide",
       "tiers": [
-        { "minCards": 2, "spitterPoison": 3, "desc": "2+ cartes Sève : +3 DPS poison" },
-        { "minCards": 4, "spitterPoison": 6, "globalDamage": 1.05, "desc": "4+ cartes : +6 poison, +5% dégâts" }
+        { "minCards": 2, "spitterPoison": 3, "desc": "2+ cartes Sève : +3 DPS poison (Sarracenia, Atlas, Scorpio)" },
+        { "minCards": 4, "spitterPoison": 6, "globalDamage": 1.05, "desc": "4+ cartes : +6 poison toutes tours poison, +5% dégâts" }
       ]
     },
     {

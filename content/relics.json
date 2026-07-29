@@ -8,7 +8,7 @@
   {
     "id": "venom_gland",
     "name": "Glande Venimeuse",
-    "desc": "Ligne Sarracenia : +4 DPS poison.",
+    "desc": "Tours poison (Sarracenia, Atlas, Scorpio) : +4 DPS.",
     "effectId": "venom_gland"
   },
   {

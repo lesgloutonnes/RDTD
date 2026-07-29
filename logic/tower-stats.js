@@ -7,6 +7,7 @@ import {
   CREAMSICLE_AURA_BASE_RANGE,
   CREAMSICLE_AURA_COOLDOWN_ACCEL,
   CRIT_CHANCE_CAP,
+  DOT_DAMAGE_SCALE_SHARE,
   FUREUR_RAGE_PER_STACK,
   RYU_BASE_BURN_DPS,
   SCORPIO_BASE_POISON,
@@ -64,24 +65,58 @@ export function getCreamsicleHasteMult(tower, game, towers, distanceFn, towerTyp
   return 1 + accel;
 }
 
+/**
+ * Multiplicateur DoT : une part des buffs de dégâts (global, famille, Engrais).
+ * Ex. globalDamage 1.20 + share 0.55 → ×1.11 sur le poison/brûlure.
+ */
+export function getDotDamageScale(tower, game, syn = {}) {
+  const family = tower.family || tower.typeKey;
+  let mult = Number(game.modifiers?.globalDamage) || 1;
+  if (syn.globalDamage) mult *= syn.globalDamage;
+  if (family === "spitter") mult *= Number(game.modifiers?.spitterDamage) || 1;
+  if (family === "thorn") {
+    mult *= Number(game.modifiers?.thornDamage) || 1;
+    if (syn.thornDamage) mult *= syn.thornDamage;
+  }
+  if (family === "snapper") {
+    mult *= Number(game.modifiers?.snapperDamage) || 1;
+    if (syn.snapperDamage) mult *= syn.snapperDamage;
+  }
+  if (game.skills?.boost?.active > 0) {
+    mult *= SKILLS.boost.damageMult;
+  }
+  const share = DOT_DAMAGE_SCALE_SHARE;
+  return 1 + share * (Math.max(mult, 0.01) - 1);
+}
+
+/** Bonus plat des cartes / synergies / reliques poison (toutes tours poison). */
+function getSharedPoisonBonus(game, syn = {}) {
+  return (game.modifiers?.spitterPoison || 0) + (syn.spitterPoison || 0);
+}
+
 export function getTowerPoisonDps(tower, game, syn = {}, towerTypes = {}) {
   const dmgMult = getTowerDamageRatio(tower, towerTypes);
   const family = tower.family || tower.typeKey;
+  const cardPoison = getSharedPoisonBonus(game, syn);
   let poison = 0;
-  if (family === "spitter") {
-    poison = SPITTER_BASE_POISON + game.modifiers.spitterPoison + (syn.spitterPoison || 0);
-  }
   if (tower.typeKey === "sarracenia_atlas5") {
-    poison = ATLAS_BASE_POISON + (game.modifiers.atlasExtraPoison || 0);
+    // Atlas : base lourde + carte Atlas + bonus poison partagé (Sève / reliques).
+    poison = ATLAS_BASE_POISON + (game.modifiers.atlasExtraPoison || 0) + cardPoison;
+  } else if (tower.typeKey === "drosera_scorpioides") {
+    poison = SCORPIO_BASE_POISON + cardPoison;
+  } else if (family === "spitter") {
+    poison = SPITTER_BASE_POISON + cardPoison;
   }
-  if (tower.typeKey === "drosera_scorpioides") {
-    poison = SCORPIO_BASE_POISON;
-  }
-  return poison * dmgMult;
+  if (poison <= 0) return 0;
+  return poison * dmgMult * getDotDamageScale(tower, game, syn);
 }
 
-export function getTowerBurnDps(tower, game, towerTypes = {}) {
-  return (game.modifiers.ryuBurnDps || RYU_BASE_BURN_DPS) * getTowerDamageRatio(tower, towerTypes);
+export function getTowerBurnDps(tower, game, towerTypes = {}, syn = null) {
+  const synergy = syn || game.deckSynergy?.mods || {};
+  const base = game.modifiers.ryuBurnDps || RYU_BASE_BURN_DPS;
+  return base
+    * getTowerDamageRatio(tower, towerTypes)
+    * getDotDamageScale(tower, game, synergy);
 }
 
 export function getTowerSplashRadius(tower, game, towerTypes = {}) {

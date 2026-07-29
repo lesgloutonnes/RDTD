@@ -45,10 +45,16 @@ export const BELLE_SLOW_PASSIVE = 0.68;
 export const BELLE_SLOW_CARD = 0.56;
 
 /** Poison de base appliqué par toute la famille Sarracenia (spitter). */
-export const SPITTER_BASE_POISON = 4;
+export const SPITTER_BASE_POISON = 7;
 export const ATLAS_BASE_POISON = 17;
 export const SCORPIO_BASE_POISON = 14;
 export const RYU_BASE_BURN_DPS = 10;
+
+/**
+ * Part des multiplicateurs de dégâts (global / famille / Engrais)
+ * reportée sur les DoT poison & brûlure. 0.55 = +55 % de l'excédent au-delà de ×1.
+ */
+export const DOT_DAMAGE_SCALE_SHARE = 0.55;
 export const CAPENSIS_BASE_AOE = 55;
 export const B52_BASE_ARMOR_DUR = 3;
 export const B52_BASE_ARMOR_MULT = 1.25;
