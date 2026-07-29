@@ -10,6 +10,7 @@ export const CAMPAIGN_WON_KEY = "gloutonnes_campaign_won_v1";
 export const MAX_ASCENSION_BEATEN_KEY = "gloutonnes_max_ascension_beaten_v1";
 export const RUN_MODE_PREF_KEY = "gloutonnes_run_mode_pref";
 export const ASCENSION_LEVEL_KEY = "gloutonnes_ascension_level";
+export const SEED_PREF_KEY = "gloutonnes_seed_pref_v1";
 
 export const RUN_MODE_LABELS = {
   [RUN_MODE_STANDARD]: "Campagne",
@@ -101,11 +102,21 @@ export function saveAscensionLevel(level) {
 
 
 export function loadSeedPreference() {
-  return "";
+  try {
+    return localStorage.getItem(SEED_PREF_KEY) || "";
+  } catch {
+    return "";
+  }
 }
 
-export function saveSeedPreference(_seed) {
-  /* seed utilisateur retiré — seed interne par run */
+export function saveSeedPreference(seed) {
+  try {
+    const clean = String(seed || "").trim();
+    if (clean) localStorage.setItem(SEED_PREF_KEY, clean);
+    else localStorage.removeItem(SEED_PREF_KEY);
+  } catch {
+    /* ignore */
+  }
 }
 
 export function isRunModeUnlocked(mode) {

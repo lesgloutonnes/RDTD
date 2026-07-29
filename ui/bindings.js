@@ -45,6 +45,9 @@ export function bindUiEvents({
     canvas,
     playerNameInput,
     titlePlayBtn,
+    titleSeedInput,
+    titleSeedRandomBtn,
+    titleSeedCopyBtn,
     eventChoicesEl,
   } = elements;
 
@@ -347,6 +350,9 @@ export function bindUiEvents({
       return;
     }
     actions.savePlayerName(name);
+    const seed = (titleSeedInput?.value || "").trim();
+    if (seed) actions.saveSeedPreference?.(actions.sanitizeTitleSeedInput?.(seed));
+    else actions.saveSeedPreference?.("");
     actions.tryStartTitleMusic();
     actions.advancePastTitle();
   };
@@ -421,6 +427,7 @@ export function bindUiEvents({
     if (game.screen !== "title") return;
     if (event.target.closest("#board")) return;
     if (event.target.closest("#title-input-wrap")) return;
+    if (event.target.closest(".title-seed-row")) return;
     if (event.target.closest("#title-resume-panel")) return;
     if (event.target.closest("#title-daily-panel")) return;
     actions.tryStartTitleMusic();
@@ -441,9 +448,34 @@ export function bindUiEvents({
     titlePlayBtn.addEventListener("click", () => { submitPlayerName(); });
   }
 
+  if (titleSeedRandomBtn) {
+    titleSeedRandomBtn.addEventListener("click", () => {
+      actions.ensureAudioContext();
+      actions.randomizeTitleSeed?.();
+    });
+  }
+
+  if (titleSeedCopyBtn) {
+    titleSeedCopyBtn.addEventListener("click", () => {
+      actions.ensureAudioContext();
+      void actions.copyTitleSeed?.();
+    });
+  }
+
+  if (titleSeedInput) {
+    titleSeedInput.addEventListener("blur", () => {
+      const raw = titleSeedInput.value.trim();
+      if (!raw) return;
+      titleSeedInput.value = actions.sanitizeTitleSeedInput?.(raw) || raw;
+    });
+    titleSeedInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); submitPlayerName(); }
+    });
+  }
+
   window.addEventListener("keydown", (event) => {
     if (game.screen === "title") {
-      if (event.target === playerNameInput) return;
+      if (event.target === playerNameInput || event.target === titleSeedInput) return;
       actions.tryStartTitleMusic();
       return;
     }
