@@ -425,7 +425,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+5% dégâts et +3% cadence.",
     "rarity": "Epique",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "predator_instinct"
   },
   {
@@ -567,7 +567,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+4% dégâts et +4% cadence.",
     "rarity": "Epique",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "flare_bloom"
   },
   {
@@ -576,7 +576,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+40 soleil (~+80 score), +3% dégâts.",
     "rarity": "Epique",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "solar_bloom"
   },
   {
@@ -585,7 +585,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+35 soleil (~+70 score), +3% cadence.",
     "rarity": "Epique",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "solar_surge"
   },
   {
@@ -594,7 +594,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+45 soleil (~+90 score), +3% prime soleil.",
     "rarity": "Rare",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "solar_tithe"
   },
   {
@@ -603,7 +603,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+25 soleil (~+50 score), +2% dégâts.",
     "rarity": "Commune",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "morning_dew"
   },
   {
@@ -612,7 +612,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+36 soleil (~+72 score), +1% dégâts.",
     "rarity": "Commune",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "sun_drop"
   },
   {
@@ -621,7 +621,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+38 soleil (~+76 score), +1% cadence.",
     "rarity": "Commune",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "sun_breeze"
   },
   {
@@ -630,7 +630,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+40 soleil (~+80 score), +1% prime soleil.",
     "rarity": "Commune",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "golden_pollen"
   },
   {
@@ -639,7 +639,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+42 soleil (~+84 score), +1% dégâts.",
     "rarity": "Commune",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "dawn_gleam"
   }
 ]
