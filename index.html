@@ -225,12 +225,15 @@
           </div>
           <div id="draft-overlay" class="overlay overlay--sheet hidden">
             <div class="overlay-card draft-card">
-              <h2>Choisis une carte</h2>
-              <p>
+              <h2 id="draft-overlay-title">Choisis une carte</h2>
+              <p id="draft-overlay-desc">
                 Sélectionne 1 amélioration pour ta run. Le deck façonne ton style
                 de jeu.
               </p>
               <div id="draft-choices" class="draft-choices"></div>
+              <div id="draft-empty-actions" class="overlay-actions hidden">
+                <button id="draft-skip" class="overlay-btn" type="button">Continuer sans carte</button>
+              </div>
             </div>
           </div>
           <div id="collector-overlay" class="overlay overlay--sheet hidden">

@@ -92,6 +92,7 @@ import {
   getTormentExtraLeakLives,
   getTormentRestHealMult,
   getTormentShopPriceMult,
+  getTormentTowerCap,
 } from "./logic/ascension-mechanics.js";
 import {
   buildVictoryScreenCopy,
@@ -309,6 +310,10 @@ const overlayCard = document.getElementById("overlay-card");
 
 const draftOverlay = document.getElementById("draft-overlay");
 const draftChoicesEl = document.getElementById("draft-choices");
+const draftOverlayTitle = document.getElementById("draft-overlay-title");
+const draftOverlayDesc = document.getElementById("draft-overlay-desc");
+const draftEmptyActions = document.getElementById("draft-empty-actions");
+const draftSkipBtn = document.getElementById("draft-skip");
 const collectorOverlay = document.getElementById("collector-overlay");
 const collectorChoicesEl = document.getElementById("collector-choices");
 
@@ -3468,6 +3473,20 @@ function getDraftChoices() {
 }
 
 function renderDraftChoices() {
+  const empty = !game.draft.activeChoices?.length;
+  if (draftOverlayTitle) {
+    draftOverlayTitle.textContent = empty ? "Deck saturé" : "Choisis une carte";
+  }
+  if (draftOverlayDesc) {
+    draftOverlayDesc.textContent = empty
+      ? "Plus aucune carte à ajouter — ton deck a tout donné. Bonne chance avec tes choix pour les combats qu'il reste à affronter !"
+      : "Sélectionne 1 amélioration pour ta run. Le deck façonne ton style de jeu.";
+  }
+  draftEmptyActions?.classList.toggle("hidden", !empty);
+  if (empty) {
+    draftChoicesEl.innerHTML = "";
+    return;
+  }
   draftChoicesEl.innerHTML = game.draft.activeChoices
     .map(
       (card) => `
@@ -3486,20 +3505,22 @@ function startDraftPhase() {
   renderDraftChoices();
   setScreen("draft");
   showDraftOverlay();
-  showMessage("Choisis une carte pour ton deck.", "normal");
-  tryContextHint("draft_first");
+  if (!game.draft.activeChoices.length) {
+    showMessage("Deck saturé — continue sans nouvelle carte.", "warn");
+  } else {
+    showMessage("Choisis une carte pour ton deck.", "normal");
+    tryContextHint("draft_first");
+  }
 }
 
-function applyCardById(cardId) {
-  const card = CARD_LIBRARY.find((c) => c.id === cardId);
-  if (!card) return;
-  grantCard(card);
-  renderDeckList();
+function finishDraftPhase({ pickedName = null } = {}) {
   hideDraftOverlay();
   game.draft.activeChoices = [];
-  gainScore(90);
-  sfx?.cardPick?.();
-  showMessage(`Carte choisie: ${card.name}.`, "normal");
+  if (pickedName) {
+    showMessage(`Carte choisie: ${pickedName}.`, "normal");
+  } else {
+    showMessage("Deck saturé — tu continues avec tes cartes actuelles. Bonne chance !", "warn");
+  }
 
   if (game.spire.pendingAdvanceAfterDraft) {
     game.spire.pendingAdvanceAfterDraft = false;
@@ -3508,6 +3529,22 @@ function applyCardById(cardId) {
   }
 
   setScreen("playing");
+}
+
+function applyCardById(cardId) {
+  const card = CARD_LIBRARY.find((c) => c.id === cardId);
+  if (!card) return;
+  grantCard(card);
+  renderDeckList();
+  gainScore(90);
+  sfx?.cardPick?.();
+  finishDraftPhase({ pickedName: card.name });
+}
+
+function skipEmptyDraft() {
+  if (game.draft.activeChoices?.length) return;
+  sfx?.cardPick?.();
+  finishDraftPhase();
 }
 
 function generateEncounterQueue(type) {
@@ -3540,6 +3577,7 @@ function spawnWave() {
   game.waveActive = true;
   game.waveCount += 1;
   game.tormentChampionSpawned = false;
+  game.tormentChampionsSpawned = 0;
   game.waveModifier = game.pendingWaveModifier
     || pickWaveModifier(WAVE_MODIFIER_LIBRARY, getRunRng(game));
   game.pendingWaveModifier = null;
@@ -4103,6 +4141,14 @@ function clearTowerSelection() {
 
 function selectBuildTower(typeKey) {
   if (game.screen !== "playing") return;
+  const towerCap = getTormentTowerCap(game);
+  if (towerCap != null && game.towers.length >= towerCap) {
+    showMessage(
+      `Tourment : ${towerCap} tour${towerCap > 1 ? "s" : ""} max à cet étage (${game.towers.length}/${towerCap}).`,
+      "warn",
+    );
+    return;
+  }
   game.selectedTowerType = typeKey;
   clearTowerSelection();
   towerButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.tower === typeKey));
@@ -4112,6 +4158,17 @@ function selectBuildTower(typeKey) {
 function handleBuildOnPad(pad) {
   if (game.screen !== "playing") return false;
   if (!game.selectedTowerType || pad.occupiedBy !== null) return false;
+  const towerCap = getTormentTowerCap(game);
+  if (towerCap != null && game.towers.length >= towerCap) {
+    showMessage(
+      `Tourment : serre rationnée — ${towerCap} tour${towerCap > 1 ? "s" : ""} max (étage ${game.spire.floor + 1}).`,
+      "warn",
+    );
+    game.selectedTowerType = null;
+    towerButtons.forEach((btn) => btn.classList.remove("active"));
+    updatePlacementUi();
+    return true;
+  }
   const type = towerTypes[game.selectedTowerType];
   if (game.gold < type.cost) {
     showMessage("Soleil insuffisant pour cette plante.", "warn");
@@ -4127,7 +4184,8 @@ function handleBuildOnPad(pad) {
   towerButtons.forEach((btn) => btn.classList.remove("active"));
   updatePlacementUi();
   gainScore(40);
-  showMessage(`${tower.name} plantee avec succes.`, "normal");
+  const capNote = towerCap != null ? ` (${game.towers.length}/${towerCap})` : "";
+  showMessage(`${tower.name} plantee avec succes${capNote}.`, "normal");
   emitParticles(tower.x, tower.y, "#dfffb0", 12);
   sfx?.plant?.();
   towerPanelCacheKey = "";
@@ -4583,6 +4641,7 @@ bindUiEvents({
     towerDraftConfirmBtn,
     towerDraftCountEl,
     draftChoicesEl,
+    draftSkipBtn,
     mapChoicesEl,
     shopChoicesEl,
     shopSkipBtn,
@@ -4636,6 +4695,7 @@ bindUiEvents({
     renderTowerShopButtons,
     startNewRun,
     applyCardById,
+    skipEmptyDraft,
     onMapNodeChosen,
     buyShopOfferById,
     advanceAfterShop,

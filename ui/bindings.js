@@ -36,6 +36,7 @@ export function bindUiEvents({
     towerDraftConfirmBtn,
     towerDraftCountEl,
     draftChoicesEl,
+    draftSkipBtn,
     mapChoicesEl,
     shopChoicesEl,
     shopSkipBtn,
@@ -275,6 +276,11 @@ export function bindUiEvents({
     button.classList.add("is-picking");
     actions.ensureAudioContext();
     actions.applyCardById(button.dataset.cardId);
+  });
+
+  draftSkipBtn?.addEventListener("click", () => {
+    actions.ensureAudioContext();
+    actions.skipEmptyDraft?.();
   });
 
   mapChoicesEl.addEventListener("click", (event) => {

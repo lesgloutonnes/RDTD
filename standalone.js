@@ -3494,6 +3494,7 @@ function bindUiEvents({
     towerDraftConfirmBtn,
     towerDraftCountEl,
     draftChoicesEl,
+    draftSkipBtn,
     mapChoicesEl,
     shopChoicesEl,
     shopSkipBtn,
@@ -3733,6 +3734,11 @@ function bindUiEvents({
     button.classList.add("is-picking");
     actions.ensureAudioContext();
     actions.applyCardById(button.dataset.cardId);
+  });
+
+  draftSkipBtn?.addEventListener("click", () => {
+    actions.ensureAudioContext();
+    actions.skipEmptyDraft?.();
   });
 
   mapChoicesEl.addEventListener("click", (event) => {
@@ -5352,8 +5358,8 @@ const MAX_ASCENSION_LEVEL = 5;
  * Valeurs par niveau (1 = premier Tourment après campagne).
  * Le joueur conserve deck / reliques : T1–T2 doivent écraser ce carry.
  *
- * T1–T2 : choc d'entrée rude (PV, horde, DR, économie) + élites Tourment.
- * T3–T5 : afflictions de tours / carte / fuites, PV toujours au-dessus de T2.
+ * Afflictions créatives : plafond de tours = n° d'étage, élites multi-boucliers
+ * jaunes, nœuds boss à 2–3 boss.
  */
 const ASCENSION_TORMENT_BY_LEVEL = {
   1: {
@@ -5370,15 +5376,19 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     forcedCombatWaveModifier: true,
     shopPriceMult: 1.38,
     maxLivesPenalty: -2,
+    towerCapByFloor: true,
     eliteChampionChance: 1,
-    eliteBossChance: 0.65,
-    eliteChampionShieldMult: 1.2,
+    eliteChampionMax: 3,
+    eliteExtraSpawn: 2,
+    eliteBossChance: 0.7,
+    eliteChampionShieldMult: 1.15,
     eliteBossHpMult: 0.55,
+    bossNodeBossCount: 2,
     rules: [
-      "Choc d'entrée : ennemis +88 % PV · +18 % vitesse · −6 % dégâts subis",
-      "Horde +14 % · cadence tours −5 % · repos −30 %",
+      "Serre rationnée : 1 tour max à l'étage 1, puis +1 par étage",
+      "Choc : +88 % PV · +18 % vitesse · −6 % dégâts subis · horde +14 %",
       "Économie sèche : −22 % soleil, boutique +38 %, −2 vies max",
-      "Élites : champion bouclier jaune · boss fréquent",
+      "Élites : plusieurs boucliers jaunes · boss fréquent · nœud boss = 2 boss",
     ],
   },
   2: {
@@ -5396,15 +5406,19 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     towerRangeBonus: -8,
     shopPriceMult: 1.32,
     maxLivesPenalty: -2,
+    towerCapByFloor: true,
     eliteChampionChance: 1,
-    eliteBossChance: 0.8,
-    eliteChampionShieldMult: 1.3,
+    eliteChampionMax: 4,
+    eliteExtraSpawn: 3,
+    eliteBossChance: 0.85,
+    eliteChampionShieldMult: 1.25,
     eliteBossHpMult: 0.58,
+    bossNodeBossCount: 2,
     rules: [
+      "Serre rationnée : tours max = n° d'étage",
       "Ennemis +108 % PV · horde +24 % · repos −38 %",
-      "Tours : cadence −7 % · portée −8 px",
-      "Économie sèche : −18 % soleil, boutique +32 %, −2 vies max",
-      "Élites : bouclier jaune épais · boss très fréquent · −10 % dégâts subis",
+      "Tours : cadence −7 % · portée −8 px · économie sèche",
+      "Élites multi-boucliers jaunes · nœud boss = 2 boss",
     ],
   },
   3: {
@@ -5424,15 +5438,19 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     mapEliteWeightMult: 1.35,
     shopPriceMult: 1.28,
     maxLivesPenalty: -2,
+    towerCapByFloor: true,
     eliteChampionChance: 1,
-    eliteBossChance: 0.85,
-    eliteChampionShieldMult: 1.35,
+    eliteChampionMax: 5,
+    eliteExtraSpawn: 3,
+    eliteBossChance: 0.9,
+    eliteChampionShieldMult: 1.3,
     eliteBossHpMult: 0.62,
+    bossNodeBossCount: 3,
     rules: [
-      "Portée des tours −12 px · cadence −8 %",
+      "Serre rationnée · portée −12 px · cadence −8 %",
       "Vagues +12 % rapides · plus d'élites sur la carte",
-      "Économie encore tendue · −2 vies max",
-      "Champions bouclier jaune · boss en élite très fréquents",
+      "Élites saturées de boucliers jaunes",
+      "Nœud boss = 3 boss",
     ],
   },
   4: {
@@ -5453,15 +5471,19 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     extraLeakLivesElite: 1,
     shopPriceMult: 1.22,
     maxLivesPenalty: -2,
+    towerCapByFloor: true,
     eliteChampionChance: 1,
-    eliteBossChance: 0.92,
-    eliteChampionShieldMult: 1.4,
+    eliteChampionMax: 6,
+    eliteExtraSpawn: 4,
+    eliteBossChance: 0.95,
+    eliteChampionShieldMult: 1.35,
     eliteBossHpMult: 0.66,
+    bossNodeBossCount: 3,
     rules: [
-      "Ravageurs : −10 % dégâts subis · élites −12 %",
-      "Fuite sur élite / boss : −2 vies au lieu de −1",
-      "Repos très affaibli · carte plus hostile",
-      "Boss quasi systématique sur les nœuds élite",
+      "Serre rationnée · ravageurs −10 % dégâts subis",
+      "Fuite élite/boss : −2 vies · carte plus hostile",
+      "Élites : essaim de boucliers jaunes",
+      "Nœud boss = 3 boss",
     ],
   },
   5: {
@@ -5482,17 +5504,20 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     extraLeakLivesElite: 1,
     extraLeakLivesBoss: 2,
     maxLivesPenalty: -3,
-    eliteExtraSpawn: 1,
+    eliteExtraSpawn: 5,
     shopPriceMult: 1.25,
+    towerCapByFloor: true,
     eliteChampionChance: 1,
+    eliteChampionMax: 8,
     eliteBossChance: 1,
-    eliteChampionShieldMult: 1.5,
+    eliteChampionShieldMult: 1.45,
     eliteBossHpMult: 0.7,
+    bossNodeBossCount: 3,
     rules: [
-      "−3 vies max · cadence −14 % · portée −20 px",
-      "Élites renforcées (+1 vague d'ennemis)",
+      "Serre rationnée · −3 vies max · cadence −14 % · portée −20 px",
+      "Élites saturées (+renforts) · boucliers jaunes maximaux",
       "Fuite boss : −3 vies · chaque élite abrite un boss",
-      "Champions à bouclier jaune maximal",
+      "Nœud boss = 3 boss",
     ],
   },
 };
@@ -5551,9 +5576,12 @@ function applyTormentToRun(game, level = 1) {
   game.run.tormentMaxLivesPenalty = torment.maxLivesPenalty ?? 0;
   game.run.tormentEliteExtraSpawn = torment.eliteExtraSpawn ?? 0;
   game.run.tormentEliteChampionChance = torment.eliteChampionChance ?? 0;
+  game.run.tormentEliteChampionMax = torment.eliteChampionMax ?? 1;
   game.run.tormentEliteBossChance = torment.eliteBossChance ?? 0;
   game.run.tormentEliteChampionShieldMult = torment.eliteChampionShieldMult ?? 1;
   game.run.tormentEliteBossHpMult = torment.eliteBossHpMult ?? 0.6;
+  game.run.tormentBossNodeBossCount = torment.bossNodeBossCount ?? 1;
+  game.run.tormentTowerCapByFloor = Boolean(torment.towerCapByFloor);
 }
 
 function applyTormentMaxLivesPenalty(game) {
@@ -5601,6 +5629,16 @@ function getTormentEnemyCountMult(game) {
   return game.run.tormentEnemyCountMult ?? 1;
 }
 
+/**
+ * Plafond de tours en Tourment : étage 1 → 1 tour, étage 2 → 2, etc.
+ * @returns {number|null} null = pas de plafond
+ */
+function getTormentTowerCap(game) {
+  if (game.run?.mode !== "ascension") return null;
+  if (!game.run.tormentTowerCapByFloor) return null;
+  return Math.max(1, (game.spire?.floor ?? 0) + 1);
+}
+
 /** Vies perdues en plus lors d'une fuite (0 = comportement normal). */
 function getTormentExtraLeakLives(game, { nodeType, bossBreach = false } = {}) {
   if (game.run?.mode !== "ascension" || bossBreach) return 0;
@@ -5626,7 +5664,11 @@ function tryPromoteTormentChampion(enemy, game) {
   if (game.run?.mode !== "ascension") return false;
   if (game.spire?.currentNodeType !== "elite") return false;
   if (enemy.typeKey === "boss" || enemy.isBoss) return false;
-  if (game.waveStats?.tormentChampionSpawned || game.tormentChampionSpawned) return false;
+
+  const maxChampions = Math.max(1, game.run.tormentEliteChampionMax ?? 1);
+  const spawned = game.tormentChampionsSpawned || 0;
+  if (spawned >= maxChampions) return false;
+
   const chance = game.run.tormentEliteChampionChance ?? 0;
   if (chance <= 0) return false;
   const rng = typeof game.run._rng === "function" ? game.run._rng : Math.random;
@@ -5640,8 +5682,10 @@ function tryPromoteTormentChampion(enemy, game) {
   enemy.radius = Math.round(enemy.radius * 1.18);
   enemy.reward = Math.round(enemy.reward * 1.55);
   enemy.color = "#d4a017";
-  if (game.waveStats) game.waveStats.tormentChampionSpawned = true;
-  game.tormentChampionSpawned = true;
+  game.tormentChampionsSpawned = spawned + 1;
+  if (game.waveStats) {
+    game.waveStats.tormentChampionsSpawned = game.tormentChampionsSpawned;
+  }
   return true;
 }
 
@@ -5687,9 +5731,10 @@ function extendQueueForTorment(queue, game, {
   if (countMult > 1) {
     const target = Math.max(out.length, Math.round(out.length * countMult));
     while (out.length < target) {
+      const fillers = out.filter((id) => id !== "boss");
       out.push(
         pickEncounterEnemy(floor, spireNumber, enemyDefs, rng)
-        || out[Math.floor(rng() * out.length)]
+        || (fillers.length ? fillers[Math.floor(rng() * fillers.length)] : null)
         || "beetle",
       );
     }
@@ -5707,6 +5752,15 @@ function extendQueueForTorment(queue, game, {
       out.push("boss");
     }
   }
+  // Nœud boss : 2–3 boss selon le niveau de Tourment.
+  if (nodeType === "boss") {
+    const want = Math.max(1, game.run.tormentBossNodeBossCount ?? 1);
+    let have = out.filter((id) => id === "boss").length;
+    while (have < want) {
+      out.push("boss");
+      have += 1;
+    }
+  }
   return out;
 }
 
@@ -5718,6 +5772,7 @@ exports["getTormentShopPriceMult"] = getTormentShopPriceMult;
 exports["getTormentRestHealMult"] = getTormentRestHealMult;
 exports["getTormentSpawnIntervalMult"] = getTormentSpawnIntervalMult;
 exports["getTormentEnemyCountMult"] = getTormentEnemyCountMult;
+exports["getTormentTowerCap"] = getTormentTowerCap;
 exports["getTormentExtraLeakLives"] = getTormentExtraLeakLives;
 exports["applyTormentEnemyTraits"] = applyTormentEnemyTraits;
 exports["tryPromoteTormentChampion"] = tryPromoteTormentChampion;
@@ -6401,7 +6456,7 @@ exports["grantObjectiveRewards"] = grantObjectiveRewards;
 
 });
 define("game/map-flow.js", function (exports, require, module) {
-const { applyTormentToLaneConfig, shouldForceTormentWaveModifier } = require("logic/ascension-mechanics.js");
+const { applyTormentToLaneConfig, getTormentTowerCap, shouldForceTormentWaveModifier } = require("logic/ascension-mechanics.js");
 const { formatRunModeLine } = require("logic/run-modes.js");
 const { shared } = require("game/shared.js");
 const { formatObjectivePreview } = require("logic/node-objectives.js");
@@ -10497,7 +10552,7 @@ const { createRunMusicController } = require("audio/run-music.js");
 const { loadGameContent } = require("content/loader.js");
 const { fetchLeaderboard, submitLeaderboardEntry, LEADERBOARD_MAX } = require("logic/leaderboard-api.js");
 const { generateSpireMap, getLaneAffinityHint, getLaneEncounterHpMult, getLaneEventLaneTag, getLaneEventUniqueBias, getMapLanePreview, laneGuaranteesWaveModifier } = require("logic/map-generation.js");
-const { applyTormentEncounterPenalties, applyTormentMaxLivesPenalty, extendQueueForTorment, getTormentExtraLeakLives, getTormentRestHealMult, getTormentShopPriceMult } = require("logic/ascension-mechanics.js");
+const { applyTormentEncounterPenalties, applyTormentMaxLivesPenalty, extendQueueForTorment, getTormentExtraLeakLives, getTormentRestHealMult, getTormentShopPriceMult, getTormentTowerCap } = require("logic/ascension-mechanics.js");
 const { buildVictoryScreenCopy, configureRunMode, formatRunModeLine, getAscensionTorment, getRunRng, hasCampaignVictory, loadAscensionLevel, loadSeedPreference, markAscensionBeaten, markCampaignVictory, RUN_MODE_ASCENSION, RUN_MODE_STANDARD, saveAscensionLevel, saveRunModePreference, saveSeedPreference } = require("logic/run-modes.js");
 const { createSeededRng, generateShareableSeed } = require("logic/seeded-rng.js");
 const { clearRunSave, formatRunSaveSummary, hasRunSave, loadRunState, saveRunState, serializeRunState, shouldPersistRunScreen } = require("logic/run-save.js");
@@ -10609,6 +10664,10 @@ const overlayCard = document.getElementById("overlay-card");
 
 const draftOverlay = document.getElementById("draft-overlay");
 const draftChoicesEl = document.getElementById("draft-choices");
+const draftOverlayTitle = document.getElementById("draft-overlay-title");
+const draftOverlayDesc = document.getElementById("draft-overlay-desc");
+const draftEmptyActions = document.getElementById("draft-empty-actions");
+const draftSkipBtn = document.getElementById("draft-skip");
 const collectorOverlay = document.getElementById("collector-overlay");
 const collectorChoicesEl = document.getElementById("collector-choices");
 
@@ -13768,6 +13827,20 @@ function getDraftChoices() {
 }
 
 function renderDraftChoices() {
+  const empty = !game.draft.activeChoices?.length;
+  if (draftOverlayTitle) {
+    draftOverlayTitle.textContent = empty ? "Deck saturé" : "Choisis une carte";
+  }
+  if (draftOverlayDesc) {
+    draftOverlayDesc.textContent = empty
+      ? "Plus aucune carte à ajouter — ton deck a tout donné. Bonne chance avec tes choix pour les combats qu'il reste à affronter !"
+      : "Sélectionne 1 amélioration pour ta run. Le deck façonne ton style de jeu.";
+  }
+  draftEmptyActions?.classList.toggle("hidden", !empty);
+  if (empty) {
+    draftChoicesEl.innerHTML = "";
+    return;
+  }
   draftChoicesEl.innerHTML = game.draft.activeChoices
     .map(
       (card) => `
@@ -13786,20 +13859,22 @@ function startDraftPhase() {
   renderDraftChoices();
   setScreen("draft");
   showDraftOverlay();
-  showMessage("Choisis une carte pour ton deck.", "normal");
-  tryContextHint("draft_first");
+  if (!game.draft.activeChoices.length) {
+    showMessage("Deck saturé — continue sans nouvelle carte.", "warn");
+  } else {
+    showMessage("Choisis une carte pour ton deck.", "normal");
+    tryContextHint("draft_first");
+  }
 }
 
-function applyCardById(cardId) {
-  const card = CARD_LIBRARY.find((c) => c.id === cardId);
-  if (!card) return;
-  grantCard(card);
-  renderDeckList();
+function finishDraftPhase({ pickedName = null } = {}) {
   hideDraftOverlay();
   game.draft.activeChoices = [];
-  gainScore(90);
-  sfx?.cardPick?.();
-  showMessage(`Carte choisie: ${card.name}.`, "normal");
+  if (pickedName) {
+    showMessage(`Carte choisie: ${pickedName}.`, "normal");
+  } else {
+    showMessage("Deck saturé — tu continues avec tes cartes actuelles. Bonne chance !", "warn");
+  }
 
   if (game.spire.pendingAdvanceAfterDraft) {
     game.spire.pendingAdvanceAfterDraft = false;
@@ -13808,6 +13883,22 @@ function applyCardById(cardId) {
   }
 
   setScreen("playing");
+}
+
+function applyCardById(cardId) {
+  const card = CARD_LIBRARY.find((c) => c.id === cardId);
+  if (!card) return;
+  grantCard(card);
+  renderDeckList();
+  gainScore(90);
+  sfx?.cardPick?.();
+  finishDraftPhase({ pickedName: card.name });
+}
+
+function skipEmptyDraft() {
+  if (game.draft.activeChoices?.length) return;
+  sfx?.cardPick?.();
+  finishDraftPhase();
 }
 
 function generateEncounterQueue(type) {
@@ -13840,6 +13931,7 @@ function spawnWave() {
   game.waveActive = true;
   game.waveCount += 1;
   game.tormentChampionSpawned = false;
+  game.tormentChampionsSpawned = 0;
   game.waveModifier = game.pendingWaveModifier
     || pickWaveModifier(WAVE_MODIFIER_LIBRARY, getRunRng(game));
   game.pendingWaveModifier = null;
@@ -14403,6 +14495,14 @@ function clearTowerSelection() {
 
 function selectBuildTower(typeKey) {
   if (game.screen !== "playing") return;
+  const towerCap = getTormentTowerCap(game);
+  if (towerCap != null && game.towers.length >= towerCap) {
+    showMessage(
+      `Tourment : ${towerCap} tour${towerCap > 1 ? "s" : ""} max à cet étage (${game.towers.length}/${towerCap}).`,
+      "warn",
+    );
+    return;
+  }
   game.selectedTowerType = typeKey;
   clearTowerSelection();
   towerButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.tower === typeKey));
@@ -14412,6 +14512,17 @@ function selectBuildTower(typeKey) {
 function handleBuildOnPad(pad) {
   if (game.screen !== "playing") return false;
   if (!game.selectedTowerType || pad.occupiedBy !== null) return false;
+  const towerCap = getTormentTowerCap(game);
+  if (towerCap != null && game.towers.length >= towerCap) {
+    showMessage(
+      `Tourment : serre rationnée — ${towerCap} tour${towerCap > 1 ? "s" : ""} max (étage ${game.spire.floor + 1}).`,
+      "warn",
+    );
+    game.selectedTowerType = null;
+    towerButtons.forEach((btn) => btn.classList.remove("active"));
+    updatePlacementUi();
+    return true;
+  }
   const type = towerTypes[game.selectedTowerType];
   if (game.gold < type.cost) {
     showMessage("Soleil insuffisant pour cette plante.", "warn");
@@ -14427,7 +14538,8 @@ function handleBuildOnPad(pad) {
   towerButtons.forEach((btn) => btn.classList.remove("active"));
   updatePlacementUi();
   gainScore(40);
-  showMessage(`${tower.name} plantee avec succes.`, "normal");
+  const capNote = towerCap != null ? ` (${game.towers.length}/${towerCap})` : "";
+  showMessage(`${tower.name} plantee avec succes${capNote}.`, "normal");
   emitParticles(tower.x, tower.y, "#dfffb0", 12);
   sfx?.plant?.();
   towerPanelCacheKey = "";
@@ -14883,6 +14995,7 @@ bindUiEvents({
     towerDraftConfirmBtn,
     towerDraftCountEl,
     draftChoicesEl,
+    draftSkipBtn,
     mapChoicesEl,
     shopChoicesEl,
     shopSkipBtn,
@@ -14936,6 +15049,7 @@ bindUiEvents({
     renderTowerShopButtons,
     startNewRun,
     applyCardById,
+    skipEmptyDraft,
     onMapNodeChosen,
     buyShopOfferById,
     advanceAfterShop,
