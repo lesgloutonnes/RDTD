@@ -3474,46 +3474,111 @@ body:not([data-screen="title"]) .title-daily-panel {
   margin-inline: auto;
 }
 
-/* Carrefour de nectar : 4 choix en croix */
+/* Carrefour de nectar : 4 choix en croix (colonnes égales — N/S lisibles) */
 .event-choices--cross {
-  grid-template-columns: minmax(0, 1fr) minmax(72px, 88px) minmax(0, 1fr);
-  grid-template-rows: auto auto auto;
+  position: relative;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto minmax(64px, auto) auto;
   grid-template-areas:
     ". north ."
     "west hub east"
     ". south .";
-  gap: 10px;
-  max-width: 560px;
+  gap: 12px 14px;
+  max-width: 680px;
   margin-inline: auto;
   align-items: stretch;
+  justify-items: stretch;
+  padding: 6px 2px 2px;
+}
+
+/* Branches de la croix (décor) */
+.event-choices--cross::before {
+  content: "";
+  position: absolute;
+  inset: 18% 16%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 183, 77, 0.22) 18%, rgba(255, 183, 77, 0.22) 82%, transparent 100%)
+      center / 100% 2px no-repeat,
+    linear-gradient(180deg, transparent 0%, rgba(255, 183, 77, 0.22) 18%, rgba(255, 183, 77, 0.22) 82%, transparent 100%)
+      center / 2px 100% no-repeat;
+  opacity: 0.85;
 }
 
 .event-choices--cross::after {
   content: "✦";
   grid-area: hub;
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   align-self: center;
   justify-self: center;
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 999px;
-  border: 1px dashed rgba(200, 240, 130, 0.35);
-  font-size: 1.1rem;
-  color: rgba(220, 255, 170, 0.45);
+  border: 1.5px solid rgba(255, 183, 77, 0.55);
+  font-size: 1.05rem;
+  color: rgba(255, 236, 170, 0.85);
   pointer-events: none;
+  box-shadow:
+    0 0 0 6px rgba(94, 31, 168, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28);
   background-image:
     var(--tex-noise),
-    var(--tex-mystic),
-    radial-gradient(circle at center, rgba(70, 110, 45, 0.34), rgba(20, 40, 16, 0.5));
-  background-size: 52px 52px, 90px 90px, 100% 100%;
-  background-blend-mode: overlay, soft-light, normal;
+    radial-gradient(circle at 35% 30%, rgba(255, 224, 130, 0.35), transparent 55%),
+    linear-gradient(160deg, rgba(129, 199, 132, 0.45), rgba(45, 17, 84, 0.92));
+  background-size: 52px 52px, 100% 100%, 100% 100%;
+  background-blend-mode: overlay, normal, normal;
+}
+
+.event-choice--north,
+.event-choice--east,
+.event-choice--south,
+.event-choice--west {
+  position: relative;
+  z-index: 1;
 }
 
 .event-choice--north { grid-area: north; }
 .event-choice--east { grid-area: east; }
 .event-choice--south { grid-area: south; }
 .event-choice--west { grid-area: west; }
+
+.event-choices--cross .draft-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 118px;
+  padding: 12px 12px 10px;
+  text-align: center;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.event-choices--cross .draft-choice h3 {
+  margin: 0;
+  font-size: clamp(0.82rem, 1.5vw, 0.98rem);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.event-choices--cross .draft-choice p {
+  margin: 0;
+  flex: 1;
+  font-size: clamp(0.74rem, 1.25vw, 0.86rem);
+  line-height: 1.35;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+.event-choices--cross .draft-choice .tag {
+  align-self: center;
+  margin-top: 4px;
+}
 
 /* Carte Carnivore : seul nœud (carrefour des lianes) centré */
 #map-choices.map-choices--solo {
@@ -4179,32 +4244,32 @@ body:not([data-screen="title"]) .title-daily-panel {
   }
 
   .overlay.overlay--sheet .event-choices--cross {
-    grid-template-columns: 1fr 44px 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto;
     grid-template-areas:
-      ". north ."
-      "west hub east"
-      ". south .";
-    gap: 6px;
+      "north east"
+      "west south";
+    gap: 10px;
     max-width: none;
+    padding: 0;
   }
 
+  .event-choices--cross::before,
   .event-choices--cross::after {
-    width: 40px;
-    height: 40px;
-    font-size: 0.9rem;
+    display: none;
   }
 
   .event-choices--cross .draft-choice {
-    padding: 8px;
+    min-height: 108px;
+    padding: 10px;
   }
 
   .event-choices--cross .draft-choice h3 {
-    font-size: 0.82rem;
+    font-size: 0.88rem;
   }
 
   .event-choices--cross .draft-choice p {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
   }
 
   .overlay.overlay--sheet .tower-draft-grid {
