@@ -101,12 +101,14 @@ import {
   getRunRng,
   hasCampaignVictory,
   loadAscensionLevel,
+  loadSeedPreference,
   markAscensionBeaten,
   markCampaignVictory,
   RUN_MODE_ASCENSION,
   RUN_MODE_STANDARD,
   saveAscensionLevel,
   saveRunModePreference,
+  saveSeedPreference,
 } from "./logic/run-modes.js";
 import { createSeededRng, generateShareableSeed } from "./logic/seeded-rng.js";
 import {
@@ -351,6 +353,9 @@ const towerButtons = [...document.querySelectorAll(".tower-btn")];
 const titleInputWrap  = document.getElementById("title-input-wrap");
 const playerNameInput = document.getElementById("player-name-input");
 const titlePlayBtn    = document.getElementById("title-play-btn");
+const titleSeedInput  = document.getElementById("title-seed-input");
+const titleSeedRandomBtn = document.getElementById("title-seed-random-btn");
+const titleSeedCopyBtn = document.getElementById("title-seed-copy-btn");
 const titleVersionEl = document.getElementById("title-version");
 const titleResumePanel = document.getElementById("title-resume-panel");
 const titleResumeSummary = document.getElementById("title-resume-summary");
@@ -2273,6 +2278,9 @@ function setScreen(screen) {
       playerNameInput.value = saved || "";
       if (titlePlayBtn) titlePlayBtn.disabled = !playerNameInput.value.trim();
     }
+    if (titleSeedInput) {
+      titleSeedInput.value = loadSeedPreference();
+    }
 
     // Si l'AudioContext est déjà débloqué (retour depuis une partie),
     // démarre la musique automatiquement sans interaction.
@@ -2631,15 +2639,51 @@ function grantRandomCardSilently() {
   return card;
 }
 
+function sanitizeTitleSeedInput(raw = titleSeedInput?.value) {
+  return String(raw || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
+}
+
+function applyTitleSeedValue(seed) {
+  const normalized = sanitizeTitleSeedInput(seed);
+  if (titleSeedInput) titleSeedInput.value = normalized;
+  return normalized;
+}
+
+function randomizeTitleSeed() {
+  const seed = generateShareableSeed();
+  applyTitleSeedValue(seed);
+  saveSeedPreference(seed);
+  showMessage(`Nouveau seed : ${seed}`, "normal");
+}
+
+async function copyTitleSeed() {
+  let seed = (titleSeedInput?.value || "").trim();
+  if (!seed) {
+    seed = generateShareableSeed();
+    applyTitleSeedValue(seed);
+  } else {
+    seed = sanitizeTitleSeedInput(seed);
+    applyTitleSeedValue(seed);
+  }
+  try {
+    await navigator.clipboard.writeText(seed);
+    showMessage(`Seed copié : ${seed}`, "normal");
+  } catch {
+    showMessage(`Seed : ${seed}`, "normal");
+  }
+}
+
 function startNewRun() {
   clearRunSave();
   resetRunState();
   resetModifiers();
+  const seedInput = sanitizeTitleSeedInput();
   configureRunMode(game, {
     mode: RUN_MODE_STANDARD,
     ascensionLevel: 1,
-    seedInput: generateShareableSeed(),
+    seedInput,
   });
+  saveSeedPreference(game.run.seed);
   initRunBestiary(game);
   beginRunStats(game);
   applyDailyChallengeForRun();
@@ -4543,6 +4587,9 @@ bindUiEvents({
     canvas,
     playerNameInput,
     titlePlayBtn,
+    titleSeedInput,
+    titleSeedRandomBtn,
+    titleSeedCopyBtn,
     eventChoicesEl,
   },
   actions: {
@@ -4599,6 +4646,10 @@ bindUiEvents({
     clearPlacementHover,
     cancelTowerPlacement,
     savePlayerName,
+    saveSeedPreference,
+    randomizeTitleSeed,
+    copyTitleSeed,
+    sanitizeTitleSeedInput,
     resumeRunFromSave,
     persistRunSaveNow,
     renderTitleResumePanel,

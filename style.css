@@ -2707,6 +2707,11 @@ body[data-screen="event"] .board-wrap {
   font-family: var(--font-body);
 }
 
+.title-seed-hint {
+  opacity: 0.72;
+  font-weight: 500;
+}
+
 .title-seed-btn {
   min-width: 36px;
   border-radius: 8px;
