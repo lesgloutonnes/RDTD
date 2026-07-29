@@ -792,6 +792,13 @@ body[data-screen="title"].title-mode-unlocked .title-brand__subtitle {
   bottom: calc(22% + env(safe-area-inset-bottom)) !important;
 }
 
+/* Même ancrage bas que défi/mode — évite le chevauchement sous le logo (800²). */
+.title-resume-panel {
+  top: auto !important;
+  bottom: calc(34% + env(safe-area-inset-bottom)) !important;
+  z-index: 6;
+}
+
 .title-mode-panel {
   top: auto !important;
   bottom: calc(27% + env(safe-area-inset-bottom)) !important;
@@ -799,6 +806,26 @@ body[data-screen="title"].title-mode-unlocked .title-brand__subtitle {
 
 body[data-screen="title"].title-mode-unlocked .title-mode-panel {
   bottom: calc(23% + env(safe-area-inset-bottom)) !important;
+}
+
+/* Desktop : logo réduit quand une run sauvegardée est proposée, pour libérer le centre. */
+@media (min-width: 861px) {
+  body[data-screen="title"]:has(#title-resume-panel:not(.hidden)) .title-brand {
+    top: clamp(4px, 1vh, 8px);
+    width: min(54%, 180px);
+  }
+
+  body[data-screen="title"]:has(#title-resume-panel:not(.hidden)) .title-brand__logo {
+    max-width: 180px;
+  }
+
+  body[data-screen="title"]:has(#title-resume-panel:not(.hidden)) .title-brand__subtitle {
+    display: none;
+  }
+
+  body[data-screen="title"]:has(#title-resume-panel:not(.hidden)) .title-resume-panel {
+    bottom: calc(28% + env(safe-area-inset-bottom)) !important;
+  }
 }
 
 .title-input-wrap {
