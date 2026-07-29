@@ -1690,9 +1690,13 @@ body[data-screen="title"] #board {
 }
 
 .event-choices--cross {
-  max-width: 760px;
+  max-width: 720px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.event-choices--cross .draft-choice {
+  min-height: 124px;
 }
 
 #event-choices .draft-choice,

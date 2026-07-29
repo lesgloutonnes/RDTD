@@ -1479,7 +1479,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
         "id": "sun",
         "slot": "north",
         "label": "Réserve de nectar",
-        "desc": "+55 soleil immédiatement.",
+        "desc": "+55 soleil.",
         "effect": "gold",
         "amount": 55
       },
