@@ -425,7 +425,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+5% dégâts et +3% cadence.",
     "rarity": "Epique",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "predator_instinct"
   },
   {
@@ -567,8 +567,80 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+4% dégâts et +4% cadence.",
     "rarity": "Epique",
     "stackable": true,
-    "maxStack": 3,
+    "maxStack": 6,
     "effectId": "flare_bloom"
+  },
+  {
+    "id": "solar_bloom",
+    "name": "Floraison Dorée",
+    "desc": "+40 soleil (~+80 score), +3% dégâts.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "solar_bloom"
+  },
+  {
+    "id": "solar_surge",
+    "name": "Élan Solaire",
+    "desc": "+35 soleil (~+70 score), +3% cadence.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "solar_surge"
+  },
+  {
+    "id": "solar_tithe",
+    "name": "Dîme Solaire",
+    "desc": "+45 soleil (~+90 score), +3% prime soleil.",
+    "rarity": "Rare",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "solar_tithe"
+  },
+  {
+    "id": "morning_dew",
+    "name": "Rosée Matinale",
+    "desc": "+25 soleil (~+50 score), +2% dégâts.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "morning_dew"
+  },
+  {
+    "id": "sun_drop",
+    "name": "Goutte Solaire",
+    "desc": "+36 soleil (~+72 score), +1% dégâts.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "sun_drop"
+  },
+  {
+    "id": "sun_breeze",
+    "name": "Brise Lumineuse",
+    "desc": "+38 soleil (~+76 score), +1% cadence.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "sun_breeze"
+  },
+  {
+    "id": "golden_pollen",
+    "name": "Pollen Doré",
+    "desc": "+40 soleil (~+80 score), +1% prime soleil.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "golden_pollen"
+  },
+  {
+    "id": "dawn_gleam",
+    "name": "Éclat Matinal",
+    "desc": "+42 soleil (~+84 score), +1% dégâts.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 6,
+    "effectId": "dawn_gleam"
   }
 ]
 ,
@@ -4627,6 +4699,8 @@ const CARD_EFFECT_IDS = new Set([
   "fureur_ardente", "creamsicle_nectar", "capensis_explosion", "scorpioides_chaine",
   "gale_folie", "resin_trap", "solar_lens", "beast_hunter", "venom_spread",
   "thorn_wall", "snapper_bite", "moss_armor", "flare_bloom",
+  "solar_bloom", "solar_surge", "solar_tithe", "morning_dew",
+  "sun_drop", "sun_breeze", "golden_pollen", "dawn_gleam",
 ]);
 
 const RELIC_EFFECT_IDS = new Set([
@@ -4676,6 +4750,14 @@ function applyCardEffect(effectId, ctx) {
     case "snapper_bite": m.snapperDamage *= 1.12; break;
     case "moss_armor": game.maxLives += 2; game.lives = Math.min(game.maxLives, game.lives + 2); break;
     case "flare_bloom": m.globalDamage *= 1.04; m.globalFireRate *= 1.04; break;
+    case "solar_bloom": game.gold += 40; m.globalDamage *= 1.03; break;
+    case "solar_surge": game.gold += 35; m.globalFireRate *= 1.03; break;
+    case "solar_tithe": game.gold += 45; m.rewardMult *= 1.03; break;
+    case "morning_dew": game.gold += 25; m.globalDamage *= 1.02; break;
+    case "sun_drop": game.gold += 36; m.globalDamage *= 1.01; break;
+    case "sun_breeze": game.gold += 38; m.globalFireRate *= 1.01; break;
+    case "golden_pollen": game.gold += 40; m.rewardMult *= 1.01; break;
+    case "dawn_gleam": game.gold += 42; m.globalDamage *= 1.01; break;
     default:
       throw new Error(`Effet carte inconnu: ${effectId}`);
   }
