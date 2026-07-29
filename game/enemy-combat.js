@@ -13,6 +13,7 @@ export function updateEnemyCombat(game, {
   biome,
   createEnemy,
   createFloatText,
+  dealDamageToEnemy,
   defeatEnemy,
   distance,
   emitParticles,
@@ -44,7 +45,7 @@ export function updateEnemyCombat(game, {
     if (enemy.poisonTime > 0 && enemy.poisonDps > 0) {
       enemy.poisonTime = Math.max(0, enemy.poisonTime - dt);
       if (enemy.poisonTime > 0 && Math.random() < dt * 2.5) sfx?.poison();
-      enemy.hp -= enemy.poisonDps * dt;
+      dealDamageToEnemy(enemy, enemy.poisonDps * dt);
       if (enemy.hp <= 0) {
         maybeTriggerBossCardPhase(enemy);
         defeatEnemy(enemy, worldPosOfEnemy(enemy));
@@ -55,7 +56,7 @@ export function updateEnemyCombat(game, {
     if (enemy.burnTime > 0 && enemy.burnDps > 0) {
       enemy.burnTime = Math.max(0, enemy.burnTime - dt);
       if (enemy.burnTime > 0 && Math.random() < dt * 2.2) sfx?.burn();
-      enemy.hp -= enemy.burnDps * dt;
+      dealDamageToEnemy(enemy, enemy.burnDps * dt);
       if (enemy.hp <= 0) {
         maybeTriggerBossCardPhase(enemy);
         defeatEnemy(enemy, worldPosOfEnemy(enemy));

@@ -3,6 +3,7 @@ export function updateProjectileCombat(game, {
   applySlowToEnemy,
   computeDamageToEnemy,
   createFloatText,
+  dealDamageToEnemy,
   defeatEnemy,
   distance,
   emitParticles,
@@ -49,7 +50,7 @@ export function updateProjectileCombat(game, {
         sfx?.shieldHit();
       }
       const dmg = computeDamageToEnemy(target, rawDmg);
-      target.hp -= dmg;
+      dealDamageToEnemy(target, dmg);
       const towerRef = projectile.towerId ? getTowerById(projectile.towerId) : null;
       if (towerRef) {
         const fam = towerRef.family || towerRef.typeKey;
@@ -138,7 +139,7 @@ export function updateProjectileCombat(game, {
         game.enemies.slice().forEach((e) => {
           if (e.id === target.id) return;
           if (distance(worldPosOfEnemy(e), targetPos) <= radius) {
-            e.hp -= splashDmg;
+            dealDamageToEnemy(e, splashDmg);
             const ePos = worldPosOfEnemy(e);
             emitParticles(ePos.x, ePos.y, "#b8ff90", 4);
             if (e.hp <= 0) splashKill.push(e);

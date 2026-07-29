@@ -59,6 +59,24 @@ export function applyHitShieldDamage(enemy, rawDamage) {
   return rawDamage * 0.12;
 }
 
+/**
+ * Absorbe les dégâts via le bouclier de vie jaune (champions Tourment).
+ * @returns {number} dégâts restants à appliquer aux PV.
+ */
+export function applyLifeShieldDamage(enemy, damage) {
+  if (!enemy.lifeShield || enemy.lifeShield <= 0 || damage <= 0) return damage;
+  const absorbed = Math.min(enemy.lifeShield, damage);
+  enemy.lifeShield = Math.max(0, enemy.lifeShield - absorbed);
+  return Math.max(0, damage - absorbed);
+}
+
+/** Applique des dégâts aux PV en passant d'abord par le bouclier de vie. */
+export function dealDamageToEnemy(enemy, damage) {
+  const leftover = applyLifeShieldDamage(enemy, damage);
+  if (leftover > 0) enemy.hp -= leftover;
+  return leftover;
+}
+
 export function spawnSplitChildren(enemy, helpers) {
   if (!enemy.canSplit || enemy._splitDone) return;
   enemy._splitDone = true;
