@@ -2681,8 +2681,9 @@ body[data-screen="event"] .board-wrap {
 
 .title-ascension-row,
 .title-seed-row {
-  margin-top: 4px;
-  width: min(100%, 420px);
+  margin-top: 2px;
+  width: 100%;
+  max-width: 420px;
   font-size: 0.74rem;
   color: #d8f0c0;
 }
@@ -2938,7 +2939,8 @@ body:not([data-screen="title"]) .title-daily-panel {
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  width: min(92%, 420px);
   gap: 9px;
   z-index: 4;
   pointer-events: auto;
@@ -2962,16 +2964,20 @@ body:not([data-screen="title"]) .title-daily-panel {
   letter-spacing: 0.1em;
   color: rgba(168, 230, 112, 0.65);
   text-shadow: 0 0 10px rgba(90, 200, 40, 0.35);
+  text-align: center;
 }
 
 .title-input-row {
   display: flex;
   gap: 8px;
   align-items: center;
+  width: 100%;
 }
 
 .title-input-field {
-  width: 196px;
+  flex: 1;
+  min-width: 0;
+  width: auto;
   padding: 9px 16px;
   background-image:
     var(--tex-noise),

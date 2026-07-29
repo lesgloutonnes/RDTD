@@ -524,7 +524,8 @@ body:not([data-screen="title"]) .title-brand {
   }
 
   body[data-screen="title"] .title-input-wrap {
-    bottom: 10% !important;
+    bottom: 8% !important;
+    width: min(46%, 420px);
   }
 
   body[data-screen="title"].title-mode-unlocked .title-brand {
@@ -865,6 +866,44 @@ body[data-screen="title"].title-mode-unlocked .title-mode-panel {
 .title-input-field:focus {
   border-color: var(--g-gold) !important;
   box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+}
+
+.title-seed-label {
+  font-family: var(--font-display);
+  color: rgba(225, 190, 231, 0.78);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.title-seed-input {
+  background: rgba(0, 0, 0, 0.45) !important;
+  border: 3px solid rgba(255, 167, 38, 0.4) !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.title-seed-input:focus {
+  border-color: var(--g-gold) !important;
+  box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+}
+
+.title-seed-input::placeholder {
+  color: rgba(255, 224, 178, 0.4);
+  font-style: italic;
+}
+
+.title-seed-btn {
+  background: linear-gradient(180deg, #7e57c2 0%, #5e35b1 50%, #4527a0 100%) !important;
+}
+
+.title-seed-btn:hover,
+.title-seed-btn:focus-visible {
+  border-color: rgba(255, 213, 79, 0.65) !important;
+  color: #fff !important;
 }
 
 /* ─── Deck chips & reliques ───────────────────────────────────────────── */
