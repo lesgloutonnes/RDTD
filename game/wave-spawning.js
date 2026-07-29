@@ -7,6 +7,7 @@ const MIN_SPAWN_INTERVAL = 0.2;
 export function updateWaveSpawningState(game, {
   createEnemy,
   pathsLength,
+  showMessage,
 }, dt) {
   if (game.wavePaused) return;
   if (!game.waveActive || game.spawnQueue.length === 0) return;
@@ -20,6 +21,11 @@ export function updateWaveSpawningState(game, {
   const enemy = createEnemy(typeKey, pathId);
   game.enemies.push(enemy);
   game.enemyById.set(enemy.id, enemy);
+  if (enemy.isTormentChampion) {
+    showMessage?.("Champion Tourment ! Bouclier de vie jaune.", "warn");
+  } else if (enemy.isEliteBoss) {
+    showMessage?.("Boss d'élite Tourment sur le nœud !", "warn");
+  }
   const tormentMult = getTormentSpawnIntervalMult(game);
   game.spawnTimer = Math.max(
     (BASE_SPAWN_INTERVAL - game.spire.floor * SPAWN_INTERVAL_FLOOR_REDUCTION) * tormentMult,

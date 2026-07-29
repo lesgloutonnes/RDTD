@@ -18,6 +18,10 @@ export function applyTormentToRun(game, level = 1) {
   game.run.tormentExtraLeakBoss = torment.extraLeakLivesBoss ?? 0;
   game.run.tormentMaxLivesPenalty = torment.maxLivesPenalty ?? 0;
   game.run.tormentEliteExtraSpawn = torment.eliteExtraSpawn ?? 0;
+  game.run.tormentEliteChampionChance = torment.eliteChampionChance ?? 0;
+  game.run.tormentEliteBossChance = torment.eliteBossChance ?? 0;
+  game.run.tormentEliteChampionShieldMult = torment.eliteChampionShieldMult ?? 1;
+  game.run.tormentEliteBossHpMult = torment.eliteBossHpMult ?? 0.6;
 }
 
 export function applyTormentMaxLivesPenalty(game) {
@@ -85,6 +89,43 @@ export function applyTormentEnemyTraits(enemy, game) {
   }
 }
 
+/** Champion élite Tourment : gros bouclier de vie jaune (pool séparé). */
+export function tryPromoteTormentChampion(enemy, game) {
+  if (game.run?.mode !== "ascension") return false;
+  if (game.spire?.currentNodeType !== "elite") return false;
+  if (enemy.typeKey === "boss" || enemy.isBoss) return false;
+  if (game.waveStats?.tormentChampionSpawned || game.tormentChampionSpawned) return false;
+  const chance = game.run.tormentEliteChampionChance ?? 0;
+  if (chance <= 0) return false;
+  const rng = typeof game.run._rng === "function" ? game.run._rng : Math.random;
+  if (rng() > chance) return false;
+
+  const shieldMult = game.run.tormentEliteChampionShieldMult ?? 1;
+  const shield = Math.max(24, Math.round(enemy.maxHp * shieldMult));
+  enemy.isTormentChampion = true;
+  enemy.lifeShield = shield;
+  enemy.maxLifeShield = shield;
+  enemy.radius = Math.round(enemy.radius * 1.18);
+  enemy.reward = Math.round(enemy.reward * 1.55);
+  enemy.color = "#d4a017";
+  if (game.waveStats) game.waveStats.tormentChampionSpawned = true;
+  game.tormentChampionSpawned = true;
+  return true;
+}
+
+/** Boss spawné sur nœud élite en Tourment : plus faible qu'un boss d'étage. */
+export function applyTormentEliteBossNerf(enemy, game) {
+  if (game.run?.mode !== "ascension") return;
+  if (game.spire?.currentNodeType !== "elite") return;
+  if (enemy.typeKey !== "boss" && !enemy.isBoss) return;
+  const hpMult = game.run.tormentEliteBossHpMult ?? 0.6;
+  enemy.hp = Math.max(40, Math.round(enemy.hp * hpMult));
+  enemy.maxHp = enemy.hp;
+  enemy.reward = Math.max(20, Math.round(enemy.reward * 0.7));
+  enemy.isEliteBoss = true;
+  enemy.radius = Math.round((enemy.radius || 22) * 0.92);
+}
+
 export function applyTormentToLaneConfig(laneConfig, eliteWeightMult = 1) {
   if (!eliteWeightMult || eliteWeightMult === 1) return laneConfig;
   const lanes = (laneConfig.lanes || []).map((lane) => {
@@ -125,6 +166,13 @@ export function extendQueueForTorment(queue, game, {
   if (extraElite > 0 && nodeType === "elite") {
     for (let i = 0; i < extraElite; i += 1) {
       out.push(pickEncounterEnemy(floor, spireNumber, enemyDefs, rng) || "beetle");
+    }
+  }
+  // Tourment : boss possible (voire fréquent) sur les nœuds élite.
+  if (nodeType === "elite") {
+    const bossChance = game.run.tormentEliteBossChance ?? 0;
+    if (bossChance > 0 && rng() < bossChance && !out.includes("boss")) {
+      out.push("boss");
     }
   }
   return out;

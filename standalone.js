@@ -1,4 +1,4 @@
-﻿/* Auto-genere par DEV/scripts/build-standalone.ps1. Ne pas modifier a la main. */
+/* Auto-genere par DEV/scripts/build-standalone.mjs. Ne pas modifier a la main. */
 (function () {
 const modules = Object.create(null);
 const cache = Object.create(null);
@@ -239,8 +239,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "passive": "chain_poison",
     "passiveDesc": "Poison 14 DPS — mort par poison = propagation à 2 proches"
   }
-}
-,
+},
     "enemies.json": {
   "crawler": {
     "name": "Chenille vorace",
@@ -325,8 +324,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "color": "#2f1f19",
     "spawnMinFloor": 99
   }
-}
-,
+},
     "cards.json": [
   {
     "id": "fertile_winds",
@@ -642,8 +640,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "maxStack": 6,
     "effectId": "dawn_gleam"
   }
-]
-,
+],
     "relics.json": [
   {
     "id": "sun_idol",
@@ -735,8 +732,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "+60 soleil immédiat, -2 vies actuelles.",
     "effectId": "hollow_nectar"
   }
-]
-,
+],
     "biomes.json": [
   {
     "id": "greenhouse",
@@ -903,10 +899,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "ultimateName": "Sève vitale",
     "ultimateDesc": "1× par Spire : +45% vies, gel carte 4,5 s."
   }
-]
-
-
-,
+],
     "encounters.json": {
   "elite": {
     "title": "Ravageur Elite",
@@ -1006,8 +999,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
       ]
     }
   }
-}
-,
+},
     "onboarding.json": {
   "version": 2,
   "steps": [
@@ -1165,8 +1157,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
       "when": { "spireNumber": 5, "floor": 0 }
     }
   ]
-}
-,
+},
     "tooltips.json": {
   "tags": {
     "poison": "Empile des dégâts sur la durée",
@@ -1181,8 +1172,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "shop": "Dépense ton soleil",
     "crossroads": "Fusion des couloirs — soleil ou carte garantie"
   }
-}
-,
+},
     "map.json": {
   "pool": [
     "combat",
@@ -1223,8 +1213,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "maxFloorOffset": 3,
     "goldReward": 85
   }
-}
-,
+},
     "mutations.json": [
   {
     "id": "predator_rush",
@@ -1247,8 +1236,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "rewardMult": 1.18,
     "enemyHpMult": 1.08
   }
-]
-,
+],
     "wave-modifiers.json": [
   {
     "id": "acid_rain",
@@ -1278,8 +1266,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "towerFireRateMult": 0.94,
     "hpMult": 0.92
   }
-]
-,
+],
     "node-objectives.json": [
   {
     "id": "no_leak",
@@ -1338,8 +1325,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "rewardGold": 25,
     "rewardCard": false
   }
-]
-,
+],
     "boss-temp-cards.json": [
   {
     "id": "overcharge_sap",
@@ -1401,8 +1387,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "desc": "Cette vague : ligne Dionaea +30% dégâts.",
     "effectId": "boss_temp_snapper"
   }
-]
-,
+],
     "deck-synergies.json": {
   "families": [
     {
@@ -1430,8 +1415,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
       ]
     }
   ]
-}
-,
+},
     "daily-challenge.json": [
   {
     "id": "daily_swift",
@@ -1483,8 +1467,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "enemySpeedMult": 1.06,
     "towerDamageMult": 1.1
   }
-]
-,
+],
     "events.json": [
   {
     "id": "nectar_fork",
@@ -1699,8 +1682,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
       }
     ]
   }
-]
-,
+],
     "meta.json": {
   "gameVersion": "beta-0.4",
   "contentVersion": "1.2.1",
@@ -2506,12 +2488,15 @@ exports["drawTowerSelectionRange"] = drawTowerSelectionRange;
 });
 define("render/enemy.js", function (exports, require, module) {
 function getEnemySpriteSize(enemy) {
-  if (enemy.typeKey === "boss") return 66;
-  if (enemy.typeKey === "beetle" || enemy.typeKey === "snail") return 42;
-  if (enemy.typeKey === "slug") return 40;
-  if (enemy.typeKey === "hornet") return 38;
-  if (enemy.typeKey === "wasp") return 34;
-  return 36;
+  let size = 36;
+  if (enemy.typeKey === "boss") size = 66;
+  else if (enemy.typeKey === "beetle" || enemy.typeKey === "snail") size = 42;
+  else if (enemy.typeKey === "slug") size = 40;
+  else if (enemy.typeKey === "hornet") size = 38;
+  else if (enemy.typeKey === "wasp") size = 34;
+  if (enemy.isTormentChampion) size = Math.round(size * 1.15);
+  if (enemy.isEliteBoss) size = Math.round(size * 0.9);
+  return size;
 }
 
 const ENEMY_NATIVE_FACING_X = {
@@ -2557,11 +2542,30 @@ function drawEnemySprite(ctx, enemy, {
   }
 
   const ratio = Math.max(enemy.hp, 0) / enemy.maxHp;
-  const width = enemy.typeKey === "boss" ? 56 : 36;
+  const width = enemy.typeKey === "boss" || enemy.isTormentChampion ? 56 : 36;
+  const barY = pos.y - enemy.radius - 13;
   ctx.fillStyle = "#25190f";
-  ctx.fillRect(pos.x - width / 2, pos.y - enemy.radius - 13, width, 6);
+  ctx.fillRect(pos.x - width / 2, barY, width, 6);
   ctx.fillStyle = enemy.typeKey === "boss" ? "#f08f2f" : "#de4c35";
-  ctx.fillRect(pos.x - width / 2, pos.y - enemy.radius - 13, width * ratio, 6);
+  ctx.fillRect(pos.x - width / 2, barY, width * ratio, 6);
+
+  if (enemy.maxLifeShield > 0) {
+    const shieldRatio = Math.max(enemy.lifeShield || 0, 0) / enemy.maxLifeShield;
+    const shieldW = width + 4;
+    const shieldY = barY - 8;
+    ctx.fillStyle = "#25190f";
+    ctx.fillRect(pos.x - shieldW / 2, shieldY, shieldW, 5);
+    ctx.fillStyle = "#e8c547";
+    ctx.fillRect(pos.x - shieldW / 2, shieldY, shieldW * shieldRatio, 5);
+  }
+
+  if (enemy.isTormentChampion) {
+    ctx.strokeStyle = "rgba(232, 197, 71, 0.9)";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, enemy.radius + 7, 0, Math.PI * 2);
+    ctx.stroke();
+  }
 
   if (enemy.bossShield > 0) {
     ctx.strokeStyle = "rgba(120, 200, 255, 0.85)";
@@ -5340,36 +5344,53 @@ const MAX_ASCENSION_LEVEL = 5;
 /**
  * Valeurs cumulatives par niveau (1 = premier Tourment après campagne).
  * Le joueur conserve deck / reliques ; la pression monte par afflictions variées.
+ *
+ * Tourment I–II : choc d'entrée volontaire (carry de fin de campagne),
+ * économie plus sèche, champions à bouclier jaune + boss possibles en élite.
  */
 const ASCENSION_TORMENT_BY_LEVEL = {
   1: {
     level: 1,
     name: "Tourment I",
     subtitle: "Ravage implacable",
-    hpMult: 1.22,
-    speedMult: 1.07,
-    rewardMult: 1.1,
+    hpMult: 1.48,
+    speedMult: 1.12,
+    rewardMult: 0.92,
     forcedCombatWaveModifier: true,
-    shopPriceMult: 1.12,
+    shopPriceMult: 1.24,
+    maxLivesPenalty: -1,
+    eliteChampionChance: 1,
+    eliteBossChance: 0.55,
+    eliteChampionShieldMult: 0.95,
+    eliteBossHpMult: 0.58,
     rules: [
+      "Choc d'entrée : ennemis nettement plus durs dès Spire 1",
+      "Économie sèche : −8 % soleil, boutique +24 %, −1 vie max",
+      "Élites Tourment : champion à bouclier jaune · boss possible",
       "Modificateur de vague aléatoire sur chaque combat",
-      "Boutique +12 % de soleil",
     ],
   },
   2: {
     level: 2,
     name: "Tourment II",
     subtitle: "Horde dense",
-    hpMult: 1.38,
-    speedMult: 1.12,
-    rewardMult: 1.2,
-    enemyCountMult: 1.12,
-    restHealMult: 0.78,
-    eliteDamageReduction: 0.94,
+    hpMult: 1.62,
+    speedMult: 1.16,
+    rewardMult: 0.95,
+    enemyCountMult: 1.16,
+    restHealMult: 0.72,
+    eliteDamageReduction: 0.92,
+    shopPriceMult: 1.2,
+    maxLivesPenalty: -1,
+    eliteChampionChance: 1,
+    eliteBossChance: 0.72,
+    eliteChampionShieldMult: 1.05,
+    eliteBossHpMult: 0.62,
     rules: [
-      "+12 % d'ennemis par vague",
-      "Repos soigne −22 %",
-      "Élites : −6 % dégâts subis",
+      "+16 % d'ennemis par vague · repos −28 %",
+      "Économie sèche : −5 % soleil, boutique +20 %",
+      "Élites : champion bouclier jaune · boss fréquent",
+      "Élites ordinaires : −8 % dégâts subis",
     ],
   },
   3: {
@@ -5378,7 +5399,7 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     subtitle: "Brume étouffante",
     hpMult: 1.55,
     speedMult: 1.17,
-    rewardMult: 1.3,
+    rewardMult: 1.05,
     enemyCountMult: 1.14,
     restHealMult: 0.76,
     eliteDamageReduction: 0.93,
@@ -5386,10 +5407,16 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     towerFireRateMult: 0.96,
     spawnIntervalMult: 0.88,
     mapEliteWeightMult: 1.35,
+    shopPriceMult: 1.12,
+    eliteChampionChance: 1,
+    eliteBossChance: 0.8,
+    eliteChampionShieldMult: 1.1,
+    eliteBossHpMult: 0.65,
     rules: [
       "Portée des tours −10 px",
       "Cadence des tours −4 %",
       "Vagues +12 % rapides · plus d'élites sur la carte",
+      "Champions bouclier jaune · boss en élite très fréquents",
     ],
   },
   4: {
@@ -5398,7 +5425,7 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     subtitle: "Serre impitoyable",
     hpMult: 1.74,
     speedMult: 1.23,
-    rewardMult: 1.42,
+    rewardMult: 1.18,
     enemyCountMult: 1.2,
     restHealMult: 0.68,
     eliteDamageReduction: 0.9,
@@ -5408,10 +5435,16 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     mapEliteWeightMult: 1.55,
     enemyDamageReduction: 0.95,
     extraLeakLivesElite: 1,
+    shopPriceMult: 1.15,
+    eliteChampionChance: 1,
+    eliteBossChance: 0.88,
+    eliteChampionShieldMult: 1.15,
+    eliteBossHpMult: 0.68,
     rules: [
       "Ravageurs ordinaires : −5 % dégâts subis",
       "Fuite sur élite / boss : −2 vies au lieu de −1",
       "Repos affaibli · carte plus hostile",
+      "Boss quasi systématique sur les nœuds élite",
     ],
   },
   5: {
@@ -5420,7 +5453,7 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     subtitle: "Carnage final",
     hpMult: 1.96,
     speedMult: 1.3,
-    rewardMult: 1.56,
+    rewardMult: 1.28,
     enemyCountMult: 1.26,
     restHealMult: 0.62,
     eliteDamageReduction: 0.87,
@@ -5433,10 +5466,16 @@ const ASCENSION_TORMENT_BY_LEVEL = {
     extraLeakLivesBoss: 2,
     maxLivesPenalty: -2,
     eliteExtraSpawn: 1,
+    shopPriceMult: 1.18,
+    eliteChampionChance: 1,
+    eliteBossChance: 1,
+    eliteChampionShieldMult: 1.2,
+    eliteBossHpMult: 0.72,
     rules: [
       "−2 vies max · cadence −10 % · portée −18 px",
       "Élites renforcées (+1 vague d'ennemis)",
-      "Fuite boss : −3 vies · récompenses +62 %",
+      "Fuite boss : −3 vies · chaque élite abrite un boss",
+      "Champions à bouclier jaune maximal",
     ],
   },
 };
@@ -5494,6 +5533,10 @@ function applyTormentToRun(game, level = 1) {
   game.run.tormentExtraLeakBoss = torment.extraLeakLivesBoss ?? 0;
   game.run.tormentMaxLivesPenalty = torment.maxLivesPenalty ?? 0;
   game.run.tormentEliteExtraSpawn = torment.eliteExtraSpawn ?? 0;
+  game.run.tormentEliteChampionChance = torment.eliteChampionChance ?? 0;
+  game.run.tormentEliteBossChance = torment.eliteBossChance ?? 0;
+  game.run.tormentEliteChampionShieldMult = torment.eliteChampionShieldMult ?? 1;
+  game.run.tormentEliteBossHpMult = torment.eliteBossHpMult ?? 0.6;
 }
 
 function applyTormentMaxLivesPenalty(game) {
@@ -5561,6 +5604,43 @@ function applyTormentEnemyTraits(enemy, game) {
   }
 }
 
+/** Champion élite Tourment : gros bouclier de vie jaune (pool séparé). */
+function tryPromoteTormentChampion(enemy, game) {
+  if (game.run?.mode !== "ascension") return false;
+  if (game.spire?.currentNodeType !== "elite") return false;
+  if (enemy.typeKey === "boss" || enemy.isBoss) return false;
+  if (game.waveStats?.tormentChampionSpawned || game.tormentChampionSpawned) return false;
+  const chance = game.run.tormentEliteChampionChance ?? 0;
+  if (chance <= 0) return false;
+  const rng = typeof game.run._rng === "function" ? game.run._rng : Math.random;
+  if (rng() > chance) return false;
+
+  const shieldMult = game.run.tormentEliteChampionShieldMult ?? 1;
+  const shield = Math.max(24, Math.round(enemy.maxHp * shieldMult));
+  enemy.isTormentChampion = true;
+  enemy.lifeShield = shield;
+  enemy.maxLifeShield = shield;
+  enemy.radius = Math.round(enemy.radius * 1.18);
+  enemy.reward = Math.round(enemy.reward * 1.55);
+  enemy.color = "#d4a017";
+  if (game.waveStats) game.waveStats.tormentChampionSpawned = true;
+  game.tormentChampionSpawned = true;
+  return true;
+}
+
+/** Boss spawné sur nœud élite en Tourment : plus faible qu'un boss d'étage. */
+function applyTormentEliteBossNerf(enemy, game) {
+  if (game.run?.mode !== "ascension") return;
+  if (game.spire?.currentNodeType !== "elite") return;
+  if (enemy.typeKey !== "boss" && !enemy.isBoss) return;
+  const hpMult = game.run.tormentEliteBossHpMult ?? 0.6;
+  enemy.hp = Math.max(40, Math.round(enemy.hp * hpMult));
+  enemy.maxHp = enemy.hp;
+  enemy.reward = Math.max(20, Math.round(enemy.reward * 0.7));
+  enemy.isEliteBoss = true;
+  enemy.radius = Math.round((enemy.radius || 22) * 0.92);
+}
+
 function applyTormentToLaneConfig(laneConfig, eliteWeightMult = 1) {
   if (!eliteWeightMult || eliteWeightMult === 1) return laneConfig;
   const lanes = (laneConfig.lanes || []).map((lane) => {
@@ -5603,6 +5683,13 @@ function extendQueueForTorment(queue, game, {
       out.push(pickEncounterEnemy(floor, spireNumber, enemyDefs, rng) || "beetle");
     }
   }
+  // Tourment : boss possible (voire fréquent) sur les nœuds élite.
+  if (nodeType === "elite") {
+    const bossChance = game.run.tormentEliteBossChance ?? 0;
+    if (bossChance > 0 && rng() < bossChance && !out.includes("boss")) {
+      out.push("boss");
+    }
+  }
   return out;
 }
 
@@ -5616,6 +5703,8 @@ exports["getTormentSpawnIntervalMult"] = getTormentSpawnIntervalMult;
 exports["getTormentEnemyCountMult"] = getTormentEnemyCountMult;
 exports["getTormentExtraLeakLives"] = getTormentExtraLeakLives;
 exports["applyTormentEnemyTraits"] = applyTormentEnemyTraits;
+exports["tryPromoteTormentChampion"] = tryPromoteTormentChampion;
+exports["applyTormentEliteBossNerf"] = applyTormentEliteBossNerf;
 exports["applyTormentToLaneConfig"] = applyTormentToLaneConfig;
 exports["extendQueueForTorment"] = extendQueueForTorment;
 
@@ -5899,6 +5988,7 @@ exports["CAMPAIGN_WON_KEY"] = CAMPAIGN_WON_KEY;
 exports["MAX_ASCENSION_BEATEN_KEY"] = MAX_ASCENSION_BEATEN_KEY;
 exports["RUN_MODE_PREF_KEY"] = RUN_MODE_PREF_KEY;
 exports["ASCENSION_LEVEL_KEY"] = ASCENSION_LEVEL_KEY;
+exports["SEED_PREF_KEY"] = SEED_PREF_KEY;
 exports["RUN_MODE_LABELS"] = RUN_MODE_LABELS;
 exports["hasCampaignVictory"] = hasCampaignVictory;
 exports["markCampaignVictory"] = markCampaignVictory;
@@ -6760,6 +6850,24 @@ function applyHitShieldDamage(enemy, rawDamage) {
   return rawDamage * 0.12;
 }
 
+/**
+ * Absorbe les dégâts via le bouclier de vie jaune (champions Tourment).
+ * @returns {number} dégâts restants à appliquer aux PV.
+ */
+function applyLifeShieldDamage(enemy, damage) {
+  if (!enemy.lifeShield || enemy.lifeShield <= 0 || damage <= 0) return damage;
+  const absorbed = Math.min(enemy.lifeShield, damage);
+  enemy.lifeShield = Math.max(0, enemy.lifeShield - absorbed);
+  return Math.max(0, damage - absorbed);
+}
+
+/** Applique des dégâts aux PV en passant d'abord par le bouclier de vie. */
+function dealDamageToEnemy(enemy, damage) {
+  const leftover = applyLifeShieldDamage(enemy, damage);
+  if (leftover > 0) enemy.hp -= leftover;
+  return leftover;
+}
+
 function spawnSplitChildren(enemy, helpers) {
   if (!enemy.canSplit || enemy._splitDone) return;
   enemy._splitDone = true;
@@ -6785,6 +6893,8 @@ exports["applyEnemyDamageReduction"] = applyEnemyDamageReduction;
 exports["tickEnemyRegen"] = tickEnemyRegen;
 exports["tickEnemyAbilityMovement"] = tickEnemyAbilityMovement;
 exports["applyHitShieldDamage"] = applyHitShieldDamage;
+exports["applyLifeShieldDamage"] = applyLifeShieldDamage;
+exports["dealDamageToEnemy"] = dealDamageToEnemy;
 exports["spawnSplitChildren"] = spawnSplitChildren;
 
 });
@@ -7115,6 +7225,7 @@ const MIN_SPAWN_INTERVAL = 0.2;
 function updateWaveSpawningState(game, {
   createEnemy,
   pathsLength,
+  showMessage,
 }, dt) {
   if (game.wavePaused) return;
   if (!game.waveActive || game.spawnQueue.length === 0) return;
@@ -7128,6 +7239,11 @@ function updateWaveSpawningState(game, {
   const enemy = createEnemy(typeKey, pathId);
   game.enemies.push(enemy);
   game.enemyById.set(enemy.id, enemy);
+  if (enemy.isTormentChampion) {
+    showMessage?.("Champion Tourment ! Bouclier de vie jaune.", "warn");
+  } else if (enemy.isEliteBoss) {
+    showMessage?.("Boss d'élite Tourment sur le nœud !", "warn");
+  }
   const tormentMult = getTormentSpawnIntervalMult(game);
   game.spawnTimer = Math.max(
     (BASE_SPAWN_INTERVAL - game.spire.floor * SPAWN_INTERVAL_FLOOR_REDUCTION) * tormentMult,
@@ -7366,6 +7482,7 @@ function updateProjectileCombat(game, {
   applySlowToEnemy,
   computeDamageToEnemy,
   createFloatText,
+  dealDamageToEnemy,
   defeatEnemy,
   distance,
   emitParticles,
@@ -7412,7 +7529,7 @@ function updateProjectileCombat(game, {
         sfx?.shieldHit();
       }
       const dmg = computeDamageToEnemy(target, rawDmg);
-      target.hp -= dmg;
+      dealDamageToEnemy(target, dmg);
       const towerRef = projectile.towerId ? getTowerById(projectile.towerId) : null;
       if (towerRef) {
         const fam = towerRef.family || towerRef.typeKey;
@@ -7501,7 +7618,7 @@ function updateProjectileCombat(game, {
         game.enemies.slice().forEach((e) => {
           if (e.id === target.id) return;
           if (distance(worldPosOfEnemy(e), targetPos) <= radius) {
-            e.hp -= splashDmg;
+            dealDamageToEnemy(e, splashDmg);
             const ePos = worldPosOfEnemy(e);
             emitParticles(ePos.x, ePos.y, "#b8ff90", 4);
             if (e.hp <= 0) splashKill.push(e);
@@ -7683,6 +7800,7 @@ function updateEnemyCombat(game, {
   biome,
   createEnemy,
   createFloatText,
+  dealDamageToEnemy,
   defeatEnemy,
   distance,
   emitParticles,
@@ -7714,7 +7832,7 @@ function updateEnemyCombat(game, {
     if (enemy.poisonTime > 0 && enemy.poisonDps > 0) {
       enemy.poisonTime = Math.max(0, enemy.poisonTime - dt);
       if (enemy.poisonTime > 0 && Math.random() < dt * 2.5) sfx?.poison();
-      enemy.hp -= enemy.poisonDps * dt;
+      dealDamageToEnemy(enemy, enemy.poisonDps * dt);
       if (enemy.hp <= 0) {
         maybeTriggerBossCardPhase(enemy);
         defeatEnemy(enemy, worldPosOfEnemy(enemy));
@@ -7725,7 +7843,7 @@ function updateEnemyCombat(game, {
     if (enemy.burnTime > 0 && enemy.burnDps > 0) {
       enemy.burnTime = Math.max(0, enemy.burnTime - dt);
       if (enemy.burnTime > 0 && Math.random() < dt * 2.2) sfx?.burn();
-      enemy.hp -= enemy.burnDps * dt;
+      dealDamageToEnemy(enemy, enemy.burnDps * dt);
       if (enemy.hp <= 0) {
         maybeTriggerBossCardPhase(enemy);
         defeatEnemy(enemy, worldPosOfEnemy(enemy));
@@ -8088,7 +8206,7 @@ const { getSpireEnemyHpMult, getSpireEnemySpeedMult } = require("config/campaign
 const { getKillRewardBase } = require("logic/economy.js");
 const { applyEnemyAbilities } = require("logic/enemy-abilities.js");
 const { applyBossTraits, applyEliteTraits, getEncounterMechanics } = require("logic/encounter-mechanics.js");
-const { applyTormentEnemyTraits } = require("logic/ascension-mechanics.js");
+const { applyTormentEliteBossNerf, applyTormentEnemyTraits, tryPromoteTormentChampion } = require("logic/ascension-mechanics.js");
 const { applyWaveModifierToEnemy, getWaveModifierHpMult } = require("logic/wave-modifiers.js");
 const BASE_ENEMY_HP = 56;
 const ENEMY_HP_PER_FLOOR = 18;
@@ -8142,6 +8260,7 @@ function createEnemyFromType(typeKey, {
   if (typeKey === "boss") applyBossTraits(enemy, mechanics);
   applyWaveModifierToEnemy(enemy, game.waveModifier, nodeType);
   applyTormentEnemyTraits(enemy, game);
+  applyTormentEliteBossNerf(enemy, game);
 
   if (game.run.dailySpawnPoison) {
     enemy.poisonDps = Math.max(enemy.poisonDps || 0, game.run.dailySpawnPoison.dps);
@@ -8158,6 +8277,9 @@ function createEnemyFromType(typeKey, {
   if (game.modifiers.enemySpawnSpeedMult) {
     enemy.speed *= game.modifiers.enemySpawnSpeedMult;
   }
+
+  // Champion Tourment : bouclier jaune basé sur les PV finaux.
+  tryPromoteTormentChampion(enemy, game);
 
   return enemy;
 }
@@ -10347,7 +10469,7 @@ const { applyTowerUpgrade, canUpgradeTower, createTowerFromType, getTowerSellRef
 const { getEffectiveTowerRange, getTowerTypePreviewRange: getTowerTypePreviewRangeModel, getTowerUpgradePreviewRange: getTowerUpgradePreviewRangeModel } = require("logic/tower-range.js");
 const { computeTowerEffectiveStats, getCreamsicleAuraRange, getTowerArmorShredDuration, getTowerArmorShredMult, getTowerBurnDps, getTowerPassiveDescription, getTowerTooltipFingerprint, getTowerPierceCount, getTowerPoisonDps, getTowerSlowPotency, getTowerSplashRadius, getTowerFireRateRatio, scaleTowerPassiveDuration } = require("logic/tower-stats.js");
 const { pickDailyChallenge, applyDailyChallenge, DAILY_BONUS_SCORE, isDailyCompletedToday, tryApplyDailyCompletionBonus } = require("logic/daily-challenge.js");
-const { applyHitShieldDamage } = require("logic/enemy-abilities.js");
+const { applyHitShieldDamage, dealDamageToEnemy } = require("logic/enemy-abilities.js");
 const { pickRandomEvent, applyEventChoiceEffect } = require("logic/event-choices.js");
 const { createSfxPlayer } = require("audio/sfx.js");
 const { updateBossPhases, computeDamageToEnemy, extendEncounterQueue, getEncounterMechanics } = require("logic/encounter-mechanics.js");
@@ -13660,6 +13782,7 @@ function spawnWave() {
   updateSkillsUI();
   game.waveActive = true;
   game.waveCount += 1;
+  game.tormentChampionSpawned = false;
   game.waveModifier = game.pendingWaveModifier
     || pickWaveModifier(WAVE_MODIFIER_LIBRARY, getRunRng(game));
   game.pendingWaveModifier = null;
@@ -13837,6 +13960,7 @@ function updateEnemies(dt) {
     biome,
     createEnemy,
     createFloatText,
+    dealDamageToEnemy,
     defeatEnemy,
     distance,
     emitParticles,
@@ -13877,6 +14001,7 @@ function updateProjectiles(dt) {
     applySlowToEnemy,
     computeDamageToEnemy,
     createFloatText,
+    dealDamageToEnemy,
     defeatEnemy,
     distance,
     emitParticles,
@@ -13914,6 +14039,7 @@ function updateWaveSpawning(dt) {
   updateWaveSpawningState(game, {
     createEnemy,
     pathsLength: paths.length,
+    showMessage,
   }, dt);
 }
 

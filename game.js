@@ -213,6 +213,7 @@ import {
 } from "./logic/daily-challenge.js";
 import {
   applyHitShieldDamage,
+  dealDamageToEnemy,
 } from "./logic/enemy-abilities.js";
 import { pickRandomEvent, applyEventChoiceEffect } from "./logic/event-choices.js";
 import { createSfxPlayer } from "./audio/sfx.js";
@@ -3538,6 +3539,7 @@ function spawnWave() {
   updateSkillsUI();
   game.waveActive = true;
   game.waveCount += 1;
+  game.tormentChampionSpawned = false;
   game.waveModifier = game.pendingWaveModifier
     || pickWaveModifier(WAVE_MODIFIER_LIBRARY, getRunRng(game));
   game.pendingWaveModifier = null;
@@ -3715,6 +3717,7 @@ function updateEnemies(dt) {
     biome,
     createEnemy,
     createFloatText,
+    dealDamageToEnemy,
     defeatEnemy,
     distance,
     emitParticles,
@@ -3755,6 +3758,7 @@ function updateProjectiles(dt) {
     applySlowToEnemy,
     computeDamageToEnemy,
     createFloatText,
+    dealDamageToEnemy,
     defeatEnemy,
     distance,
     emitParticles,
@@ -3792,6 +3796,7 @@ function updateWaveSpawning(dt) {
   updateWaveSpawningState(game, {
     createEnemy,
     pathsLength: paths.length,
+    showMessage,
   }, dt);
 }
 

@@ -9,7 +9,11 @@ import {
   applyEliteTraits,
   getEncounterMechanics,
 } from "./encounter-mechanics.js";
-import { applyTormentEnemyTraits } from "./ascension-mechanics.js";
+import {
+  applyTormentEliteBossNerf,
+  applyTormentEnemyTraits,
+  tryPromoteTormentChampion,
+} from "./ascension-mechanics.js";
 import {
   applyWaveModifierToEnemy,
   getWaveModifierHpMult,
@@ -67,6 +71,7 @@ export function createEnemyFromType(typeKey, {
   if (typeKey === "boss") applyBossTraits(enemy, mechanics);
   applyWaveModifierToEnemy(enemy, game.waveModifier, nodeType);
   applyTormentEnemyTraits(enemy, game);
+  applyTormentEliteBossNerf(enemy, game);
 
   if (game.run.dailySpawnPoison) {
     enemy.poisonDps = Math.max(enemy.poisonDps || 0, game.run.dailySpawnPoison.dps);
@@ -83,6 +88,9 @@ export function createEnemyFromType(typeKey, {
   if (game.modifiers.enemySpawnSpeedMult) {
     enemy.speed *= game.modifiers.enemySpawnSpeedMult;
   }
+
+  // Champion Tourment : bouclier jaune basé sur les PV finaux.
+  tryPromoteTormentChampion(enemy, game);
 
   return enemy;
 }

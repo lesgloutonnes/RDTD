@@ -1,10 +1,13 @@
 function getEnemySpriteSize(enemy) {
-  if (enemy.typeKey === "boss") return 66;
-  if (enemy.typeKey === "beetle" || enemy.typeKey === "snail") return 42;
-  if (enemy.typeKey === "slug") return 40;
-  if (enemy.typeKey === "hornet") return 38;
-  if (enemy.typeKey === "wasp") return 34;
-  return 36;
+  let size = 36;
+  if (enemy.typeKey === "boss") size = 66;
+  else if (enemy.typeKey === "beetle" || enemy.typeKey === "snail") size = 42;
+  else if (enemy.typeKey === "slug") size = 40;
+  else if (enemy.typeKey === "hornet") size = 38;
+  else if (enemy.typeKey === "wasp") size = 34;
+  if (enemy.isTormentChampion) size = Math.round(size * 1.15);
+  if (enemy.isEliteBoss) size = Math.round(size * 0.9);
+  return size;
 }
 
 const ENEMY_NATIVE_FACING_X = {
@@ -50,11 +53,30 @@ export function drawEnemySprite(ctx, enemy, {
   }
 
   const ratio = Math.max(enemy.hp, 0) / enemy.maxHp;
-  const width = enemy.typeKey === "boss" ? 56 : 36;
+  const width = enemy.typeKey === "boss" || enemy.isTormentChampion ? 56 : 36;
+  const barY = pos.y - enemy.radius - 13;
   ctx.fillStyle = "#25190f";
-  ctx.fillRect(pos.x - width / 2, pos.y - enemy.radius - 13, width, 6);
+  ctx.fillRect(pos.x - width / 2, barY, width, 6);
   ctx.fillStyle = enemy.typeKey === "boss" ? "#f08f2f" : "#de4c35";
-  ctx.fillRect(pos.x - width / 2, pos.y - enemy.radius - 13, width * ratio, 6);
+  ctx.fillRect(pos.x - width / 2, barY, width * ratio, 6);
+
+  if (enemy.maxLifeShield > 0) {
+    const shieldRatio = Math.max(enemy.lifeShield || 0, 0) / enemy.maxLifeShield;
+    const shieldW = width + 4;
+    const shieldY = barY - 8;
+    ctx.fillStyle = "#25190f";
+    ctx.fillRect(pos.x - shieldW / 2, shieldY, shieldW, 5);
+    ctx.fillStyle = "#e8c547";
+    ctx.fillRect(pos.x - shieldW / 2, shieldY, shieldW * shieldRatio, 5);
+  }
+
+  if (enemy.isTormentChampion) {
+    ctx.strokeStyle = "rgba(232, 197, 71, 0.9)";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, enemy.radius + 7, 0, Math.PI * 2);
+    ctx.stroke();
+  }
 
   if (enemy.bossShield > 0) {
     ctx.strokeStyle = "rgba(120, 200, 255, 0.85)";
