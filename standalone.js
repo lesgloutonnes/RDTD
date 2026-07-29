@@ -48,7 +48,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "portrait": "./assets/towers/spitter.png",
     "desc": "Tir de sève, cadence élevée, applique poison.",
     "passive": null,
-    "passiveDesc": "Poison : 4 DPS (3 s)"
+    "passiveDesc": "Poison : 7 DPS (3 s)"
   },
   "thorn": {
     "id": "thorn",
@@ -338,7 +338,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   {
     "id": "acid_sap",
     "name": "Urne Corrosive",
-    "desc": "Ligne Sarracenia : +6 DPS poison.",
+    "desc": "Tours poison (Sarracenia, Atlas, Scorpio) : +6 DPS.",
     "rarity": "Rare",
     "towerFamily": "spitter",
     "effectId": "acid_sap"
@@ -531,7 +531,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   {
     "id": "venom_spread",
     "name": "Spores Venimeuses",
-    "desc": "Ligne Sarracenia : +3 DPS poison.",
+    "desc": "Tours poison (Sarracenia, Atlas, Scorpio) : +3 DPS.",
     "rarity": "Commune",
     "towerFamily": "spitter",
     "effectId": "venom_spread"
@@ -651,7 +651,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   {
     "id": "venom_gland",
     "name": "Glande Venimeuse",
-    "desc": "Ligne Sarracenia : +4 DPS poison.",
+    "desc": "Tours poison (Sarracenia, Atlas, Scorpio) : +4 DPS.",
     "effectId": "venom_gland"
   },
   {
@@ -1402,8 +1402,8 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
       "id": "spitter",
       "label": "Sève acide",
       "tiers": [
-        { "minCards": 2, "spitterPoison": 3, "desc": "2+ cartes Sève : +3 DPS poison" },
-        { "minCards": 4, "spitterPoison": 6, "globalDamage": 1.05, "desc": "4+ cartes : +6 poison, +5% dégâts" }
+        { "minCards": 2, "spitterPoison": 3, "desc": "2+ cartes Sève : +3 DPS poison (Sarracenia, Atlas, Scorpio)" },
+        { "minCards": 4, "spitterPoison": 6, "globalDamage": 1.05, "desc": "4+ cartes : +6 poison toutes tours poison, +5% dégâts" }
       ]
     },
     {
@@ -1741,10 +1741,16 @@ const BELLE_SLOW_PASSIVE = 0.68;
 const BELLE_SLOW_CARD = 0.56;
 
 /** Poison de base appliqué par toute la famille Sarracenia (spitter). */
-const SPITTER_BASE_POISON = 4;
+const SPITTER_BASE_POISON = 7;
 const ATLAS_BASE_POISON = 17;
 const SCORPIO_BASE_POISON = 14;
 const RYU_BASE_BURN_DPS = 10;
+
+/**
+ * Part des multiplicateurs de dégâts (global / famille / Engrais)
+ * reportée sur les DoT poison & brûlure. 0.55 = +55 % de l'excédent au-delà de ×1.
+ */
+const DOT_DAMAGE_SCALE_SHARE = 0.55;
 const CAPENSIS_BASE_AOE = 55;
 const B52_BASE_ARMOR_DUR = 3;
 const B52_BASE_ARMOR_MULT = 1.25;
@@ -1836,6 +1842,7 @@ exports["SPITTER_BASE_POISON"] = SPITTER_BASE_POISON;
 exports["ATLAS_BASE_POISON"] = ATLAS_BASE_POISON;
 exports["SCORPIO_BASE_POISON"] = SCORPIO_BASE_POISON;
 exports["RYU_BASE_BURN_DPS"] = RYU_BASE_BURN_DPS;
+exports["DOT_DAMAGE_SCALE_SHARE"] = DOT_DAMAGE_SCALE_SHARE;
 exports["CAPENSIS_BASE_AOE"] = CAPENSIS_BASE_AOE;
 exports["B52_BASE_ARMOR_DUR"] = B52_BASE_ARMOR_DUR;
 exports["B52_BASE_ARMOR_MULT"] = B52_BASE_ARMOR_MULT;
@@ -8575,7 +8582,7 @@ exports["getTowerUpgradePreviewRange"] = getTowerUpgradePreviewRange;
 
 });
 define("logic/tower-stats.js", function (exports, require, module) {
-const { ATLAS_BASE_POISON, B52_BASE_ARMOR_DUR, B52_BASE_ARMOR_MULT, BELLE_SLOW_PASSIVE, CAPENSIS_BASE_AOE, CREAMSICLE_AURA_BASE_RANGE, CREAMSICLE_AURA_COOLDOWN_ACCEL, CRIT_CHANCE_CAP, FUREUR_RAGE_PER_STACK, RYU_BASE_BURN_DPS, SCORPIO_BASE_POISON, SKILLS, SPITTER_BASE_POISON, WHITE_TIGER_BASE_PIERCE } = require("config/balance.js");
+const { ATLAS_BASE_POISON, B52_BASE_ARMOR_DUR, B52_BASE_ARMOR_MULT, BELLE_SLOW_PASSIVE, CAPENSIS_BASE_AOE, CREAMSICLE_AURA_BASE_RANGE, CREAMSICLE_AURA_COOLDOWN_ACCEL, CRIT_CHANCE_CAP, DOT_DAMAGE_SCALE_SHARE, FUREUR_RAGE_PER_STACK, RYU_BASE_BURN_DPS, SCORPIO_BASE_POISON, SKILLS, SPITTER_BASE_POISON, WHITE_TIGER_BASE_PIERCE } = require("config/balance.js");
 const { getBossTempDamageMult, getBossTempTowerMods } = require("logic/boss-temp-cards.js");
 /** Ratio stat actuelle / stat de base du type (reflète les upgrades de niveau). */
 function getTowerStatRatio(tower, towerTypes, stat) {
@@ -8625,24 +8632,58 @@ function getCreamsicleHasteMult(tower, game, towers, distanceFn, towerTypes = {}
   return 1 + accel;
 }
 
+/**
+ * Multiplicateur DoT : une part des buffs de dégâts (global, famille, Engrais).
+ * Ex. globalDamage 1.20 + share 0.55 → ×1.11 sur le poison/brûlure.
+ */
+function getDotDamageScale(tower, game, syn = {}) {
+  const family = tower.family || tower.typeKey;
+  let mult = Number(game.modifiers?.globalDamage) || 1;
+  if (syn.globalDamage) mult *= syn.globalDamage;
+  if (family === "spitter") mult *= Number(game.modifiers?.spitterDamage) || 1;
+  if (family === "thorn") {
+    mult *= Number(game.modifiers?.thornDamage) || 1;
+    if (syn.thornDamage) mult *= syn.thornDamage;
+  }
+  if (family === "snapper") {
+    mult *= Number(game.modifiers?.snapperDamage) || 1;
+    if (syn.snapperDamage) mult *= syn.snapperDamage;
+  }
+  if (game.skills?.boost?.active > 0) {
+    mult *= SKILLS.boost.damageMult;
+  }
+  const share = DOT_DAMAGE_SCALE_SHARE;
+  return 1 + share * (Math.max(mult, 0.01) - 1);
+}
+
+/** Bonus plat des cartes / synergies / reliques poison (toutes tours poison). */
+function getSharedPoisonBonus(game, syn = {}) {
+  return (game.modifiers?.spitterPoison || 0) + (syn.spitterPoison || 0);
+}
+
 function getTowerPoisonDps(tower, game, syn = {}, towerTypes = {}) {
   const dmgMult = getTowerDamageRatio(tower, towerTypes);
   const family = tower.family || tower.typeKey;
+  const cardPoison = getSharedPoisonBonus(game, syn);
   let poison = 0;
-  if (family === "spitter") {
-    poison = SPITTER_BASE_POISON + game.modifiers.spitterPoison + (syn.spitterPoison || 0);
-  }
   if (tower.typeKey === "sarracenia_atlas5") {
-    poison = ATLAS_BASE_POISON + (game.modifiers.atlasExtraPoison || 0);
+    // Atlas : base lourde + carte Atlas + bonus poison partagé (Sève / reliques).
+    poison = ATLAS_BASE_POISON + (game.modifiers.atlasExtraPoison || 0) + cardPoison;
+  } else if (tower.typeKey === "drosera_scorpioides") {
+    poison = SCORPIO_BASE_POISON + cardPoison;
+  } else if (family === "spitter") {
+    poison = SPITTER_BASE_POISON + cardPoison;
   }
-  if (tower.typeKey === "drosera_scorpioides") {
-    poison = SCORPIO_BASE_POISON;
-  }
-  return poison * dmgMult;
+  if (poison <= 0) return 0;
+  return poison * dmgMult * getDotDamageScale(tower, game, syn);
 }
 
-function getTowerBurnDps(tower, game, towerTypes = {}) {
-  return (game.modifiers.ryuBurnDps || RYU_BASE_BURN_DPS) * getTowerDamageRatio(tower, towerTypes);
+function getTowerBurnDps(tower, game, towerTypes = {}, syn = null) {
+  const synergy = syn || game.deckSynergy?.mods || {};
+  const base = game.modifiers.ryuBurnDps || RYU_BASE_BURN_DPS;
+  return base
+    * getTowerDamageRatio(tower, towerTypes)
+    * getDotDamageScale(tower, game, synergy);
 }
 
 function getTowerSplashRadius(tower, game, towerTypes = {}) {
@@ -8815,6 +8856,7 @@ exports["getTowerFireRateRatio"] = getTowerFireRateRatio;
 exports["scaleTowerPassiveDuration"] = scaleTowerPassiveDuration;
 exports["getCreamsicleAuraRange"] = getCreamsicleAuraRange;
 exports["getCreamsicleHasteMult"] = getCreamsicleHasteMult;
+exports["getDotDamageScale"] = getDotDamageScale;
 exports["getTowerPoisonDps"] = getTowerPoisonDps;
 exports["getTowerBurnDps"] = getTowerBurnDps;
 exports["getTowerSplashRadius"] = getTowerSplashRadius;

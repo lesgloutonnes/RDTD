@@ -33,7 +33,7 @@
     "portrait": "./assets/towers/spitter.png",
     "desc": "Tir de sève, cadence élevée, applique poison.",
     "passive": null,
-    "passiveDesc": "Poison : 4 DPS (3 s)"
+    "passiveDesc": "Poison : 7 DPS (3 s)"
   },
   "thorn": {
     "id": "thorn",

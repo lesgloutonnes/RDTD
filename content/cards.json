@@ -11,7 +11,7 @@
   {
     "id": "acid_sap",
     "name": "Urne Corrosive",
-    "desc": "Ligne Sarracenia : +6 DPS poison.",
+    "desc": "Tours poison (Sarracenia, Atlas, Scorpio) : +6 DPS.",
     "rarity": "Rare",
     "towerFamily": "spitter",
     "effectId": "acid_sap"
@@ -204,7 +204,7 @@
   {
     "id": "venom_spread",
     "name": "Spores Venimeuses",
-    "desc": "Ligne Sarracenia : +3 DPS poison.",
+    "desc": "Tours poison (Sarracenia, Atlas, Scorpio) : +3 DPS.",
     "rarity": "Commune",
     "towerFamily": "spitter",
     "effectId": "venom_spread"
