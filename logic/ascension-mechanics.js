@@ -19,9 +19,12 @@ export function applyTormentToRun(game, level = 1) {
   game.run.tormentMaxLivesPenalty = torment.maxLivesPenalty ?? 0;
   game.run.tormentEliteExtraSpawn = torment.eliteExtraSpawn ?? 0;
   game.run.tormentEliteChampionChance = torment.eliteChampionChance ?? 0;
+  game.run.tormentEliteChampionMax = torment.eliteChampionMax ?? 1;
   game.run.tormentEliteBossChance = torment.eliteBossChance ?? 0;
   game.run.tormentEliteChampionShieldMult = torment.eliteChampionShieldMult ?? 1;
   game.run.tormentEliteBossHpMult = torment.eliteBossHpMult ?? 0.6;
+  game.run.tormentBossNodeBossCount = torment.bossNodeBossCount ?? 1;
+  game.run.tormentTowerCapByFloor = Boolean(torment.towerCapByFloor);
 }
 
 export function applyTormentMaxLivesPenalty(game) {
@@ -69,6 +72,16 @@ export function getTormentEnemyCountMult(game) {
   return game.run.tormentEnemyCountMult ?? 1;
 }
 
+/**
+ * Plafond de tours en Tourment : étage 1 → 1 tour, étage 2 → 2, etc.
+ * @returns {number|null} null = pas de plafond
+ */
+export function getTormentTowerCap(game) {
+  if (game.run?.mode !== "ascension") return null;
+  if (!game.run.tormentTowerCapByFloor) return null;
+  return Math.max(1, (game.spire?.floor ?? 0) + 1);
+}
+
 /** Vies perdues en plus lors d'une fuite (0 = comportement normal). */
 export function getTormentExtraLeakLives(game, { nodeType, bossBreach = false } = {}) {
   if (game.run?.mode !== "ascension" || bossBreach) return 0;
@@ -94,7 +107,11 @@ export function tryPromoteTormentChampion(enemy, game) {
   if (game.run?.mode !== "ascension") return false;
   if (game.spire?.currentNodeType !== "elite") return false;
   if (enemy.typeKey === "boss" || enemy.isBoss) return false;
-  if (game.waveStats?.tormentChampionSpawned || game.tormentChampionSpawned) return false;
+
+  const maxChampions = Math.max(1, game.run.tormentEliteChampionMax ?? 1);
+  const spawned = game.tormentChampionsSpawned || 0;
+  if (spawned >= maxChampions) return false;
+
   const chance = game.run.tormentEliteChampionChance ?? 0;
   if (chance <= 0) return false;
   const rng = typeof game.run._rng === "function" ? game.run._rng : Math.random;
@@ -108,8 +125,10 @@ export function tryPromoteTormentChampion(enemy, game) {
   enemy.radius = Math.round(enemy.radius * 1.18);
   enemy.reward = Math.round(enemy.reward * 1.55);
   enemy.color = "#d4a017";
-  if (game.waveStats) game.waveStats.tormentChampionSpawned = true;
-  game.tormentChampionSpawned = true;
+  game.tormentChampionsSpawned = spawned + 1;
+  if (game.waveStats) {
+    game.waveStats.tormentChampionsSpawned = game.tormentChampionsSpawned;
+  }
   return true;
 }
 
@@ -155,9 +174,10 @@ export function extendQueueForTorment(queue, game, {
   if (countMult > 1) {
     const target = Math.max(out.length, Math.round(out.length * countMult));
     while (out.length < target) {
+      const fillers = out.filter((id) => id !== "boss");
       out.push(
         pickEncounterEnemy(floor, spireNumber, enemyDefs, rng)
-        || out[Math.floor(rng() * out.length)]
+        || (fillers.length ? fillers[Math.floor(rng() * fillers.length)] : null)
         || "beetle",
       );
     }
@@ -173,6 +193,15 @@ export function extendQueueForTorment(queue, game, {
     const bossChance = game.run.tormentEliteBossChance ?? 0;
     if (bossChance > 0 && rng() < bossChance && !out.includes("boss")) {
       out.push("boss");
+    }
+  }
+  // Nœud boss : 2–3 boss selon le niveau de Tourment.
+  if (nodeType === "boss") {
+    const want = Math.max(1, game.run.tormentBossNodeBossCount ?? 1);
+    let have = out.filter((id) => id === "boss").length;
+    while (have < want) {
+      out.push("boss");
+      have += 1;
     }
   }
   return out;

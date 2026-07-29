@@ -1,4 +1,4 @@
-import { applyTormentToLaneConfig, shouldForceTormentWaveModifier } from "../logic/ascension-mechanics.js";
+import { applyTormentToLaneConfig, getTormentTowerCap, shouldForceTormentWaveModifier } from "../logic/ascension-mechanics.js";
 import { formatRunModeLine } from "../logic/run-modes.js";
 import { shared } from "./shared.js";
 import { formatObjectivePreview } from "../logic/node-objectives.js";
@@ -222,6 +222,10 @@ export function startEncounterFromNode(type, lane = shared.game.spire.lane) {
   }
   if (game.pendingWaveModifier) {
     intro += ` Modificateur annonce : ${game.pendingWaveModifier.name}.`;
+  }
+  const towerCap = getTormentTowerCap(game);
+  if (towerCap != null) {
+    intro += ` Tourment : ${towerCap} tour${towerCap > 1 ? "s" : ""} max sur la carte.`;
   }
   showMessage(intro, type === "elite" || type === "boss" ? "warn" : "normal");
   requestAnimationFrame(() => {
