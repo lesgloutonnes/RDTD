@@ -623,6 +623,25 @@ body[data-screen="title"].title-mode-unlocked .title-brand__subtitle {
     padding-block: 7px;
   }
 
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-row {
+    width: 100%;
+    margin-top: 1px;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-label {
+    font-size: 0.6rem;
+    margin-bottom: 2px;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-input,
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-btn {
+    min-height: 42px;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-btn {
+    min-width: 42px;
+  }
+
   body[data-form-factor="phone"][data-screen="title"] .title-version {
     right: 6px;
     bottom: 4px;
@@ -682,9 +701,12 @@ body[data-screen="title"].title-mode-unlocked .title-brand__subtitle {
   }
 
   body[data-form-factor="phone"][data-screen="title"] .title-input-wrap {
-    bottom: max(8px, env(safe-area-inset-bottom));
-    width: min(48vw, 360px);
+    bottom: max(6px, env(safe-area-inset-bottom));
+    width: min(46vw, 340px);
+    max-height: calc(100dvh - max(8px, env(safe-area-inset-top)) - 12px);
+    overflow-y: auto;
     gap: 3px;
+    -webkit-overflow-scrolling: touch;
   }
 
   body[data-form-factor="phone"][data-screen="title"] .title-input-label {
@@ -695,7 +717,45 @@ body[data-screen="title"].title-mode-unlocked .title-brand__subtitle {
   body[data-form-factor="phone"][data-screen="title"] .title-play-btn {
     min-height: 34px;
     padding-block: 5px;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-input-field {
+    font-size: 16px; /* évite le zoom iOS au focus */
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-play-btn {
     font-size: 0.72rem;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-row {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-label {
+    font-size: 0.52rem;
+    margin-bottom: 1px;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-hint {
+    display: none;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-controls {
+    gap: 4px;
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-input {
+    min-height: 34px;
+    padding: 4px 8px;
+    font-size: 16px; /* garde 16px pour éviter le zoom iOS même en paysage compact */
+  }
+
+  body[data-form-factor="phone"][data-screen="title"] .title-seed-btn {
+    min-width: 34px;
+    min-height: 34px;
+    padding: 0 6px;
+    font-size: 0.95rem;
   }
 
   body[data-form-factor="phone"][data-screen="title"] .title-version {

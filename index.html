@@ -23,8 +23,8 @@
         document.head.appendChild(manifest);
       }
     </script>
-    <link rel="stylesheet" href="./style.css?v=pwa-mobile-v7" />
-    <link rel="stylesheet" href="./theme-gloutonnes.css?v=gloutonnes-ui-v15" />
+    <link rel="stylesheet" href="./style.css?v=pwa-mobile-v8" />
+    <link rel="stylesheet" href="./theme-gloutonnes.css?v=gloutonnes-ui-v16" />
     <link rel="icon" type="image/svg+xml" href="./assets/icons/app-icon.svg" />
   </head>
   <body data-screen="title" data-biome="greenhouse" data-orientation="landscape">
@@ -172,27 +172,35 @@
                 class="title-input-field"
                 maxlength="18"
                 placeholder="Anonyme"
-                autocomplete="off"
+                autocomplete="nickname"
                 spellcheck="false"
+                enterkeyhint="next"
                 required
               />
               <button id="title-play-btn" class="title-play-btn" disabled>Entrer dans la Serre ›</button>
             </div>
             <div class="title-seed-row">
-              <label for="title-seed-input">Seed partageable <span class="title-seed-hint">(optionnel)</span></label>
+              <label class="title-seed-label" for="title-seed-input">Seed partageable <span class="title-seed-hint">(optionnel)</span></label>
               <div class="title-seed-controls">
                 <input
                   type="text"
                   id="title-seed-input"
                   class="title-seed-input"
+                  name="run-seed"
                   maxlength="12"
                   placeholder="Aléatoire"
                   autocomplete="off"
+                  autocapitalize="characters"
                   spellcheck="false"
                   inputmode="text"
+                  enterkeyhint="go"
                 />
-                <button type="button" id="title-seed-random-btn" class="title-seed-btn" title="Nouveau seed aléatoire" aria-label="Nouveau seed aléatoire">🎲</button>
-                <button type="button" id="title-seed-copy-btn" class="title-seed-btn" title="Copier le seed" aria-label="Copier le seed">📋</button>
+                <button type="button" id="title-seed-random-btn" class="title-seed-btn" title="Nouveau seed aléatoire" aria-label="Nouveau seed aléatoire">
+                  <span aria-hidden="true">↻</span>
+                </button>
+                <button type="button" id="title-seed-copy-btn" class="title-seed-btn" title="Copier le seed" aria-label="Copier le seed">
+                  <span aria-hidden="true">⎘</span>
+                </button>
               </div>
             </div>
           </div>
