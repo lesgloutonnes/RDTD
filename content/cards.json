@@ -240,5 +240,41 @@
     "stackable": true,
     "maxStack": 3,
     "effectId": "flare_bloom"
+  },
+  {
+    "id": "solar_bloom",
+    "name": "Floraison Dorée",
+    "desc": "+40 soleil (~+80 score), +3% dégâts.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "solar_bloom"
+  },
+  {
+    "id": "solar_surge",
+    "name": "Élan Solaire",
+    "desc": "+35 soleil (~+70 score), +3% cadence.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "solar_surge"
+  },
+  {
+    "id": "solar_tithe",
+    "name": "Dîme Solaire",
+    "desc": "+45 soleil (~+90 score), +3% prime soleil.",
+    "rarity": "Rare",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "solar_tithe"
+  },
+  {
+    "id": "morning_dew",
+    "name": "Rosée Matinale",
+    "desc": "+25 soleil (~+50 score), +2% dégâts.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "morning_dew"
   }
 ]

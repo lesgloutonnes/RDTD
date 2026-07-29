@@ -569,6 +569,42 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "stackable": true,
     "maxStack": 3,
     "effectId": "flare_bloom"
+  },
+  {
+    "id": "solar_bloom",
+    "name": "Floraison Dorée",
+    "desc": "+40 soleil (~+80 score), +3% dégâts.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "solar_bloom"
+  },
+  {
+    "id": "solar_surge",
+    "name": "Élan Solaire",
+    "desc": "+35 soleil (~+70 score), +3% cadence.",
+    "rarity": "Epique",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "solar_surge"
+  },
+  {
+    "id": "solar_tithe",
+    "name": "Dîme Solaire",
+    "desc": "+45 soleil (~+90 score), +3% prime soleil.",
+    "rarity": "Rare",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "solar_tithe"
+  },
+  {
+    "id": "morning_dew",
+    "name": "Rosée Matinale",
+    "desc": "+25 soleil (~+50 score), +2% dégâts.",
+    "rarity": "Commune",
+    "stackable": true,
+    "maxStack": 3,
+    "effectId": "morning_dew"
   }
 ]
 ,
@@ -4627,6 +4663,7 @@ const CARD_EFFECT_IDS = new Set([
   "fureur_ardente", "creamsicle_nectar", "capensis_explosion", "scorpioides_chaine",
   "gale_folie", "resin_trap", "solar_lens", "beast_hunter", "venom_spread",
   "thorn_wall", "snapper_bite", "moss_armor", "flare_bloom",
+  "solar_bloom", "solar_surge", "solar_tithe", "morning_dew",
 ]);
 
 const RELIC_EFFECT_IDS = new Set([
@@ -4676,6 +4713,10 @@ function applyCardEffect(effectId, ctx) {
     case "snapper_bite": m.snapperDamage *= 1.12; break;
     case "moss_armor": game.maxLives += 2; game.lives = Math.min(game.maxLives, game.lives + 2); break;
     case "flare_bloom": m.globalDamage *= 1.04; m.globalFireRate *= 1.04; break;
+    case "solar_bloom": game.gold += 40; m.globalDamage *= 1.03; break;
+    case "solar_surge": game.gold += 35; m.globalFireRate *= 1.03; break;
+    case "solar_tithe": game.gold += 45; m.rewardMult *= 1.03; break;
+    case "morning_dew": game.gold += 25; m.globalDamage *= 1.02; break;
     default:
       throw new Error(`Effet carte inconnu: ${effectId}`);
   }
