@@ -1686,7 +1686,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
     "meta.json": {
   "gameVersion": "1.0",
   "contentVersion": "1.0.0",
-  "cacheVersion": "1.0.2",
+  "cacheVersion": "1.0.3",
   "bestiary": {
     "firstKillDamageBonus": 0.02,
     "maxFirstKillBonusTypes": 5
@@ -10126,7 +10126,7 @@ exports["bindTowerDockHints"] = bindTowerDockHints;
 });
 define("config/asset-cache.js", function (exports, require, module) {
 /** Version de bust cache navigateur (alignée sur content/meta.json → cacheVersion). */
-const EMBEDDED_CACHE_VERSION = "1.0.2";
+const EMBEDDED_CACHE_VERSION = "1.0.3";
 
 const isLocalDevHost =
   typeof location !== "undefined" &&
