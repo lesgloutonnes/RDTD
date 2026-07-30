@@ -1770,9 +1770,9 @@ body[data-screen="title"] #board {
   z-index: -2;
   background-image: var(--collector-portrait) !important;
   background-size: cover !important;
-  background-position: center 30% !important;
+  background-position: var(--collector-portrait-pos, center 28%) !important;
   opacity: 1 !important;
-  transform: scale(1.02);
+  transform: scale(1);
 }
 
 .collector-choice--portrait::after {

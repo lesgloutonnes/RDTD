@@ -1598,10 +1598,10 @@ body[data-screen="gameover"] .board-wrap {
   inset: 0;
   background-image: var(--collector-portrait);
   background-size: cover;
-  background-position: center 12%;
+  background-position: var(--collector-portrait-pos, center 28%);
   background-repeat: no-repeat;
   z-index: 0;
-  transform: scale(1.02);
+  transform: scale(1);
 }
 
 .collector-choice--portrait::after {
