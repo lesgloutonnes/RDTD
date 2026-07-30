@@ -672,7 +672,10 @@ body[data-screen="mutation"] .combat-dock,
 body[data-screen="menu"] .combat-dock,
 body[data-screen="towerDraft"] .combat-dock,
 body[data-screen="nodeResult"] .combat-dock,
-body[data-screen="event"] .combat-dock {
+body[data-screen="event"] .combat-dock,
+body[data-screen="shop"] .combat-dock,
+body[data-screen="victory"] .combat-dock,
+body[data-screen="gameover"] .combat-dock {
   display: none;
 }
 
@@ -684,7 +687,10 @@ body[data-screen="mutation"] .board-wrap,
 body[data-screen="menu"] .board-wrap,
 body[data-screen="towerDraft"] .board-wrap,
 body[data-screen="nodeResult"] .board-wrap,
-body[data-screen="event"] .board-wrap {
+body[data-screen="event"] .board-wrap,
+body[data-screen="shop"] .board-wrap,
+body[data-screen="victory"] .board-wrap,
+body[data-screen="gameover"] .board-wrap {
   gap: 0;
 }
 
@@ -4127,7 +4133,10 @@ body:not([data-screen="title"]) .title-daily-panel {
   body[data-screen="menu"] .board-wrap,
   body[data-screen="towerDraft"] .board-wrap,
   body[data-screen="nodeResult"] .board-wrap,
-  body[data-screen="event"] .board-wrap {
+  body[data-screen="event"] .board-wrap,
+  body[data-screen="shop"] .board-wrap,
+  body[data-screen="victory"] .board-wrap,
+  body[data-screen="gameover"] .board-wrap {
     padding-bottom: 0;
   }
 
@@ -6132,6 +6141,154 @@ body[data-form-factor="phone"] #shop-overlay .overlay-actions {
   background-blend-mode: overlay, normal;
 }
 
+/*
+ * Boutique paysage (téléphone + tablette, ex. S25 Ultra) :
+ * en paysage tactile le layout passe en 3 colonnes — la boutique était
+ * coincée dans la colonne centrale. On bascule en plein écran.
+ */
+@media (orientation: landscape) {
+  body.is-touch-landscape[data-screen="shop"] .layout {
+    display: block !important;
+    padding:
+      max(4px, env(safe-area-inset-top))
+      max(6px, env(safe-area-inset-right))
+      max(4px, env(safe-area-inset-bottom))
+      max(6px, env(safe-area-inset-left));
+    overflow: hidden;
+    height: 100dvh;
+  }
+
+  body.is-touch-landscape[data-screen="shop"] .hud,
+  body.is-touch-landscape[data-screen="shop"] .run-panel,
+  body.is-touch-landscape[data-screen="shop"] .combat-dock,
+  body.is-touch-landscape[data-screen="shop"] .run-drawer-fab,
+  body.is-touch-landscape[data-screen="shop"] .run-drawer-scrim {
+    display: none !important;
+  }
+
+  body.is-touch-landscape[data-screen="shop"] .board-wrap {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  body.is-touch-landscape[data-screen="shop"] .canvas-zone {
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+  }
+
+  body.is-touch-landscape #shop-overlay.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 220;
+    border-radius: 0;
+    padding: 6px;
+    justify-content: center;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  body.is-touch-landscape #shop-overlay.overlay.overlay--sheet {
+    justify-content: center;
+    align-items: stretch;
+    padding: 6px;
+    background-image:
+      var(--tex-noise),
+      radial-gradient(circle at center, rgba(52, 89, 42, 0.38), rgba(8, 14, 8, 0.82)),
+      linear-gradient(rgba(10, 19, 10, 0.72), rgba(10, 19, 10, 0.72));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-sheet {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px 10px;
+    animation: none;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-sheet::before {
+    display: none;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-sheet h2 {
+    font-size: 0.98rem;
+    margin: 0 0 2px;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-sheet__hint {
+    display: none;
+  }
+
+  body.is-touch-landscape #shop-overlay #shop-gold-label {
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-choices {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 6px 0 8px;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-choice {
+    min-height: 0 !important;
+    height: auto;
+    max-height: none;
+    padding: 8px;
+    gap: 3px;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-choice h3 {
+    font-size: 0.78rem;
+    line-height: 1.15;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-choice p {
+    font-size: 0.66rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-choice .detail {
+    font-size: 0.62rem;
+  }
+
+  body.is-touch-landscape #shop-overlay .shop-choice .price {
+    margin-top: 4px;
+    padding: 3px 7px;
+    font-size: 0.66rem;
+  }
+
+  body.is-touch-landscape #shop-overlay .overlay-actions {
+    position: static;
+    flex-shrink: 0;
+    margin-top: 0;
+    padding-top: 6px;
+    background: none;
+  }
+
+  body.is-touch-landscape #shop-overlay .overlay-actions .overlay-btn {
+    min-height: 36px;
+    font-size: 0.8rem;
+  }
+}
+
 @media (max-width: 860px) and (orientation: portrait) {
   body[data-form-factor="phone"][data-screen="playing"] .canvas-zone::before,
   body[data-form-factor="phone"][data-screen="playing"] .canvas-zone::after,
@@ -6258,7 +6415,8 @@ body[data-form-factor="phone"] #shop-overlay .overlay-actions {
   body[data-form-factor="phone"].is-touch-landscape[data-screen="draft"] .run-drawer-fab,
   body[data-form-factor="phone"].is-touch-landscape[data-screen="map"] .run-drawer-fab,
   body[data-form-factor="phone"].is-touch-landscape[data-screen="event"] .run-drawer-fab,
-  body[data-form-factor="phone"].is-touch-landscape[data-screen="crossroads"] .run-drawer-fab {
+  body[data-form-factor="phone"].is-touch-landscape[data-screen="crossroads"] .run-drawer-fab,
+  body[data-form-factor="phone"].is-touch-landscape[data-screen="shop"] .run-drawer-fab {
     display: none !important;
   }
 
