@@ -2600,25 +2600,26 @@ function grantCard(card) {
 }
 
 function grantRelic(relic, opts = {}) {
-  if (!relic) return;
-  if (game.relics.picked.includes(relic.id)) return;
+  if (!relic) return null;
+  if (game.relics.picked.includes(relic.id)) return null;
   relic.effect(opts);
   game.relics.picked.push(relic.id);
   renderRelicList();
-  let msg = `Relique obtenue: ${relic.name}.`;
+  let msg = `Relique obtenue : ${relic.name} — ${relic.desc}`;
   if (opts.skipInstantHeal) {
     msg += " (Soin différé : des fuites ont été enregistrées sur cette vague.)";
   }
   showMessage(msg, "normal");
   createFloatText("RELIQUE!", canvas.width / 2 - 30, 86, "#ffe7b8");
   sfx?.relic?.();
+  return relic;
 }
 
 function grantRandomRelic(opts = {}) {
   const available = RELIC_LIBRARY.filter((relic) => !game.relics.picked.includes(relic.id));
-  if (available.length === 0) return;
+  if (available.length === 0) return null;
   const relic = available[Math.floor(Math.random() * available.length)];
-  grantRelic(relic, opts);
+  return grantRelic(relic, opts);
 }
 
 function pickRandomCardForReward() {
@@ -2880,7 +2881,7 @@ function advanceAfterCrossroads() {
   advanceToNextFloor();
 }
 
-function showWaveSummaryOverlay(stats, objectiveMessages, onContinue) {
+function showWaveSummaryOverlay(stats, objectiveMessages, onContinue, rewardInfo = null) {
   const towerNameById = (id) => {
     const t = getTowerById(Number(id));
     return t ? `${t.name} (niv.${t.level})` : null;
@@ -2891,6 +2892,27 @@ function showWaveSummaryOverlay(stats, objectiveMessages, onContinue) {
   }
   if (objectiveMessages?.length) {
     html = `<ul class="wave-report-summary">${objectiveMessages.map((m) => `<li>${m}</li>`).join("")}</ul>${html}`;
+  }
+  if (rewardInfo?.relic) {
+    const relic = rewardInfo.relic;
+    const healNote = rewardInfo.relicHealDeferred
+      ? `<p class="wave-relic-reward__note">Soin différé : des fuites ont eu lieu sur cette vague.</p>`
+      : "";
+    html =
+      `<aside class="wave-relic-reward" aria-label="Relique obtenue">` +
+      `<p class="wave-relic-reward__kicker">Relique obtenue</p>` +
+      `<h3 class="wave-relic-reward__name">${escapeHtml(relic.name)}</h3>` +
+      `<p class="wave-relic-reward__desc">${escapeHtml(relic.desc)}</p>` +
+      healNote +
+      `</aside>` +
+      html;
+  } else if (rewardInfo?.relicEmpty) {
+    html =
+      `<aside class="wave-relic-reward wave-relic-reward--empty" aria-label="Reliques">` +
+      `<p class="wave-relic-reward__kicker">Relique</p>` +
+      `<p class="wave-relic-reward__desc">Toutes les reliques sont déjà en ta possession.</p>` +
+      `</aside>` +
+      html;
   }
   waveSummaryBodyEl.innerHTML = html;
   _afterWaveSummaryCallback = onContinue;

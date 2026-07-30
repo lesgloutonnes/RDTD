@@ -52,8 +52,11 @@ export function finishWaveIfReady(game, {
   consumeBossTempGoldBonus(game, { skipHeal: hadLeaks });
   clearBossTempWave(game);
 
+  let relicReward = null;
+  let relicEmpty = false;
   if (nodeType === "elite" || nodeType === "boss") {
-    grantRandomRelic({ skipInstantHeal: hadLeaks });
+    relicReward = grantRandomRelic({ skipInstantHeal: hadLeaks });
+    if (!relicReward) relicEmpty = true;
   }
 
   setStartWaveLabel("Lancer la vague");
@@ -77,6 +80,17 @@ export function finishWaveIfReady(game, {
     showMessage,
   });
   game.nodeObjective = null;
+
+  const rewardInfo =
+    relicReward || relicEmpty
+      ? {
+          relic: relicReward
+            ? { id: relicReward.id, name: relicReward.name, desc: relicReward.desc }
+            : null,
+          relicEmpty: !relicReward && relicEmpty,
+          relicHealDeferred: Boolean(relicReward && hadLeaks),
+        }
+      : null;
 
   showWaveSummaryOverlay(stats, objectiveResult.messages, () => {
     if (nodeType === "boss" && game.spire.floor >= MAX_FLOORS - 1) {
@@ -106,7 +120,7 @@ export function finishWaveIfReady(game, {
     }
     game.spire.pendingAdvanceAfterDraft = true;
     startDraftPhase();
-  });
+  }, rewardInfo);
 
   return true;
 }
