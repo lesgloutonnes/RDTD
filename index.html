@@ -8,7 +8,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Gloutonnes RDTD" />
-    <meta name="rdtd-cache-version" content="1.0.7" />
+    <meta name="rdtd-cache-version" content="1.0.1" />
     <title>Les Gloutonnes RDTD · 1.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,7 +19,7 @@
     <script>
       /* Bust cache navigateur : version lue depuis meta.json (no-store) à chaque visite HTTP. */
       (function () {
-        var EMBEDDED = "1.0.7";
+        var EMBEDDED = "1.0.1";
         var STORAGE_KEY = "rdtd_cache_version";
         window.__RDTD_CACHE_V__ = EMBEDDED;
 
@@ -78,13 +78,13 @@
         })();
       })();
     </script>
-    <link id="rdtd-style" rel="stylesheet" href="./style.css?v=1.0.7" />
-    <link id="rdtd-theme" rel="stylesheet" href="./theme-gloutonnes.css?v=1.0.7" />
+    <link id="rdtd-style" rel="stylesheet" href="./style.css?v=1.0.1" />
+    <link id="rdtd-theme" rel="stylesheet" href="./theme-gloutonnes.css?v=1.0.1" />
     <link
       id="rdtd-icon"
       rel="icon"
       type="image/svg+xml"
-      href="./assets/icons/app-icon.svg?v=1.0.7"
+      href="./assets/icons/app-icon.svg?v=1.0.1"
     />
   </head>
   <body data-screen="title" data-biome="greenhouse" data-orientation="landscape">
@@ -115,7 +115,7 @@
           </button>
         </div>
         <h1 class="hud-title">
-          <img class="hud-title__logo" data-rdtd-asset="./assets/brand/logo.png" src="./assets/brand/logo.png?v=1.0.7" alt="" width="36" height="24" decoding="async" onerror="this.onerror=null;this.src='./assets/icons/app-icon.svg?v=1.0.7';" />
+          <img class="hud-title__logo" data-rdtd-asset="./assets/brand/logo.png" src="./assets/brand/logo.png?v=1.0.1" alt="" width="36" height="24" decoding="async" onerror="this.onerror=null;this.src='./assets/icons/app-icon.svg?v=1.0.1';" />
           <span class="hud-title__text">RDTD</span>
         </h1>
         <p class="subtitle">Défends la serre contre les ravageurs mutants.</p>
@@ -198,10 +198,10 @@
             <img
               class="title-brand__logo"
               data-rdtd-asset="./assets/brand/logo.png"
-              src="./assets/brand/logo.png?v=1.0.7"
+              src="./assets/brand/logo.png?v=1.0.1"
               alt="Les Gloutonnes"
               decoding="async"
-              onerror="this.onerror=null;this.src='./assets/icons/app-icon.svg?v=1.0.7';"
+              onerror="this.onerror=null;this.src='./assets/icons/app-icon.svg?v=1.0.1';"
             />
             <p class="title-brand__subtitle">Rogue Deck Tower Defense</p>
           </div>
@@ -542,7 +542,7 @@
     <script>
       window.__RDTD_BOOT__.then(function (v) {
         var s = document.createElement("script");
-        s.src = "./standalone.js?v=" + encodeURIComponent(v || "1.0.7");
+        s.src = "./standalone.js?v=" + encodeURIComponent(v || "1.0.1");
         document.body.appendChild(s);
       });
     </script>
