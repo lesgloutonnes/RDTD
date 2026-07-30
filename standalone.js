@@ -11,7 +11,7 @@ function require(id) {
   return module.exports;
 }
 globalThis.__RDTD_STANDALONE_CONTENT__ = {
-  version: "1.2.1",
+  version: "1.0.0",
   files: {
     "towers.json": {
   "snapper": {
@@ -1684,8 +1684,8 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   }
 ],
     "meta.json": {
-  "gameVersion": "beta-0.4",
-  "contentVersion": "1.2.1",
+  "gameVersion": "1.0",
+  "contentVersion": "1.0.0",
   "bestiary": {
     "firstKillDamageBonus": 0.02,
     "maxFirstKillBonusTypes": 5
@@ -6679,6 +6679,10 @@ function startEncounterFromNode(type, lane = shared.game.spire.lane) {
   }
   if (game.pendingWaveModifier) {
     intro += ` Modificateur annonce : ${game.pendingWaveModifier.name}.`;
+  }
+  const towerCap = getTormentTowerCap(game);
+  if (towerCap != null) {
+    intro += ` Tourment : ${towerCap} tour${towerCap > 1 ? "s" : ""} max sur la carte.`;
   }
   showMessage(intro, type === "elite" || type === "boss" ? "warn" : "normal");
   requestAnimationFrame(() => {
@@ -12151,9 +12155,9 @@ function abandonRunSaveAndStartFresh() {
 
 function updateTitleVersionLabel() {
   if (!titleVersionEl) return;
-  const version = META_CONFIG?.gameVersion || "beta";
+  const version = META_CONFIG?.gameVersion || "1.0";
   const content = META_CONFIG?.contentVersion ? ` · contenu ${META_CONFIG.contentVersion}` : "";
-  titleVersionEl.textContent = `Build ${version}${content}`;
+  titleVersionEl.textContent = `Version ${version}${content}`;
 }
 
 function updateTitleDailyPanel() {

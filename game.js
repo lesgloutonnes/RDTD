@@ -1797,9 +1797,9 @@ function abandonRunSaveAndStartFresh() {
 
 function updateTitleVersionLabel() {
   if (!titleVersionEl) return;
-  const version = META_CONFIG?.gameVersion || "beta";
+  const version = META_CONFIG?.gameVersion || "1.0";
   const content = META_CONFIG?.contentVersion ? ` · contenu ${META_CONFIG.contentVersion}` : "";
-  titleVersionEl.textContent = `Build ${version}${content}`;
+  titleVersionEl.textContent = `Version ${version}${content}`;
 }
 
 function updateTitleDailyPanel() {
