@@ -40,3 +40,13 @@ Classement :
 Lancer le jeu :
   - double-clic sur index.html en local
   - ou https://ton-domaine.fr/chemin/index.html après upload statique
+
+Cache navigateur (important après une release) :
+  - Le jeu utilise content/meta.json → "cacheVersion" pour forcer le
+    rechargement de standalone.js, CSS, images et textures.
+  - À chaque release, incrémente "cacheVersion" (ex. 1.0.1) puis rebuild
+    standalone.js ; les joueurs beta récupèrent automatiquement la nouvelle
+    version sans vider le cache à la main.
+  - Sur l’hébergement, idéalement configure pour index.html et
+    content/meta.json : Cache-Control: no-cache (ou max-age=0, must-revalidate).
+    Les autres fichiers peuvent rester en cache grâce au ?v=cacheVersion.

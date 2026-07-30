@@ -1,16 +1,9 @@
-const TITLE_BACKDROP_SRC = "./assets/textures/title-rdtd-background.png?v=title-bg-v1";
-const isLocalDevHost = location.protocol === "file:" || location.hostname === "127.0.0.1" || location.hostname === "localhost";
-const localAssetCacheBust = isLocalDevHost ? String(Date.now()) : "";
+import { withAssetCacheBust } from "../config/asset-cache.js";
 
-function withLocalAssetCacheBust(src) {
-  if (!localAssetCacheBust) return src;
-  const url = new URL(src, location.href);
-  url.searchParams.set("dev-cache-bust", localAssetCacheBust);
-  return url.href;
-}
+const TITLE_BACKDROP_SRC = "./assets/textures/title-rdtd-background.png";
 
 const titleBackdrop = new Image();
-titleBackdrop.src = withLocalAssetCacheBust(TITLE_BACKDROP_SRC);
+titleBackdrop.src = withAssetCacheBust(TITLE_BACKDROP_SRC);
 
 export function createTitleAnimState() {
   return {

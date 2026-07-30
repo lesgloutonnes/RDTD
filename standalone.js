@@ -11,7 +11,7 @@ function require(id) {
   return module.exports;
 }
 globalThis.__RDTD_STANDALONE_CONTENT__ = {
-  version: "1.2.1",
+  version: "1.0.0",
   files: {
     "towers.json": {
   "snapper": {
@@ -869,7 +869,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   {
     "id": "herbier",
     "name": "Charles",
-    "portrait": "./assets/collectors/charles-herbier.png?v=collectors-png-v2",
+    "portrait": "./assets/collectors/charles-herbier.png",
     "title": "Chasseur d'Insectes",
     "power": "Ligne Dionaea : +8% dégâts. Soleil des kills +8%.",
     "flavor": "Un style agressif, économie forte et pièges léthaux.",
@@ -880,7 +880,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   {
     "id": "distiller",
     "name": "Mayeu",
-    "portrait": "./assets/collectors/mayeu-distiller.png?v=collectors-png-v2",
+    "portrait": "./assets/collectors/mayeu-distiller.png",
     "title": "Distillateur de Nectar",
     "power": "Ligne Sarracenia : +8% dégâts. +1 Engrais/Racines par vague.",
     "flavor": "Contrôle, poison et pouvoirs actifs.",
@@ -891,7 +891,7 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   {
     "id": "gardien",
     "name": "Chris",
-    "portrait": "./assets/collectors/chris-gardien.png?v=collectors-png-v2",
+    "portrait": "./assets/collectors/chris-gardien.png",
     "title": "Gardien de l'Herbier",
     "power": "Ligne Drosera : +8% dégâts. Ralentissements +10%.",
     "flavor": "Drosera lourde, ennemis ralentis.",
@@ -1684,8 +1684,9 @@ globalThis.__RDTD_STANDALONE_CONTENT__ = {
   }
 ],
     "meta.json": {
-  "gameVersion": "beta-0.4",
-  "contentVersion": "1.2.1",
+  "gameVersion": "1.0",
+  "contentVersion": "1.0.0",
+  "cacheVersion": "1.0.0",
   "bestiary": {
     "firstKillDamageBonus": 0.02,
     "maxFirstKillBonusTypes": 5
@@ -6680,6 +6681,10 @@ function startEncounterFromNode(type, lane = shared.game.spire.lane) {
   if (game.pendingWaveModifier) {
     intro += ` Modificateur annonce : ${game.pendingWaveModifier.name}.`;
   }
+  const towerCap = getTormentTowerCap(game);
+  if (towerCap != null) {
+    intro += ` Tourment : ${towerCap} tour${towerCap > 1 ? "s" : ""} max sur la carte.`;
+  }
   showMessage(intro, type === "elite" || type === "boss" ? "warn" : "normal");
   requestAnimationFrame(() => {
     onboarding?.startIfNeeded("playing");
@@ -10105,20 +10110,75 @@ exports["hideTowerDockFloatTooltip"] = hideTowerDockFloatTooltip;
 exports["bindTowerDockHints"] = bindTowerDockHints;
 
 });
-define("render/title-screen.js", function (exports, require, module) {
-const TITLE_BACKDROP_SRC = "./assets/textures/title-rdtd-background.png?v=title-bg-v1";
-const isLocalDevHost = location.protocol === "file:" || location.hostname === "127.0.0.1" || location.hostname === "localhost";
-const localAssetCacheBust = isLocalDevHost ? String(Date.now()) : "";
+define("config/asset-cache.js", function (exports, require, module) {
+/** Version de bust cache navigateur (alignée sur content/meta.json → cacheVersion). */
+const EMBEDDED_CACHE_VERSION = "1.0.0";
 
-function withLocalAssetCacheBust(src) {
-  if (!localAssetCacheBust) return src;
-  const url = new URL(src, location.href);
-  url.searchParams.set("dev-cache-bust", localAssetCacheBust);
-  return url.href;
+const isLocalDevHost =
+  typeof location !== "undefined" &&
+  (location.protocol === "file:" ||
+    location.hostname === "127.0.0.1" ||
+    location.hostname === "localhost");
+
+const localDevBust = isLocalDevHost ? String(Date.now()) : "";
+
+function getAssetCacheVersion() {
+  if (typeof globalThis !== "undefined" && globalThis.__RDTD_CACHE_V__) {
+    return String(globalThis.__RDTD_CACHE_V__);
+  }
+  return EMBEDDED_CACHE_VERSION;
 }
 
+/** Ajoute / remplace ?v=… pour invalider le cache navigateur à chaque release. */
+function withAssetCacheBust(src) {
+  if (!src || String(src).startsWith("data:")) return src;
+  const raw = String(src);
+  const base = raw.split("#")[0].split("?")[0];
+  const params = new URLSearchParams();
+  params.set("v", getAssetCacheVersion());
+  if (localDevBust) params.set("dev-cache-bust", localDevBust);
+  return `${base}?${params.toString()}`;
+}
+
+const CSS_TEXTURE_VARS = [
+  ["--tex-noise", "./assets/textures/noise-soft.svg"],
+  ["--tex-botanical", "./assets/textures/panel-botanical.svg"],
+  ["--tex-weave", "./assets/textures/btn-weave.svg"],
+  ["--tex-parchment", "./assets/textures/parchment.svg"],
+  ["--tex-wood", "./assets/textures/wood-frame.svg"],
+  ["--tex-moss", "./assets/textures/moss-dense.svg"],
+  ["--tex-soil", "./assets/textures/soil-path.svg"],
+  ["--tex-honey", "./assets/textures/honeycomb.svg"],
+  ["--tex-stone", "./assets/textures/stone-cool.svg"],
+  ["--tex-ember", "./assets/textures/ember-glow.svg"],
+  ["--tex-glass", "./assets/textures/glass-shine.svg"],
+  ["--tex-vine", "./assets/textures/vine-trail.svg"],
+  ["--tex-mystic", "./assets/textures/mystic-spark.svg"],
+  ["--tex-coins", "./assets/textures/coin-scatter.svg"],
+];
+
+/** Réécrit les textures CSS avec la version courante (évite d’anciens SVG en cache). */
+function applyCssTextureCacheBust() {
+  if (typeof document === "undefined") return;
+  const v = getAssetCacheVersion();
+  const root = document.documentElement;
+  for (const [prop, path] of CSS_TEXTURE_VARS) {
+    root.style.setProperty(prop, `url("${path}?v=${encodeURIComponent(v)}")`);
+  }
+}
+
+exports["EMBEDDED_CACHE_VERSION"] = EMBEDDED_CACHE_VERSION;
+exports["getAssetCacheVersion"] = getAssetCacheVersion;
+exports["withAssetCacheBust"] = withAssetCacheBust;
+exports["applyCssTextureCacheBust"] = applyCssTextureCacheBust;
+
+});
+define("render/title-screen.js", function (exports, require, module) {
+const { withAssetCacheBust } = require("config/asset-cache.js");
+const TITLE_BACKDROP_SRC = "./assets/textures/title-rdtd-background.png";
+
 const titleBackdrop = new Image();
-titleBackdrop.src = withLocalAssetCacheBust(TITLE_BACKDROP_SRC);
+titleBackdrop.src = withAssetCacheBust(TITLE_BACKDROP_SRC);
 
 function createTitleAnimState() {
   return {
@@ -10589,6 +10649,7 @@ const { createOnboardingController } = require("ui/onboarding.js");
 const { createContextHintsController } = require("ui/context-hints.js");
 const { enhanceDeckTooltips, bindFloatingDeckTooltips, bindSmartTowerTooltips, bindTowerDockHints, getNodeTooltip } = require("ui/tooltips.js");
 const { createTitleAnimState, updateTitleScreenAnim, drawTitleScreenFrame } = require("render/title-screen.js");
+const { withAssetCacheBust, applyCssTextureCacheBust, getAssetCacheVersion } = require("config/asset-cache.js");
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
 
@@ -11102,18 +11163,10 @@ function makeSprite(svgMarkup) {
 }
 
 const isLocalDevHost = location.protocol === "file:" || location.hostname === "127.0.0.1" || location.hostname === "localhost";
-const localAssetCacheBust = isLocalDevHost ? String(Date.now()) : "";
-
-function withLocalAssetCacheBust(src) {
-  if (!localAssetCacheBust) return src;
-  const url = new URL(src, location.href);
-  url.searchParams.set("dev-cache-bust", localAssetCacheBust);
-  return url.href;
-}
 
 function makeImageSprite(src) {
   const img = new Image();
-  img.src = withLocalAssetCacheBust(src);
+  img.src = withAssetCacheBust(src);
   return img;
 }
 
@@ -11127,11 +11180,11 @@ function makeFallbackImageSprite(src, fallbackSprite) {
 }
 
 const BIOME_FLOOR_TEXTURES = {
-  greenhouse: makeImageSprite("./assets/textures/biome-greenhouse-floor.png?v=biome-floor-v1"),
-  swamp: makeImageSprite("./assets/textures/biome-swamp-floor.png?v=biome-floor-v1"),
-  hive: makeImageSprite("./assets/textures/biome-hive-floor.png?v=biome-floor-v1"),
-  night: makeImageSprite("./assets/textures/biome-night-floor.png?v=biome-floor-v1"),
-  heart: makeImageSprite("./assets/textures/biome-heart-floor.png?v=biome-floor-v1"),
+  greenhouse: makeImageSprite("./assets/textures/biome-greenhouse-floor.png"),
+  swamp: makeImageSprite("./assets/textures/biome-swamp-floor.png"),
+  hive: makeImageSprite("./assets/textures/biome-hive-floor.png"),
+  night: makeImageSprite("./assets/textures/biome-night-floor.png"),
+  heart: makeImageSprite("./assets/textures/biome-heart-floor.png"),
 };
 
 function drawCoverImage(ctx, image, x, y, width, height) {
@@ -11176,9 +11229,11 @@ function getTowerFallbackPortraitPath(towerId) {
 }
 
 function makeLayeredPortrait(primary, fallback) {
-  return fallback && primary !== fallback
-    ? `url('${primary}'), url('${fallback}')`
-    : `url('${primary}')`;
+  const primaryUrl = withAssetCacheBust(primary);
+  const fallbackUrl = fallback ? withAssetCacheBust(fallback) : "";
+  return fallbackUrl && primaryUrl !== fallbackUrl
+    ? `url('${primaryUrl}'), url('${fallbackUrl}')`
+    : `url('${primaryUrl}')`;
 }
 
 function getTowerPortraitLayers(towerId) {
@@ -11264,11 +11319,11 @@ const sprites = {
 };
 
 Object.keys(sprites.towers).forEach((id) => {
-  sprites.towers[id] = makeFallbackImageSprite(`./assets/towers/${id}.png?v=towers-png-v2`, sprites.towers[id]);
+  sprites.towers[id] = makeFallbackImageSprite(`./assets/towers/${id}.png`, sprites.towers[id]);
 });
 
 Object.keys(sprites.enemies).forEach((id) => {
-  sprites.enemies[id] = makeFallbackImageSprite(`./assets/enemies/${id}.png?v=enemies-png-v1`, sprites.enemies[id]);
+  sprites.enemies[id] = makeFallbackImageSprite(`./assets/enemies/${id}.png`, sprites.enemies[id]);
 });
 
 const runMusic = createRunMusicController({ audio, ensureAudioContext });
@@ -12151,9 +12206,9 @@ function abandonRunSaveAndStartFresh() {
 
 function updateTitleVersionLabel() {
   if (!titleVersionEl) return;
-  const version = META_CONFIG?.gameVersion || "beta";
+  const version = META_CONFIG?.gameVersion || "1.0";
   const content = META_CONFIG?.contentVersion ? ` · contenu ${META_CONFIG.contentVersion}` : "";
-  titleVersionEl.textContent = `Build ${version}${content}`;
+  titleVersionEl.textContent = `Version ${version}${content}`;
 }
 
 function updateTitleDailyPanel() {
@@ -15139,6 +15194,7 @@ function wireGameModules() {
 
 async function bootstrapGame() {
   try {
+    applyCssTextureCacheBust();
     const content = await loadGameContent(() => ({ game }));
     // Ne pas réassigner : bindUiEvents garde la référence initiale de towerTypes.
     replaceObjectContents(towerTypes, content.towerTypes);
@@ -15160,6 +15216,10 @@ async function bootstrapGame() {
     DAILY_CHALLENGES = content.DAILY_CHALLENGES || [];
     EVENT_LIBRARY = content.EVENT_LIBRARY || [];
     META_CONFIG = content.META || {};
+    if (META_CONFIG.cacheVersion) {
+      globalThis.__RDTD_CACHE_V__ = String(META_CONFIG.cacheVersion);
+      applyCssTextureCacheBust();
+    }
     BESTIARY_CONFIG = {
       ...DEFAULT_BESTIARY_CONFIG,
       ...(META_CONFIG.bestiary || {}),
