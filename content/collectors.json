@@ -2,7 +2,7 @@
   {
     "id": "herbier",
     "name": "Charles",
-    "portrait": "./assets/collectors/charles-herbier.png?v=collectors-png-v2",
+    "portrait": "./assets/collectors/charles-herbier.png",
     "title": "Chasseur d'Insectes",
     "power": "Ligne Dionaea : +8% dégâts. Soleil des kills +8%.",
     "flavor": "Un style agressif, économie forte et pièges léthaux.",
@@ -13,7 +13,7 @@
   {
     "id": "distiller",
     "name": "Mayeu",
-    "portrait": "./assets/collectors/mayeu-distiller.png?v=collectors-png-v2",
+    "portrait": "./assets/collectors/mayeu-distiller.png",
     "title": "Distillateur de Nectar",
     "power": "Ligne Sarracenia : +8% dégâts. +1 Engrais/Racines par vague.",
     "flavor": "Contrôle, poison et pouvoirs actifs.",
@@ -24,7 +24,7 @@
   {
     "id": "gardien",
     "name": "Chris",
-    "portrait": "./assets/collectors/chris-gardien.png?v=collectors-png-v2",
+    "portrait": "./assets/collectors/chris-gardien.png",
     "title": "Gardien de l'Herbier",
     "power": "Ligne Drosera : +8% dégâts. Ralentissements +10%.",
     "flavor": "Drosera lourde, ennemis ralentis.",

@@ -15,6 +15,8 @@ powershell -ExecutionPolicy Bypass -File DEV\scripts\build-standalone.ps1
 
 Après une modification CSS (`style.css` ou `theme-gloutonnes.css`), un simple rechargement de `index.html` suffit.
 
+Pour une **release publique**, incrémente `cacheVersion` dans `content/meta.json` (ex. `1.0.0` → `1.0.1`), aligne la meta `rdtd-cache-version` / fallback `EMBEDDED` dans `index.html` et `config/asset-cache.js`, puis régénère `standalone.js`. Cela invalide le cache navigateur des joueurs (CSS, JS, images, textures).
+
 Le classement multi-joueur est stocke dans `data/leaderboard.json` via `api/leaderboard.php`. En local ou sans PHP, le fallback reste `localStorage`.
 
 ## Déploiement statique
