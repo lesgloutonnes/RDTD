@@ -1942,8 +1942,9 @@ function renderCollectorChoices() {
         </span>`
       : "";
     const portraitClass = collector.portrait ? " collector-choice--portrait" : "";
+    const portraitPos = collector.portraitPos ? `; --collector-portrait-pos: ${collector.portraitPos}` : "";
     const portraitStyle = collector.portrait
-      ? ` style="--collector-portrait: ${getCollectorPortraitLayers(collector)}"`
+      ? ` style="--collector-portrait: ${getCollectorPortraitLayers(collector)}${portraitPos}"`
       : "";
     return `
       <button class="draft-choice collector-choice${portraitClass}" data-collector-id="${collector.id}" type="button"
