@@ -1,5 +1,5 @@
 /** Version de bust cache navigateur (alignée sur content/meta.json → cacheVersion). */
-export const EMBEDDED_CACHE_VERSION = "1.0.5";
+export const EMBEDDED_CACHE_VERSION = "1.0.6";
 
 const isLocalDevHost =
   typeof location !== "undefined" &&
