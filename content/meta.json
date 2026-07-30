@@ -1,7 +1,7 @@
 {
   "gameVersion": "1.0",
   "contentVersion": "1.0.0",
-  "cacheVersion": "1.0.3",
+  "cacheVersion": "1.0.4",
   "bestiary": {
     "firstKillDamageBonus": 0.02,
     "maxFirstKillBonusTypes": 5
