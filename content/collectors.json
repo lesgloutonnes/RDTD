@@ -1,9 +1,8 @@
-﻿[
+[
   {
     "id": "herbier",
     "name": "Charles",
     "portrait": "./assets/collectors/charles-herbier.png",
-    "portraitPos": "center 20%",
     "title": "Chasseur d'Insectes",
     "power": "Ligne Dionaea : +8% dégâts. Soleil des kills +8%.",
     "flavor": "Un style agressif, économie forte et pièges léthaux.",
@@ -34,5 +33,3 @@
     "ultimateDesc": "1× par Spire : +45% vies, gel carte 4,5 s."
   }
 ]
-
-
